@@ -93,6 +93,7 @@
     .auth-buttons {
       display: flex;
       gap: 10px;
+      align-items: center;
     }
 
     /* Hero Section */
@@ -329,6 +330,13 @@
       color: white;
       font-size: 2rem;
       font-weight: bold;
+      cursor: pointer;
+      position: relative;
+      transition: var(--transition);
+    }
+
+    .profile-avatar:hover {
+      transform: scale(1.05);
     }
 
     .profile-info h3 {
@@ -344,6 +352,47 @@
       background: #f8f9fa;
       padding: 20px;
       border-radius: 10px;
+    }
+
+    /* Profile Dropdown Menu */
+    .profile-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: white;
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      padding: 10px 0;
+      min-width: 200px;
+      z-index: 100;
+      margin-top: 10px;
+      display: none;
+    }
+
+    .profile-menu.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .profile-menu-item {
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: var(--transition);
+      color: var(--dark);
+      text-decoration: none;
+    }
+
+    .profile-menu-item:hover {
+      background: #f1f8ff;
+      color: var(--primary);
+    }
+
+    .profile-menu-item i {
+      width: 20px;
+      text-align: center;
     }
 
     /* Footer */
@@ -473,6 +522,17 @@
       }
     }
 
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     .loading {
       display: inline-block;
       width: 20px;
@@ -532,6 +592,31 @@
       <div class="auth-buttons">
         <button id="btn-login" class="btn btn-outline">تسجيل الدخول</button>
         <button id="btn-logout" class="btn btn-outline hidden">تسجيل الخروج</button>
+        
+        <!-- صورة المستخدم مع القائمة المنسدلة -->
+        <div id="user-avatar-container" class="hidden">
+          <div class="profile-avatar" id="user-avatar">
+            U
+            <div class="profile-menu" id="profile-menu">
+              <a href="#" class="profile-menu-item">
+                <i class="fas fa-user"></i>
+                <span>الملف الشخصي</span>
+              </a>
+              <a href="#" class="profile-menu-item">
+                <i class="fas fa-edit"></i>
+                <span>تعديل الملف</span>
+              </a>
+              <a href="#" class="profile-menu-item">
+                <i class="fas fa-cog"></i>
+                <span>الإعدادات</span>
+              </a>
+              <div class="profile-menu-item" id="menu-logout">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>تسجيل الخروج</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </header>
@@ -711,72 +796,97 @@
     }
 
     async function initAuth0() {
-      auth0Client = await auth0.createAuth0Client({
-        domain: config.domain,
-        clientId: config.clientId,
-        authorizationParams: {
-          redirect_uri: window.location.origin + window.location.pathname
+      try {
+        auth0Client = await auth0.createAuth0Client({
+          domain: config.domain,
+          clientId: config.clientId,
+          authorizationParams: {
+            redirect_uri: window.location.origin + window.location.pathname
+          }
+        });
+
+        // لو المستخدم رجع بعد تسجيل الدخول
+        if (window.location.search.includes("code=") && window.location.search.includes("state=")) {
+          await auth0Client.handleRedirectCallback();
+          window.history.replaceState({}, document.title, window.location.pathname);
         }
-      });
 
-      // لو المستخدم رجع بعد تسجيل الدخول
-      if (window.location.search.includes("code=") && window.location.search.includes("state=")) {
-        await auth0Client.handleRedirectCallback();
-        window.history.replaceState({}, document.title, window.location.pathname);
+        updateUI();
+      } catch (error) {
+        console.error("Error initializing Auth0:", error);
+        showNotification("حدث خطأ في تهيئة نظام المصادقة", "error");
       }
-
-      updateUI();
     }
 
     async function login() {
-      await auth0Client.loginWithRedirect({
-        authorizationParams: {
-          redirect_uri: window.location.origin + window.location.pathname
-        }
-      });
+      try {
+        await auth0Client.loginWithRedirect({
+          authorizationParams: {
+            redirect_uri: window.location.origin + window.location.pathname
+          }
+        });
+      } catch (error) {
+        console.error("Login error:", error);
+        showNotification("حدث خطأ أثناء تسجيل الدخول", "error");
+      }
     }
 
     async function logout() {
-      await auth0Client.logout({
-        logoutParams: {
-          returnTo: window.location.origin + window.location.pathname
-        }
-      });
+      try {
+        await auth0Client.logout({
+          logoutParams: {
+            returnTo: window.location.origin + window.location.pathname
+          }
+        });
+      } catch (error) {
+        console.error("Logout error:", error);
+        showNotification("حدث خطأ أثناء تسجيل الخروج", "error");
+      }
     }
 
     async function updateUI() {
-      const isAuthenticated = await auth0Client.isAuthenticated();
-      document.getElementById("btn-login").classList.toggle("hidden", isAuthenticated);
-      document.getElementById("btn-hero-login").classList.toggle("hidden", isAuthenticated);
-      document.getElementById("btn-logout").classList.toggle("hidden", !isAuthenticated);
-      
-      // إظهار/إخفاء قسم الملف الشخصي والنموذج
-      document.getElementById("profile-section").classList.toggle("hidden", !isAuthenticated);
-      document.getElementById("user-info-display").classList.toggle("hidden", !isAuthenticated);
-
-      if (isAuthenticated) {
-        userData = await auth0Client.getUser();
-        document.getElementById("profile-details").textContent = JSON.stringify(userData, null, 2);
+      try {
+        const isAuthenticated = await auth0Client.isAuthenticated();
         
-        // تحديث معلومات المستخدم المعروضة
-        updateUserDisplay();
-      } else {
-        document.getElementById("profile-details").textContent = "";
-        userData = null;
-        clearFormData();
+        document.getElementById("btn-login").classList.toggle("hidden", isAuthenticated);
+        document.getElementById("btn-hero-login").classList.toggle("hidden", isAuthenticated);
+        document.getElementById("btn-logout").classList.toggle("hidden", !isAuthenticated);
+        document.getElementById("user-avatar-container").classList.toggle("hidden", !isAuthenticated);
+        
+        // إظهار/إخفاء قسم الملف الشخصي والنموذج
+        document.getElementById("profile-section").classList.toggle("hidden", !isAuthenticated);
+        document.getElementById("user-info-display").classList.toggle("hidden", !isAuthenticated);
+
+        if (isAuthenticated) {
+          userData = await auth0Client.getUser();
+          document.getElementById("profile-details").textContent = JSON.stringify(userData, null, 2);
+          
+          // تحديث معلومات المستخدم المعروضة
+          updateUserDisplay();
+        } else {
+          document.getElementById("profile-details").textContent = "";
+          userData = null;
+          clearFormData();
+        }
+      } catch (error) {
+        console.error("Error updating UI:", error);
       }
     }
 
     // دالة لتحديث عرض معلومات المستخدم
     function updateUserDisplay() {
       if (userData) {
-        // تحديث الصورة الرمزية
-        const avatar = document.getElementById("profile-avatar");
+        // تحديث الصورة الرمزية في الهيدر
+        const userAvatar = document.getElementById("user-avatar");
         if (userData.name) {
-          avatar.textContent = userData.name.charAt(0).toUpperCase();
+          userAvatar.textContent = userData.name.charAt(0).toUpperCase();
         } else if (userData.nickname) {
-          avatar.textContent = userData.nickname.charAt(0).toUpperCase();
+          userAvatar.textContent = userData.nickname.charAt(0).toUpperCase();
         }
+        
+        // تحديث الصورة الرمزية في قسم الملف الشخصي
+        const profileAvatar = document.getElementById("profile-avatar");
+        profileAvatar.textContent = userAvatar.textContent;
         
         // تحديث الاسم
         const nameElement = document.getElementById("profile-name");
@@ -818,18 +928,18 @@
       submitLoading.classList.remove("hidden");
       
       try {
-        // إرسال البيانات إلى Formspree
+        // إرسال البيانات إلى Formspree باستخدام FormData
+        const formData = new FormData();
+        formData.append("email", userData.email);
+        formData.append("subject", subject);
+        formData.append("message", message);
+        
         const response = await fetch(FORMSPREE_ENDPOINT, {
           method: "POST",
+          body: formData,
           headers: {
-            "Content-Type": "application/json",
             "Accept": "application/json"
-          },
-          body: JSON.stringify({
-            _replyto: userData.email, // لجعل الرد يذهب إلى البريد الإلكتروني للمستخدم
-            subject: subject,
-            message: message
-          })
+          }
         });
         
         if (response.ok) {
@@ -841,7 +951,7 @@
         }
       } catch (error) {
         console.error("Error submitting form:", error);
-        showNotification("حدث خطأ في إرسال الرسالة", "error");
+        showNotification("حدث خطأ في إرسال الرسالة. يرجى المحاولة مرة أخرى.", "error");
       } finally {
         // إعادة تعيين حالة الزر
         submitBtn.disabled = false;
@@ -850,11 +960,32 @@
       }
     }
 
+    // إظهار/إخفاء القائمة المنسدلة للصورة
+    function toggleProfileMenu() {
+      const profileMenu = document.getElementById("profile-menu");
+      profileMenu.classList.toggle("active");
+    }
+
+    // إغلاق القائمة المنسدلة عند النقر خارجها
+    function closeProfileMenu(event) {
+      const profileMenu = document.getElementById("profile-menu");
+      const userAvatar = document.getElementById("user-avatar");
+      
+      if (!userAvatar.contains(event.target) && !profileMenu.contains(event.target)) {
+        profileMenu.classList.remove("active");
+      }
+    }
+
     // تفعيل الأزرار
     document.getElementById("btn-login").addEventListener("click", login);
     document.getElementById("btn-hero-login").addEventListener("click", login);
     document.getElementById("btn-logout").addEventListener("click", logout);
     document.getElementById("btn-submit-form").addEventListener("click", submitFormspreeForm);
+    document.getElementById("user-avatar").addEventListener("click", toggleProfileMenu);
+    document.getElementById("menu-logout").addEventListener("click", logout);
+
+    // إغلاق القائمة عند النقر خارجها
+    document.addEventListener("click", closeProfileMenu);
 
     // تشغيل Auth0 عند تحميل الصفحة
     initAuth0();
