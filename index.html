@@ -100,10 +100,12 @@
     <a href="#projects">المشاريع</a>
     <a href="#contact">تواصل</a>
   </nav>
+
   <section id="about">
     <h2>عنّي</h2>
     <p>أنا عبد المؤمن روابح، مطور شغوف بالذكاء الاصطناعي، برمجة الألعاب، وتطوير المواقع. أعمل على مشاريع واقعية تهدف لتقديم حلول ذكية ومفيدة للمجتمع.</p>
   </section>
+
   <section id="projects">
     <h2>مشاريعي</h2>
     <div class="project">
@@ -115,19 +117,39 @@
       <p>لعبة ثلاثية الأبعاد مصنوعة بمحرك Godot 4، تحكي قصة غامضة في عالم مظلم مليء بالأسرار.</p>
     </div>
   </section>
+
   <section id="contact">
     <h2>تواصل معي</h2>
-      <form action="https://formspree.io/f/xvgwbdan" method="POST">
+    <form id="contactForm" action="https://formspree.io/f/xvgwbdan" method="POST">
       <input type="text" name="name" placeholder="اسمك" required>
       <input type="email" name="email" placeholder="بريدك الإلكتروني" required>
       <textarea name="message" rows="5" placeholder="اكتب رسالتك هنا" required></textarea>
       <button type="submit">إرسال</button>
     </form>
   </section>
+
   <footer>
     <p>© 2025 عبد المؤمن روابح. جميع الحقوق محفوظة.</p>
   </footer>
+
+  <script>
+    document.querySelector("#contactForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = new FormData(form);
+      const response = await fetch(form.action, {
+        method: "POST",
+        body: data,
+        headers: { "Accept": "application/json" }
+      });
+      if (response.ok) {
+        alert("تم إرسال الرسالة بنجاح!");
+        form.reset();
+      } else {
+        alert("حدث خطأ أثناء الإرسال. حاول مرة أخرى.");
+      }
+    });
+  </script>
 </body>
 </html>
-
 
