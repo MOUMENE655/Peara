@@ -1,155 +1,128 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>موقعي الشخصي - عبد المؤمن روابح</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Peara | تواصل معي</title>
   <style>
     body {
-      font-family: 'Cairo', sans-serif;
+      font-family: sans-serif;
+      background: #f4f4f9;
       margin: 0;
       padding: 0;
-      background-color: #f5f5f5;
-      color: #333;
+      text-align: center;
     }
     header {
-      background-color: #222;
-      color: #fff;
-      padding: 40px 20px;
-      text-align: center;
-    }
-    header h1 {
-      font-size: 2.5rem;
-      margin: 0;
-    }
-    nav {
-      background-color: #444;
-      text-align: center;
-      padding: 10px;
-    }
-    nav a {
+      background: #333;
       color: white;
-      text-decoration: none;
-      margin: 0 15px;
-      font-size: 1.1rem;
+      padding: 1rem;
     }
-    nav a:hover {
-      color: #ffd700;
+    button {
+      background: #0078ff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 10px;
+      border-radius: 8px;
+      cursor: pointer;
     }
-    section {
-      max-width: 1000px;
-      margin: 40px auto;
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-    h2 {
-      color: #222;
-      border-bottom: 2px solid #ffd700;
-      padding-bottom: 8px;
-    }
-    .project {
-      margin-bottom: 25px;
-    }
-    .project h3 {
-      margin: 0;
-      color: #0056b3;
-    }
+    button:hover { background: #005fcc; }
     form {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      max-width: 600px;
-      margin: auto;
+      display: none;
+      background: white;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      width: 90%;
+      max-width: 400px;
     }
     input, textarea {
+      width: 95%;
+      margin: 8px 0;
       padding: 10px;
-      font-size: 1rem;
       border: 1px solid #ccc;
       border-radius: 6px;
     }
-    button {
-      background-color: #222;
-      color: #fff;
-      border: none;
-      padding: 12px;
-      font-size: 1rem;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #ffd700;
-      color: #222;
-    }
-    footer {
-      text-align: center;
-      padding: 20px;
-      background-color: #222;
-      color: #fff;
+    textarea { height: 120px; resize: none; }
+    #msg {
+      margin-top: 1rem;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>عبد المؤمن روابح</h1>
-    <p>مبرمج ذكاء اصطناعي ومطور ألعاب</p>
+    <h1>Peara</h1>
+    <p>تواصل معي بعد تسجيل الدخول</p>
   </header>
-  <nav>
-    <a href="#about">عنّي</a>
-    <a href="#projects">المشاريع</a>
-    <a href="#contact">تواصل</a>
-  </nav>
 
-  <section id="about">
-    <h2>عنّي</h2>
-    <p>أنا عبد المؤمن روابح، مطور شغوف بالذكاء الاصطناعي، برمجة الألعاب، وتطوير المواقع. أعمل على مشاريع واقعية تهدف لتقديم حلول ذكية ومفيدة للمجتمع.</p>
-  </section>
+  <button id="login">تسجيل الدخول</button>
+  <button id="logout" style="display:none;">تسجيل الخروج</button>
 
-  <section id="projects">
-    <h2>مشاريعي</h2>
-    <div class="project">
-      <h3>نظام تحليل الجرائم بالذكاء الاصطناعي</h3>
-      <p>مشروع يستخدم تقنيات التعلم الآلي لتحليل بيانات الجرائم واستخلاص الأنماط المساعدة في التحقيقات.</p>
-    </div>
-    <div class="project">
-      <h3>لعبة بئر النسيان</h3>
-      <p>لعبة ثلاثية الأبعاد مصنوعة بمحرك Godot 4، تحكي قصة غامضة في عالم مظلم مليء بالأسرار.</p>
-    </div>
-  </section>
+  <form id="contact-form" action="https://formspree.io/f/xvgwbdan" method="POST">
+    <input type="text" name="name" placeholder="اسمك" required />
+    <input type="email" name="email" placeholder="بريدك الإلكتروني" required />
+    <textarea name="message" placeholder="اكتب رسالتك هنا..." required></textarea>
+    <button type="submit">إرسال</button>
+    <p id="msg"></p>
+  </form>
 
-  <section id="contact">
-    <h2>تواصل معي</h2>
-    <form id="contactForm" action="https://formspree.io/f/xvgwbdan" method="POST">
-      <input type="text" name="name" placeholder="اسمك" required>
-      <input type="email" name="email" placeholder="بريدك الإلكتروني" required>
-      <textarea name="message" rows="5" placeholder="اكتب رسالتك هنا" required></textarea>
-      <button type="submit">إرسال</button>
-    </form>
-  </section>
+  <script type="module">
+    import createAuth0Client from "https://cdn.jsdelivr.net/npm/@auth0/auth0-spa-js@2.1.0/dist/auth0-spa-js.production.esm.min.js";
 
-  <footer>
-    <p>© 2025 عبد المؤمن روابح. جميع الحقوق محفوظة.</p>
-  </footer>
+    const auth0 = await createAuth0Client({
+      domain: "dev-cpi8o3elw1o1xe1m.us.auth0.com",
+      clientId: "7KovmuJ1lp4OlcLB8KnRgSto9G4Usgd9",
+      authorizationParams: {
+        redirect_uri: window.location.origin + window.location.pathname
+      }
+    });
+
+    const loginBtn = document.getElementById("login");
+    const logoutBtn = document.getElementById("logout");
+    const contactForm = document.getElementById("contact-form");
+
+    async function handleAuth() {
+      const query = window.location.search;
+      if (query.includes("code=") && query.includes("state=")) {
+        await auth0.handleRedirectCallback();
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+
+      const isAuthenticated = await auth0.isAuthenticated();
+
+      if (isAuthenticated) {
+        loginBtn.style.display = "none";
+        logoutBtn.style.display = "inline";
+        contactForm.style.display = "block";
+      } else {
+        loginBtn.style.display = "inline";
+        logoutBtn.style.display = "none";
+        contactForm.style.display = "none";
+      }
+    }
+
+    loginBtn.onclick = () => auth0.loginWithRedirect();
+    logoutBtn.onclick = () => auth0.logout({ logoutParams: { returnTo: window.location.origin + "/Peara/" } });
+
+    handleAuth();
+  </script>
 
   <script>
-    document.querySelector("#contactForm").addEventListener("submit", async function(e) {
+    const form = document.getElementById("contact-form");
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const form = e.target;
       const data = new FormData(form);
       const response = await fetch(form.action, {
         method: "POST",
         body: data,
-        headers: { "Accept": "application/json" }
+        headers: { Accept: "application/json" }
       });
-      if (response.ok) {
-        alert("تم إرسال الرسالة بنجاح!");
-        form.reset();
-      } else {
-        alert("حدث خطأ أثناء الإرسال. حاول مرة أخرى.");
-      }
+      document.getElementById("msg").innerText =
+        response.ok ? "✅ تم الإرسال بنجاح" : "⚠️ حدث خطأ أثناء الإرسال";
+      form.reset();
     });
   </script>
 </body>
 </html>
-
