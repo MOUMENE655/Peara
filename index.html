@@ -56,6 +56,12 @@
       transform: scale(1.05);
     }
 
+    button:disabled {
+      background: #cccccc;
+      cursor: not-allowed;
+      transform: none;
+    }
+
     pre {
       text-align: left;
       background: #fff;
@@ -79,6 +85,7 @@
       padding: 20px;
       margin: 20px auto;
       width: 80%;
+      max-width: 600px;
       border-radius: 10px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
       text-align: right;
@@ -113,12 +120,50 @@
       display: none;
     }
 
-    #formspeer-frame {
-      width: 100%;
-      height: 600px;
-      border: 1px solid #ddd;
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 15px 20px;
       border-radius: 10px;
-      margin-top: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      z-index: 1000;
+      animation: slideIn 0.3s ease;
+    }
+
+    .success {
+      background: #63c36d;
+      color: white;
+    }
+
+    .error {
+      background: #ff6b6b;
+      color: white;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid #ffffff;
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
   </style>
 </head>
@@ -138,27 +183,37 @@
 
     <pre id="profile"></pre>
 
-    <!-- قسم Formspeer - يظهر فقط بعد تسجيل الدخول -->
-    <div id="formspeer-section" class="hidden">
-      <h2>نموذج Formspeer</h2>
-      <p>املأ النموذج أدناه لإرسال رسالة عبر Formspeer</p>
+    <!-- قسم Formspree - يظهر فقط بعد تسجيل الدخول -->
+    <div id="formspree-section" class="hidden">
+      <h2>نموذج الاتصال</h2>
+      <p>املأ النموذج أدناه لإرسال رسالة عبر Formspree</p>
       
       <div class="form-container">
         <div class="form-group">
+          <label for="name">الاسم:</label>
+          <input type="text" id="name" placeholder="سيتم ملؤه تلقائياً" readonly>
+        </div>
+        
+        <div class="form-group">
+          <label for="email">البريد الإلكتروني:</label>
+          <input type="email" id="email" placeholder="سيتم ملؤه تلقائياً" readonly>
+        </div>
+        
+        <div class="form-group">
           <label for="subject">الموضوع:</label>
-          <input type="text" id="subject" placeholder="أدخل موضوع الرسالة">
+          <input type="text" id="subject" placeholder="أدخل موضوع الرسالة" required>
         </div>
         
         <div class="form-group">
           <label for="message">الرسالة:</label>
-          <textarea id="message" placeholder="أدخل نص الرسالة"></textarea>
+          <textarea id="message" placeholder="أدخل نص الرسالة" required></textarea>
         </div>
         
-        <button id="btn-fill-form">ملء النموذج تلقائياً</button>
+        <button id="btn-submit-form">
+          <span id="submit-text">إرسال النموذج</span>
+          <span id="submit-loading" class="hidden loading"></span>
+        </button>
       </div>
-      
-      <!-- إطار Formspeer -->
-      <iframe id="formspeer-frame" src="https://formspeer.com" title="Formspeer"></iframe>
     </div>
   </div>
 
@@ -173,22 +228,37 @@
       clientId: "7KovmuJ1lp4OlcLB8KnRgSto9G4Usgd9"
     };
 
+    // Formspree endpoint من الرابط الذي قدمته
+    const FORMSPREE_ENDPOINT = "https://formspree.io/f/xvgwbdan";
+
     let auth0Client;
     let userData = null;
+
+    // دالة للإشعارات
+    function showNotification(message, type = 'success') {
+      const notification = document.createElement('div');
+      notification.className = `notification ${type}`;
+      notification.textContent = message;
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.remove();
+      }, 4000);
+    }
 
     async function initAuth0() {
       auth0Client = await auth0.createAuth0Client({
         domain: config.domain,
         clientId: config.clientId,
         authorizationParams: {
-          redirect_uri: window.location.origin + "/Peara/"
+          redirect_uri: window.location.origin + window.location.pathname
         }
       });
 
       // لو المستخدم رجع بعد تسجيل الدخول
       if (window.location.search.includes("code=") && window.location.search.includes("state=")) {
         await auth0Client.handleRedirectCallback();
-        window.history.replaceState({}, document.title, "/Peara/");
+        window.history.replaceState({}, document.title, window.location.pathname);
       }
 
       updateUI();
@@ -197,7 +267,7 @@
     async function login() {
       await auth0Client.loginWithRedirect({
         authorizationParams: {
-          redirect_uri: window.location.origin + "/Peara/"
+          redirect_uri: window.location.origin + window.location.pathname
         }
       });
     }
@@ -205,7 +275,7 @@
     async function logout() {
       await auth0Client.logout({
         logoutParams: {
-          returnTo: window.location.origin + "/Peara/"
+          returnTo: window.location.origin + window.location.pathname
         }
       });
     }
@@ -215,53 +285,97 @@
       document.getElementById("btn-login").style.display = isAuthenticated ? "none" : "inline-block";
       document.getElementById("btn-logout").style.display = isAuthenticated ? "inline-block" : "none";
       
-      // إظهار/إخفاء قسم Formspeer
-      document.getElementById("formspeer-section").classList.toggle("hidden", !isAuthenticated);
+      // إظهار/إخفاء قسم Formspree
+      document.getElementById("formspree-section").classList.toggle("hidden", !isAuthenticated);
 
       if (isAuthenticated) {
         userData = await auth0Client.getUser();
         document.getElementById("profile").textContent = JSON.stringify(userData, null, 2);
+        
+        // ملء البيانات تلقائياً في النموذج
+        fillFormData();
       } else {
         document.getElementById("profile").textContent = "";
         userData = null;
+        clearFormData();
       }
     }
 
-    // دالة لملء نموذج Formspeer تلقائياً
-    function fillFormspeerForm() {
-      const subject = document.getElementById("subject").value;
-      const message = document.getElementById("message").value;
+    // دالة لملء البيانات في النموذج
+    function fillFormData() {
+      if (userData) {
+        document.getElementById("name").value = userData.name || userData.nickname || "";
+        document.getElementById("email").value = userData.email || "";
+      }
+    }
+
+    // دالة لمسح البيانات من النموذج
+    function clearFormData() {
+      document.getElementById("name").value = "";
+      document.getElementById("email").value = "";
+      document.getElementById("subject").value = "";
+      document.getElementById("message").value = "";
+    }
+
+    // دالة لإرسال النموذج إلى Formspree
+    async function submitFormspreeForm() {
+      const subject = document.getElementById("subject").value.trim();
+      const message = document.getElementById("message").value.trim();
       
       if (!subject || !message) {
-        alert("يرجى ملء كل من الموضوع والرسالة");
+        showNotification("يرجى ملء كل من الموضوع والرسالة", "error");
         return;
       }
       
-      // هنا يمكنك إضافة الكود لملء نموذج Formspeer
-      // بما أن Formspeer موقع خارجي، سنستخدم postMessage للتواصل معه
-      const formspeerFrame = document.getElementById("formspeer-frame");
+      // إظهار حالة التحميل
+      const submitBtn = document.getElementById("btn-submit-form");
+      const submitText = document.getElementById("submit-text");
+      const submitLoading = document.getElementById("submit-loading");
       
-      // بيانات المستخدم من Auth0
-      const userInfo = {
-        name: userData?.name || "",
-        email: userData?.email || "",
-        subject: subject,
-        message: message
-      };
+      submitBtn.disabled = true;
+      submitText.classList.add("hidden");
+      submitLoading.classList.remove("hidden");
       
-      // إرسال البيانات إلى إطار Formspeer
-      formspeerFrame.contentWindow.postMessage({
-        type: "FILL_FORMSPEER_FORM",
-        data: userInfo
-      }, "https://formspeer.com");
-      
-      alert("تم إرسال البيانات إلى نموذج Formspeer");
+      try {
+        // إرسال البيانات إلى Formspree
+        const response = await fetch(FORMSPREE_ENDPOINT, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          body: JSON.stringify({
+            name: userData.name || userData.nickname,
+            email: userData.email,
+            subject: subject,
+            message: message,
+            _replyto: userData.email // لجعل الرد يذهب إلى البريد الإلكتروني للمستخدم
+          })
+        });
+        
+        if (response.ok) {
+          showNotification("تم إرسال النموذج بنجاح!", "success");
+          // مسح الحقول التي يدخلها المستخدم
+          document.getElementById("subject").value = "";
+          document.getElementById("message").value = "";
+        } else {
+          throw new Error("فشل في إرسال النموذج");
+        }
+      } catch (error) {
+        console.error("Error submitting form:", error);
+        showNotification("حدث خطأ في إرسال النموذج", "error");
+      } finally {
+        // إعادة تعيين حالة الزر
+        submitBtn.disabled = false;
+        submitText.classList.remove("hidden");
+        submitLoading.classList.add("hidden");
+      }
     }
 
     // تفعيل الأزرار
     document.getElementById("btn-login").addEventListener("click", login);
     document.getElementById("btn-logout").addEventListener("click", logout);
-    document.getElementById("btn-fill-form").addEventListener("click", fillFormspeerForm);
+    document.getElementById("btn-submit-form").addEventListener("click", submitFormspreeForm);
 
     // تشغيل Auth0 عند تحميل الصفحة
     initAuth0();
