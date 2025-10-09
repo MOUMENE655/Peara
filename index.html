@@ -119,6 +119,220 @@
             align-items: center;
         }
 
+        /* أيقونة الحساب - أكبر حجمًا */
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition);
+            border: 3px solid white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Profile Menu */
+        .profile-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 10px 0;
+            min-width: 220px;
+            z-index: 100;
+            margin-top: 15px;
+            display: none;
+            border: 1px solid var(--border);
+        }
+
+        .profile-menu.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .profile-menu-item {
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--dark);
+            text-decoration: none;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: right;
+            font-size: 1rem;
+        }
+
+        .profile-menu-item:hover {
+            background: #f1f5f9;
+            color: var(--primary);
+        }
+
+        .profile-menu-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* النوافذ المنبثقة */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: var(--shadow);
+            transform: scale(0.9);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .modal-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .modal-header h3 {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin: 0;
+        }
+
+        .modal-content {
+            margin-bottom: 30px;
+        }
+
+        .modal-content p {
+            color: var(--gray);
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--primary);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-secondary {
+            background: #64748b;
+        }
+
+        .btn-secondary:hover {
+            background: #475569;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gray);
+            cursor: pointer;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal:hover {
+            background: #f1f5f9;
+            color: var(--dark);
+        }
+
         /* Hero Section */
         .hero {
             background: linear-gradient(135deg, var(--darker), var(--dark));
@@ -163,39 +377,6 @@
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--primary);
-            color: white;
-            padding: 14px 32px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: var(--transition);
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-
-        .btn:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .btn-outline:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: white;
         }
 
         /* Features Section */
@@ -448,47 +629,6 @@
             margin-top: 8px;
         }
 
-        /* Profile Menu */
-        .profile-menu {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: white;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-            padding: 10px 0;
-            min-width: 220px;
-            z-index: 100;
-            margin-top: 10px;
-            display: none;
-        }
-
-        .profile-menu.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .profile-menu-item {
-            padding: 14px 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            transition: var(--transition);
-            color: var(--dark);
-            text-decoration: none;
-        }
-
-        .profile-menu-item:hover {
-            background: #f1f5f9;
-            color: var(--primary);
-        }
-
-        .profile-menu-item i {
-            width: 20px;
-            text-align: center;
-        }
-
         /* Footer */
         footer {
             background: var(--darker);
@@ -675,6 +815,14 @@
             .info-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .modal {
+                padding: 30px 20px;
+            }
+            
+            .modal-actions {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -698,33 +846,117 @@
                 <button id="btn-login" class="btn">تسجيل الدخول</button>
                 <button id="btn-logout" class="btn hidden">تسجيل الخروج</button>
                 
-                <!-- صورة المستخدم مع القائمة المنسدلة -->
+                <!-- صورة المستخدم مع القائمة المنسدلة - حجم أكبر -->
                 <div id="user-avatar-container" class="hidden">
-                    <div class="profile-avatar" id="user-avatar">
+                    <div class="user-avatar" id="user-avatar">
                         U
                         <div class="profile-menu" id="profile-menu">
-                            <a href="#profile" class="profile-menu-item">
-                                <i class="fas fa-user"></i>
-                                <span>الملف الشخصي</span>
-                            </a>
-                            <a href="#settings" class="profile-menu-item">
+                            <button class="profile-menu-item" id="menu-profile">
+                                <i class="fas fa-user-edit"></i>
+                                <span>تعديل الملف الشخصي</span>
+                            </button>
+                            <button class="profile-menu-item" id="menu-settings">
                                 <i class="fas fa-cog"></i>
                                 <span>الإعدادات</span>
-                            </a>
-                            <a href="#projects" class="profile-menu-item">
-                                <i class="fas fa-folder"></i>
-                                <span>المشاريع</span>
-                            </a>
-                            <div class="profile-menu-item" id="menu-logout">
+                            </button>
+                            <button class="profile-menu-item" id="menu-logout">
                                 <i class="fas fa-sign-out-alt"></i>
                                 <span>تسجيل الخروج</span>
-                            </div>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </header>
+
+    <!-- النوافذ المنبثقة -->
+    <div class="modal-overlay" id="profile-modal">
+        <div class="modal">
+            <button class="close-modal" id="close-profile-modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <i class="fas fa-user-edit"></i>
+                </div>
+                <h3>تعديل الملف الشخصي</h3>
+            </div>
+            <div class="modal-content">
+                <p>هنا يمكنك تعديل معلومات ملفك الشخصي مثل الاسم، الصورة، والمعلومات الأخرى.</p>
+                <p>سيتم حفظ التغييرات تلقائيًا عند الانتهاء.</p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn" id="save-profile">
+                    <i class="fas fa-save"></i>
+                    حفظ التغييرات
+                </button>
+                <button class="btn btn-secondary" id="cancel-profile">
+                    إلغاء
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="settings-modal">
+        <div class="modal">
+            <button class="close-modal" id="close-settings-modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <i class="fas fa-cog"></i>
+                </div>
+                <h3>الإعدادات</h3>
+            </div>
+            <div class="modal-content">
+                <p>إعدادات الحساب والخصوصية. يمكنك ضبط:</p>
+                <ul style="padding-right: 20px; margin-top: 10px; color: var(--gray);">
+                    <li>إعدادات الإشعارات</li>
+                    <li>الخصوصية والأمان</li>
+                    <li>تفضيلات اللغة</li>
+                    <li>إعدادات المظهر</li>
+                </ul>
+            </div>
+            <div class="modal-actions">
+                <button class="btn" id="save-settings">
+                    <i class="fas fa-save"></i>
+                    حفظ الإعدادات
+                </button>
+                <button class="btn btn-outline" id="reset-settings">
+                    <i class="fas fa-redo"></i>
+                    إعادة التعيين
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="logout-modal">
+        <div class="modal">
+            <button class="close-modal" id="close-logout-modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <i class="fas fa-sign-out-alt"></i>
+                </div>
+                <h3>تسجيل الخروج</h3>
+            </div>
+            <div class="modal-content">
+                <p>هل أنت متأكد أنك تريد تسجيل الخروج من حسابك؟</p>
+                <p>سيتم إغلاق جلسة العمل الحالية وتوجيهك إلى صفحة تسجيل الدخول.</p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="confirm-logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    نعم، تسجيل الخروج
+                </button>
+                <button class="btn btn-outline" id="cancel-logout">
+                    إلغاء
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- Hero Section -->
     <section class="hero" id="home">
@@ -816,66 +1048,6 @@
         </div>
     </section>
 
-    <!-- Profile Section -->
-    <section id="profile-section" class="profile-section hidden">
-        <div class="container">
-            <div class="profile-card">
-                <div class="profile-header">
-                    <div class="profile-avatar" id="profile-avatar">U</div>
-                    <div class="profile-info">
-                        <h3 id="profile-name">مستخدم Peara</h3>
-                        <p id="profile-email">user@peara.com</p>
-                        <div class="profile-stats">
-                            <div class="stat-item">
-                                <div class="stat-value" id="stat-projects">0</div>
-                                <div class="stat-label">المشاريع</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-value" id="stat-membership">0</div>
-                                <div class="stat-label">أيام العضوية</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-value" id="stat-status">نشط</div>
-                                <div class="stat-label">الحالة</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="profile-details">
-                    <h4><i class="fas fa-info-circle"></i> معلومات الحساب</h4>
-                    <div class="info-grid">
-                        <div class="info-card">
-                            <h5><i class="fas fa-user"></i> الاسم الكامل</h5>
-                            <p id="info-fullname">غير متوفر</p>
-                        </div>
-                        <div class="info-card">
-                            <h5><i class="fas fa-envelope"></i> البريد الإلكتروني</h5>
-                            <p id="info-email">غير متوفر</p>
-                        </div>
-                        <div class="info-card">
-                            <h5><i class="fas fa-id-card"></i> معرف المستخدم</h5>
-                            <p id="info-userid">غير متوفر</p>
-                        </div>
-                        <div class="info-card">
-                            <h5><i class="fas fa-calendar-alt"></i> تاريخ التسجيل</h5>
-                            <p id="info-created">غير متوفر</p>
-                        </div>
-                        <div class="info-card">
-                            <h5><i class="fas fa-shield-alt"></i> حالة الحساب</h5>
-                            <p id="info-verified">غير متوفر</p>
-                            <span class="info-badge" id="verification-badge">غير مؤكد</span>
-                        </div>
-                        <div class="info-card">
-                            <h5><i class="fas fa-globe"></i> المنطقة الزمنية</h5>
-                            <p id="info-timezone">غير متوفر</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Footer -->
     <footer>
         <div class="container">
@@ -958,6 +1130,20 @@
             }, 4000);
         }
 
+        // دالة لفتح النوافذ المنبثقة
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.add('active');
+            // إغلاق القائمة المنسدلة
+            document.getElementById('profile-menu').classList.remove('active');
+        }
+
+        // دالة لإغلاق النوافذ المنبثقة
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('active');
+        }
+
         async function initAuth0() {
             try {
                 auth0Client = await auth0.createAuth0Client({
@@ -1015,9 +1201,6 @@
                 document.getElementById("btn-hero-login").classList.toggle("hidden", isAuthenticated);
                 document.getElementById("btn-logout").classList.toggle("hidden", !isAuthenticated);
                 document.getElementById("user-avatar-container").classList.toggle("hidden", !isAuthenticated);
-                
-                // إظهار/إخفاء قسم الملف الشخصي
-                document.getElementById("profile-section").classList.toggle("hidden", !isAuthenticated);
 
                 if (isAuthenticated) {
                     userData = await auth0Client.getUser();
@@ -1043,54 +1226,7 @@
                 } else if (userData.nickname) {
                     userAvatar.textContent = userData.nickname.charAt(0).toUpperCase();
                 }
-                
-                // تحديث الصورة الرمزية في قسم الملف الشخصي
-                const profileAvatar = document.getElementById("profile-avatar");
-                profileAvatar.textContent = userAvatar.textContent;
-                
-                // تحديث الاسم
-                const nameElement = document.getElementById("profile-name");
-                nameElement.textContent = userData.name || userData.nickname || "مستخدم Peara";
-                
-                // تحديث البريد الإلكتروني
-                const emailElement = document.getElementById("profile-email");
-                emailElement.textContent = userData.email || "لا يوجد بريد إلكتروني";
-                
-                // تحديث معلومات الحساب بشكل منظم
-                updateProfileInfo();
             }
-        }
-
-        // دالة لتحديث معلومات الملف الشخصي بشكل جميل
-        function updateProfileInfo() {
-            if (!userData) return;
-            
-            // الاسم الكامل
-            document.getElementById("info-fullname").textContent = userData.name || "غير متوفر";
-            
-            // البريد الإلكتروني
-            document.getElementById("info-email").textContent = userData.email || "غير متوفر";
-            
-            // معرف المستخدم
-            document.getElementById("info-userid").textContent = userData.sub ? userData.sub.substring(0, 15) + "..." : "غير متوفر";
-            
-            // تاريخ التسجيل (افتراضي)
-            const joinDate = new Date();
-            document.getElementById("info-created").textContent = joinDate.toLocaleDateString('ar-EG');
-            
-            // حالة الحساب
-            const isVerified = userData.email_verified || false;
-            document.getElementById("info-verified").textContent = isVerified ? "مؤكد" : "غير مؤكد";
-            document.getElementById("verification-badge").textContent = isVerified ? "مؤكد" : "غير مؤكد";
-            document.getElementById("verification-badge").style.background = isVerified ? "#10b981" : "#ef4444";
-            
-            // المنطقة الزمنية
-            document.getElementById("info-timezone").textContent = userData.zoneinfo || "غير محدد";
-            
-            // إحصائيات (بيانات افتراضية)
-            document.getElementById("stat-projects").textContent = Math.floor(Math.random() * 20) + 1;
-            document.getElementById("stat-membership").textContent = Math.floor(Math.random() * 365) + 1;
-            document.getElementById("stat-status").textContent = "نشط";
         }
 
         // إظهار/إخفاء القائمة المنسدلة للصورة
@@ -1112,12 +1248,48 @@
         // تفعيل الأزرار
         document.getElementById("btn-login").addEventListener("click", login);
         document.getElementById("btn-hero-login").addEventListener("click", login);
-        document.getElementById("btn-logout").addEventListener("click", logout);
+        document.getElementById("btn-logout").addEventListener("click", () => openModal('logout-modal'));
+        
+        // أحداث القائمة المنسدلة
         document.getElementById("user-avatar").addEventListener("click", toggleProfileMenu);
-        document.getElementById("menu-logout").addEventListener("click", logout);
+        document.getElementById("menu-profile").addEventListener("click", () => openModal('profile-modal'));
+        document.getElementById("menu-settings").addEventListener("click", () => openModal('settings-modal'));
+        document.getElementById("menu-logout").addEventListener("click", () => openModal('logout-modal'));
+
+        // أحداث إغلاق النوافذ المنبثقة
+        document.getElementById("close-profile-modal").addEventListener("click", () => closeModal('profile-modal'));
+        document.getElementById("close-settings-modal").addEventListener("click", () => closeModal('settings-modal'));
+        document.getElementById("close-logout-modal").addEventListener("click", () => closeModal('logout-modal'));
+        
+        // أحداث الأزرار داخل النوافذ المنبثقة
+        document.getElementById("save-profile").addEventListener("click", () => {
+            showNotification("تم حفظ التغييرات بنجاح", "success");
+            closeModal('profile-modal');
+        });
+        
+        document.getElementById("cancel-profile").addEventListener("click", () => closeModal('profile-modal'));
+        
+        document.getElementById("save-settings").addEventListener("click", () => {
+            showNotification("تم حفظ الإعدادات بنجاح", "success");
+            closeModal('settings-modal');
+        });
+        
+        document.getElementById("reset-settings").addEventListener("click", () => {
+            showNotification("تم إعادة تعيين الإعدادات", "success");
+        });
+        
+        document.getElementById("confirm-logout").addEventListener("click", logout);
+        document.getElementById("cancel-logout").addEventListener("click", () => closeModal('logout-modal'));
 
         // إغلاق القائمة عند النقر خارجها
         document.addEventListener("click", closeProfileMenu);
+
+        // إغلاق النوافذ المنبثقة عند النقر خارجها
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal-overlay')) {
+                e.target.classList.remove('active');
+            }
+        });
 
         // تشغيل Auth0 عند تحميل الصفحة
         initAuth0();
