@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Peara - منصة التطوير المتكاملة</title>
+    <title>عبد المؤمن روابح - مطور ومبرمج</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -246,7 +246,7 @@
             opacity: 0.9;
         }
 
-        .features {
+        .about {
             padding: 100px 0;
             background: white;
         }
@@ -268,13 +268,54 @@
             margin: 0 auto;
         }
 
-        .features-grid {
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+            color: var(--gray);
+        }
+
+        .about-image {
+            text-align: center;
+        }
+
+        .profile-img {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 5rem;
+            margin: 0 auto;
+            box-shadow: var(--shadow);
+        }
+
+        .skills {
+            padding: 100px 0;
+            background: #f8fafc;
+        }
+
+        .skills-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
         }
 
-        .feature-card {
+        .skill-card {
             background: white;
             border-radius: 12px;
             padding: 30px;
@@ -283,12 +324,12 @@
             text-align: center;
         }
 
-        .feature-card:hover {
+        .skill-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
 
-        .feature-icon {
+        .skill-icon {
             width: 70px;
             height: 70px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
@@ -301,17 +342,81 @@
             margin: 0 auto 20px;
         }
 
-        .feature-card h3 {
+        .skill-card h3 {
             font-size: 1.5rem;
             margin-bottom: 15px;
             color: var(--dark);
         }
 
-        .feature-card p {
+        .skill-card p {
             color: var(--gray);
         }
 
-        .formspree-section {
+        .projects {
+            padding: 100px 0;
+            background: white;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .project-image {
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .project-content {
+            padding: 25px;
+        }
+
+        .project-content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .project-content p {
+            color: var(--gray);
+            margin-bottom: 15px;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .tag {
+            background: #f1f5f9;
+            color: var(--dark);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .contact {
             padding: 100px 0;
             background: linear-gradient(135deg, #f8fafc, #e2e8f0);
         }
@@ -474,6 +579,49 @@
             margin: 0 auto;
         }
 
+        footer {
+            background: var(--darker);
+            color: white;
+            padding: 50px 0 20px;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
         @media (max-width: 768px) {
             .user-info {
                 grid-template-columns: 1fr;
@@ -490,6 +638,16 @@
             .nav-links {
                 display: none;
             }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 20px;
+            }
         }
     </style>
 </head>
@@ -497,14 +655,16 @@
     <header>
         <div class="container header-content">
             <div class="logo">
-                <div class="logo-icon">P</div>
-                <span>Peara</span>
+                <div class="logo-icon">م</div>
+                <span>عبد المؤمن روابح</span>
             </div>
             
             <nav class="nav-links">
                 <a href="#home">الرئيسية</a>
-                <a href="#features">الميزات</a>
-                <a href="#contact">اتصل بنا</a>
+                <a href="#about">عنّي</a>
+                <a href="#skills">المهارات</a>
+                <a href="#projects">المشاريع</a>
+                <a href="#contact">اتصل بي</a>
             </nav>
             
             <div class="auth-buttons">
@@ -537,42 +697,190 @@
 
     <section class="hero" id="home">
         <div class="container hero-content">
-            <h1>منصة Peara للتطوير المتكامل</h1>
-            <p>نقدم حلولاً متكاملة لتطوير البرمجيات والمواقع الإلكترونية، مع أدوات متقدمة لتسهيل عملية التطوير ورفع كفاءة الفرق</p>
-            <button id="btn-hero-login" class="btn">ابدأ الآن</button>
+            <h1>عبد المؤمن روابح (مؤمن)</h1>
+            <p>مطور ومبرمج طموح، متخصص في الذكاء الاصطناعي وتطوير البرمجيات</p>
+            <button id="btn-hero-login" class="btn">اطّلع على مشاريعي</button>
         </div>
     </section>
 
-    <section class="features" id="features">
+    <section class="about" id="about">
         <div class="container">
             <div class="section-title">
-                <h2>ميزات منصتنا</h2>
-                <p>اكتشف مجموعة الميزات المتقدمة التي نقدمها لتطوير برمجياتك بكفاءة وجودة عالية</p>
+                <h2>عنّي</h2>
+                <p>تعرف على مسيرتي التعليمية وخبراتي</p>
             </div>
             
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>مرحباً، أنا عبد المؤمن روابح</h3>
+                    <p>أنا طالب في السنة الثالثة متوسط من الجزائر، عمري 13 سنة، وأمتلك شغفاً كبيراً في مجال البرمجة والذكاء الاصطناعي.</p>
+                    <p>أتابع دورة الذكاء الاصطناعي التطبيقية من أكاديمية حسوب (971 درسًا – 150.5 ساعة)، وأعمل على تطوير مهاراتي في عدة مجالات تقنية.</p>
+                    <p>هدفي هو أن أصبح من بين العباقرة الصغار في مجال الذكاء الاصطناعي، وأساهم في تطوير مشاريع واقعية تفيد المجتمع.</p>
+                </div>
+                <div class="about-image">
+                    <div class="profile-img">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="skills" id="skills">
+        <div class="container">
+            <div class="section-title">
+                <h2>مهاراتي</h2>
+                <p>المهارات التقنية التي أمتلكها</p>
+            </div>
+            
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-icon">
                         <i class="fas fa-code"></i>
                     </div>
-                    <h3>تطوير متكامل</h3>
-                    <p>منصة شاملة توفر جميع الأدوات اللازمة لتطوير البرمجيات من البداية إلى النهاية</p>
+                    <h3>البرمجة</h3>
+                    <p>Python, CSS, JavaScript, C#, HTML, GDScript, C, C++</p>
                 </div>
                 
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-users"></i>
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <i class="fas fa-brain"></i>
                     </div>
-                    <h3>تعاون الفريق</h3>
-                    <p>أدوات متقدمة للتعاون بين أعضاء الفريق لتحسين الإنتاجية وتنظيم العمل</p>
+                    <h3>الذكاء الاصطناعي</h3>
+                    <p>LLMs، الرؤية الحاسوبية، التعلم العميق والمعزز</p>
                 </div>
                 
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-rocket"></i>
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <i class="fas fa-gamepad"></i>
                     </div>
-                    <h3>نشر سريع</h3>
-                    <p>نظام نشر آلي وسريع يتيح لك نشر تطبيقاتك بضغطة زر واحدة</p>
+                    <h3>تطوير الألعاب</h3>
+                    <p>Godot 4، تصميم الشخصيات بـ Blender</p>
+                </div>
+                
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>الروبوتات</h3>
+                    <p>برمجة الروبوتات والأردوينو</p>
+                </div>
+                
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>الأمن السيبراني</h3>
+                    <p>الهاكر الأخلاقي وأمن المعلومات</p>
+                </div>
+                
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>تطوير المواقع</h3>
+                    <p>تطوير المواقع الإلكترونية والتطبيقات</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="projects" id="projects">
+        <div class="container">
+            <div class="section-title">
+                <h2>مشاريعي</h2>
+                <p>أبرز المشاريع التي عملت عليها</p>
+            </div>
+            
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3>نظام ذكاء اصطناعي لتحليل الجرائم</h3>
+                        <p>نظام يستخدم الذكاء الاصطناعي لتحليل البيانات الجنائية والمساعدة في التحقيقات</p>
+                        <div class="project-tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">AI</span>
+                            <span class="tag">تحليل البيانات</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3>منصة تعليمية للأطفال</h3>
+                        <p>منصة تعليمية تفاعلية تستخدم نموذج Qwen1.5-7B لتقديم محتوى تعليمي مخصص للأطفال</p>
+                        <div class="project-tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">LLM</span>
+                            <span class="tag">التعليم</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3>لعبة 3D - بئر النسيان</h3>
+                        <p>لعبة ثلاثية الأبعاد مطورة باستخدام Godot 4، مشروع AAA طموح</p>
+                        <div class="project-tags">
+                            <span class="tag">Godot</span>
+                            <span class="tag">GDScript</span>
+                            <span class="tag">3D</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-mosque"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3>منبر الشيخ عبد الحميد بوطاعة</h3>
+                        <p>موقع إلكتروني للشيخ عبد الحميد بوطاعة يقدم محتوى دربي وتعليمي</p>
+                        <div class="project-tags">
+                            <span class="tag">HTML</span>
+                            <span class="tag">CSS</span>
+                            <span class="tag">JavaScript</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3>تحليل المشاعر</h3>
+                        <p>نظام لتحليل المشاعر من النصوص باستخدام تقنيات الذكاء الاصطناعي</p>
+                        <div class="project-tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">NLP</span>
+                            <span class="tag">تحليل المشاعر</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3>اكتشاف الأجسام وتصنيف الصور</h3>
+                        <p>نظام للرؤية الحاسوبية لاكتشاف الأجسام وتصنيف الصور باستخدام الشبكات العصبية</p>
+                        <div class="project-tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">Computer Vision</span>
+                            <span class="tag">Deep Learning</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -580,17 +888,17 @@
 
     <div id="welcome-message" class="welcome-message hidden">
         <div class="container">
-            <h2>مرحباً بك في Peara</h2>
-            <p>نحن سعداء بانضمامك إلينا. يمكنك الآن استخدام جميع ميزات المنصة والاتصال بفريق الدعم</p>
+            <h2>مرحباً بك في موقعي الشخصي</h2>
+            <p>نحن سعداء بانضمامك إلينا. يمكنك الآن التواصل معي مباشرة</p>
         </div>
     </div>
 
-    <section class="formspree-section hidden" id="formspree-section">
+    <section class="contact hidden" id="formspree-section">
         <div class="container">
             <div class="form-container">
                 <div class="form-header">
-                    <h3>اتصل بنا</h3>
-                    <p>أرسل رسالتك وسنرد عليك قريباً</p>
+                    <h3>اتصل بي</h3>
+                    <p>أرسل رسالتك وسأرد عليك قريباً</p>
                 </div>
                 
                 <form id="formspree-form" class="form-body">
@@ -623,6 +931,28 @@
             </div>
         </div>
     </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="logo">
+                    <div class="logo-icon">م</div>
+                    <span>عبد المؤمن روابح</span>
+                </div>
+                
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>© 2023 جميع الحقوق محفوظة | عبد المؤمن روابح</p>
+            </div>
+        </div>
+    </footer>
 
     <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
     <script>
@@ -711,7 +1041,7 @@
                 const formData = new FormData();
                 
                 // الحقول الأساسية المطلوبة
-                formData.append('name', userData?.name || userData?.nickname || 'مستخدم Peara');
+                formData.append('name', userData?.name || userData?.nickname || 'مستخدم');
                 formData.append('email', userData?.email || '');
                 formData.append('subject', subject);
                 formData.append('message', message);
@@ -727,7 +1057,7 @@
                 const result = await submitToFormspree(formData);
 
                 if (result.success) {
-                    showNotification('🎉 تم إرسال رسالتك بنجاح! سنرد عليك قريباً.', 'success');
+                    showNotification('🎉 تم إرسال رسالتك بنجاح! سأرد عليك قريباً.', 'success');
                     // مسح النموذج
                     document.getElementById('formspree-form').reset();
                 } else {
@@ -751,7 +1081,7 @@
             try {
                 // استخدام x-www-form-urlencoded بدلاً من FormData
                 const data = new URLSearchParams();
-                data.append('name', userData?.name || userData?.nickname || 'مستخدم Peara');
+                data.append('name', userData?.name || userData?.nickname || 'مستخدم');
                 data.append('email', userData?.email || '');
                 data.append('subject', subject);
                 data.append('message', message);
@@ -853,7 +1183,7 @@
                 document.getElementById('menu-avatar').textContent = firstLetter;
                 document.getElementById('menu-name').textContent = userData.name || userData.nickname || 'مستخدم';
                 document.getElementById('menu-email').textContent = userData.email || 'لا يوجد بريد إلكتروني';
-                document.getElementById('auto-name').textContent = userData.name || userData.nickname || 'مستخدم Peara';
+                document.getElementById('auto-name').textContent = userData.name || userData.nickname || 'مستخدم';
                 document.getElementById('auto-email').textContent = userData.email || 'لا يوجد بريد إلكتروني';
                 
                 // التمرير إلى نموذج الاتصال
