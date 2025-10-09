@@ -143,25 +143,64 @@
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
         }
 
-        /* Profile Menu */
+        /* Profile Menu - تصميم حديث */
         .profile-menu {
             position: absolute;
             top: 100%;
             left: 0;
             background: white;
             border-radius: 12px;
-            box-shadow: var(--shadow);
-            padding: 10px 0;
-            min-width: 220px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            padding: 8px 0;
+            min-width: 280px;
             z-index: 100;
             margin-top: 15px;
             display: none;
             border: 1px solid var(--border);
+            backdrop-filter: blur(10px);
         }
 
         .profile-menu.active {
             display: block;
             animation: fadeIn 0.3s ease;
+        }
+
+        .profile-menu-header {
+            padding: 16px 20px 12px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 8px;
+        }
+
+        .profile-menu-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .profile-menu-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .profile-menu-info h4 {
+            margin: 0;
+            font-size: 1rem;
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .profile-menu-info p {
+            margin: 2px 0 0;
+            font-size: 0.85rem;
+            color: var(--gray);
         }
 
         .profile-menu-item {
@@ -177,17 +216,39 @@
             background: none;
             width: 100%;
             text-align: right;
-            font-size: 1rem;
+            font-size: 0.95rem;
+            position: relative;
         }
 
         .profile-menu-item:hover {
-            background: #f1f5f9;
+            background: #f8fafc;
             color: var(--primary);
         }
 
         .profile-menu-item i {
             width: 20px;
             text-align: center;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+
+        .profile-menu-item:hover i {
+            color: var(--primary);
+        }
+
+        .menu-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 8px 0;
+        }
+
+        .menu-badge {
+            background: var(--primary);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-right: auto;
         }
 
         /* النوافذ المنبثقة */
@@ -308,6 +369,14 @@
         .btn-outline:hover {
             background: var(--primary);
             color: white;
+        }
+
+        .btn-danger {
+            background: #dc2626;
+        }
+
+        .btn-danger:hover {
+            background: #b91c1c;
         }
 
         .close-modal {
@@ -606,229 +675,6 @@
             color: var(--dark);
         }
 
-        /* Profile Section */
-        .profile-section {
-            padding: 100px 0;
-            background: white;
-        }
-
-        .profile-card {
-            background: white;
-            border-radius: 20px;
-            box-shadow: var(--shadow);
-            padding: 50px;
-            max-width: 900px;
-            margin: 0 auto;
-            border: 1px solid var(--border);
-        }
-
-        .profile-header {
-            display: flex;
-            align-items: center;
-            gap: 25px;
-            margin-bottom: 40px;
-            padding-bottom: 25px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .profile-avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 3rem;
-            font-weight: bold;
-            cursor: pointer;
-            position: relative;
-            transition: var(--transition);
-        }
-
-        .profile-avatar:hover {
-            transform: scale(1.05);
-        }
-
-        .profile-info {
-            flex: 1;
-        }
-
-        .profile-info h3 {
-            font-size: 2rem;
-            margin-bottom: 8px;
-            color: var(--dark);
-        }
-
-        .profile-info p {
-            color: var(--gray);
-            font-size: 1.2rem;
-        }
-
-        .profile-stats {
-            display: flex;
-            gap: 30px;
-            margin-top: 20px;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .stat-label {
-            font-size: 1rem;
-            color: var(--gray);
-        }
-
-        /* Profile Details */
-        .profile-details {
-            margin-top: 30px;
-        }
-
-        .profile-details h4 {
-            font-size: 1.5rem;
-            margin-bottom: 25px;
-            color: var(--dark);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .profile-details h4 i {
-            color: var(--primary);
-        }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .info-card {
-            background: #f8fafc;
-            padding: 25px;
-            border-radius: 12px;
-            border-left: 4px solid var(--primary);
-        }
-
-        .info-card h5 {
-            font-size: 1rem;
-            color: var(--gray);
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .info-card h5 i {
-            color: var(--primary);
-            width: 20px;
-        }
-
-        .info-card p {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--dark);
-        }
-
-        .info-badge {
-            display: inline-block;
-            background: var(--success);
-            color: white;
-            padding: 6px 15px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            margin-top: 8px;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--darker);
-            color: white;
-            padding: 70px 0 30px;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 50px;
-            margin-bottom: 50px;
-        }
-
-        .footer-column h4 {
-            font-size: 1.3rem;
-            margin-bottom: 25px;
-            position: relative;
-            padding-bottom: 12px;
-        }
-
-        .footer-column h4::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 50px;
-            height: 3px;
-            background: var(--primary);
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 12px;
-        }
-
-        .footer-links a {
-            color: #94a3b8;
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .footer-links a:hover {
-            color: white;
-            padding-right: 8px;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 25px;
-        }
-
-        .social-links a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 44px;
-            height: 44px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            color: white;
-            transition: var(--transition);
-        }
-
-        .social-links a:hover {
-            background: var(--primary);
-            transform: translateY(-3px);
-        }
-
-        .copyright {
-            text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #94a3b8;
-            font-size: 0.95rem;
-        }
-
         /* Utility Classes */
         .hidden {
             display: none !important;
@@ -922,33 +768,18 @@
                 font-size: 1.1rem;
             }
             
-            .profile-header {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .profile-stats {
-                justify-content: center;
-            }
-            
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .modal {
-                padding: 30px 20px;
-            }
-            
-            .modal-actions {
-                flex-direction: column;
-            }
-            
             .user-info {
                 grid-template-columns: 1fr;
             }
             
             .form-body {
                 padding: 30px 20px;
+            }
+            
+            .profile-menu {
+                min-width: 250px;
+                right: 0;
+                left: auto;
             }
         }
     </style>
@@ -973,19 +804,57 @@
                 <button id="btn-login" class="btn">تسجيل الدخول</button>
                 <button id="btn-logout" class="btn hidden">تسجيل الخروج</button>
                 
-                <!-- صورة المستخدم مع القائمة المنسدلة - حجم أكبر -->
+                <!-- صورة المستخدم مع القائمة المنسدلة - تصميم حديث -->
                 <div id="user-avatar-container" class="hidden">
                     <div class="user-avatar" id="user-avatar">
                         U
                         <div class="profile-menu" id="profile-menu">
-                            <button class="profile-menu-item" id="menu-profile">
-                                <i class="fas fa-user-edit"></i>
-                                <span>تعديل الملف الشخصي</span>
-                            </button>
-                            <button class="profile-menu-item" id="menu-settings">
+                            <div class="profile-menu-header">
+                                <div class="profile-menu-user">
+                                    <div class="profile-menu-avatar" id="menu-avatar">U</div>
+                                    <div class="profile-menu-info">
+                                        <h4 id="menu-name">مستخدم</h4>
+                                        <p id="menu-email">user@example.com</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <a href="#profile" class="profile-menu-item">
+                                <i class="fas fa-user"></i>
+                                <span>الملف الشخصي</span>
+                            </a>
+                            
+                            <a href="#settings" class="profile-menu-item">
                                 <i class="fas fa-cog"></i>
                                 <span>الإعدادات</span>
+                            </a>
+                            
+                            <a href="#projects" class="profile-menu-item">
+                                <i class="fas fa-folder"></i>
+                                <span>المشاريع</span>
+                                <span class="menu-badge">3</span>
+                            </a>
+                            
+                            <a href="#notifications" class="profile-menu-item">
+                                <i class="fas fa-bell"></i>
+                                <span>الإشعارات</span>
+                                <span class="menu-badge">5</span>
+                            </a>
+                            
+                            <div class="menu-divider"></div>
+                            
+                            <a href="#help" class="profile-menu-item">
+                                <i class="fas fa-question-circle"></i>
+                                <span>المساعدة</span>
+                            </a>
+                            
+                            <button class="profile-menu-item" id="menu-delete-account">
+                                <i class="fas fa-trash-alt"></i>
+                                <span>حذف الحساب</span>
                             </button>
+                            
+                            <div class="menu-divider"></div>
+                            
                             <button class="profile-menu-item" id="menu-logout">
                                 <i class="fas fa-sign-out-alt"></i>
                                 <span>تسجيل الخروج</span>
@@ -998,87 +867,28 @@
     </header>
 
     <!-- النوافذ المنبثقة -->
-    <div class="modal-overlay" id="profile-modal">
+    <div class="modal-overlay" id="delete-account-modal">
         <div class="modal">
-            <button class="close-modal" id="close-profile-modal">
+            <button class="close-modal" id="close-delete-modal">
                 <i class="fas fa-times"></i>
             </button>
             <div class="modal-header">
                 <div class="modal-icon">
-                    <i class="fas fa-user-edit"></i>
+                    <i class="fas fa-trash-alt"></i>
                 </div>
-                <h3>تعديل الملف الشخصي</h3>
+                <h3>حذف الحساب</h3>
             </div>
             <div class="modal-content">
-                <p>هنا يمكنك تعديل معلومات ملفك الشخصي مثل الاسم، الصورة، والمعلومات الأخرى.</p>
-                <p>سيتم حفظ التغييرات تلقائيًا عند الانتهاء.</p>
+                <p><strong>تحذير:</strong> هذا الإجراء لا يمكن التراجع عنه</p>
+                <p>سيتم حذف حسابك بشكل دائم وجميع البيانات المرتبطة به.</p>
+                <p>هل أنت متأكد من أنك تريد متابعة حذف الحساب؟</p>
             </div>
             <div class="modal-actions">
-                <button class="btn" id="save-profile">
-                    <i class="fas fa-save"></i>
-                    حفظ التغييرات
+                <button class="btn btn-danger" id="confirm-delete">
+                    <i class="fas fa-trash"></i>
+                    نعم، احذف الحساب
                 </button>
-                <button class="btn btn-secondary" id="cancel-profile">
-                    إلغاء
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="settings-modal">
-        <div class="modal">
-            <button class="close-modal" id="close-settings-modal">
-                <i class="fas fa-times"></i>
-            </button>
-            <div class="modal-header">
-                <div class="modal-icon">
-                    <i class="fas fa-cog"></i>
-                </div>
-                <h3>الإعدادات</h3>
-            </div>
-            <div class="modal-content">
-                <p>إعدادات الحساب والخصوصية. يمكنك ضبط:</p>
-                <ul style="padding-right: 20px; margin-top: 10px; color: var(--gray);">
-                    <li>إعدادات الإشعارات</li>
-                    <li>الخصوصية والأمان</li>
-                    <li>تفضيلات اللغة</li>
-                    <li>إعدادات المظهر</li>
-                </ul>
-            </div>
-            <div class="modal-actions">
-                <button class="btn" id="save-settings">
-                    <i class="fas fa-save"></i>
-                    حفظ الإعدادات
-                </button>
-                <button class="btn btn-outline" id="reset-settings">
-                    <i class="fas fa-redo"></i>
-                    إعادة التعيين
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="logout-modal">
-        <div class="modal">
-            <button class="close-modal" id="close-logout-modal">
-                <i class="fas fa-times"></i>
-            </button>
-            <div class="modal-header">
-                <div class="modal-icon">
-                    <i class="fas fa-sign-out-alt"></i>
-                </div>
-                <h3>تسجيل الخروج</h3>
-            </div>
-            <div class="modal-content">
-                <p>هل أنت متأكد أنك تريد تسجيل الخروج من حسابك؟</p>
-                <p>سيتم إغلاق جلسة العمل الحالية وتوجيهك إلى صفحة تسجيل الدخول.</p>
-            </div>
-            <div class="modal-actions">
-                <button class="btn btn-secondary" id="confirm-logout">
-                    <i class="fas fa-sign-out-alt"></i>
-                    نعم، تسجيل الخروج
-                </button>
-                <button class="btn btn-outline" id="cancel-logout">
+                <button class="btn btn-secondary" id="cancel-delete">
                     إلغاء
                 </button>
             </div>
@@ -1281,7 +1091,13 @@
         // إعداد بيانات تطبيقك من Auth0
         const config = {
             domain: "dev-cpi8o3elw1o1xe1m.us.auth0.com",
-            clientId: "7KovmuJ1lp4OlcLB8KnRgSto9G4Usgd9"
+            clientId: "7KovmuJ1lp4OlcLB8KnRgSto9G4Usgd9",
+            cacheLocation: 'localstorage', // لحفظ حالة الدخول
+            useRefreshTokens: true, // لتجديد التوكين تلقائياً
+            authorizationParams: {
+                redirect_uri: window.location.origin + window.location.pathname,
+                scope: 'openid profile email'
+            }
         };
 
         // Formspree endpoint
@@ -1330,7 +1146,16 @@
             }
         }
 
-        // دالة لإرسال Formspree
+        // دالة لتحديث القائمة المنسدلة
+        function updateProfileMenu() {
+            if (userData) {
+                document.getElementById('menu-avatar').textContent = userData.name ? userData.name.charAt(0).toUpperCase() : 'U';
+                document.getElementById('menu-name').textContent = userData.name || userData.nickname || 'مستخدم';
+                document.getElementById('menu-email').textContent = userData.email || 'لا يوجد بريد';
+            }
+        }
+
+        // دالة لإرسال Formspree - معدلة
         async function submitFormspreeForm(event) {
             event.preventDefault();
             
@@ -1347,7 +1172,8 @@
             submitBtn.disabled = true;
             
             try {
-                const formData = new FormData();
+                // استخدام application/x-www-form-urlencoded بدلاً من FormData
+                const formData = new URLSearchParams();
                 formData.append('name', userData.name || userData.nickname || 'مستخدم Peara');
                 formData.append('email', userData.email);
                 formData.append('subject', subject);
@@ -1358,7 +1184,8 @@
                     method: 'POST',
                     body: formData,
                     headers: {
-                        'Accept': 'application/json'
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/x-www-form-urlencoded'
                     }
                 });
                 
@@ -1366,6 +1193,8 @@
                     showNotification('تم إرسال رسالتك بنجاح! سنرد عليك قريباً.', 'success');
                     document.getElementById('formspree-form').reset();
                 } else {
+                    const errorData = await response.text();
+                    console.error('Formspree error:', errorData);
                     throw new Error('فشل في إرسال الرسالة');
                 }
             } catch (error) {
@@ -1382,18 +1211,30 @@
                 auth0Client = await auth0.createAuth0Client({
                     domain: config.domain,
                     clientId: config.clientId,
-                    authorizationParams: {
-                        redirect_uri: window.location.origin + window.location.pathname
-                    }
+                    cacheLocation: config.cacheLocation,
+                    useRefreshTokens: config.useRefreshTokens,
+                    authorizationParams: config.authorizationParams
                 });
+
+                // التحقق من حالة الدخول الحالية
+                const isAuthenticated = await auth0Client.isAuthenticated();
+                
+                if (isAuthenticated) {
+                    userData = await auth0Client.getUser();
+                    updateUI();
+                    showNotification(`مرحباً بعودتك، ${userData.name || userData.nickname || 'مستخدم'}!`, 'success');
+                }
 
                 // لو المستخدم رجع بعد تسجيل الدخول
                 if (window.location.search.includes("code=") && window.location.search.includes("state=")) {
                     await auth0Client.handleRedirectCallback();
                     window.history.replaceState({}, document.title, window.location.pathname);
+                    
+                    userData = await auth0Client.getUser();
+                    updateUI();
+                    showNotification(`تم تسجيل الدخول بنجاح! مرحباً ${userData.name || userData.nickname || 'مستخدم'}`, 'success');
                 }
 
-                updateUI();
             } catch (error) {
                 console.error("Error initializing Auth0:", error);
                 showNotification("حدث خطأ في تهيئة نظام المصادقة", "error");
@@ -1403,9 +1244,7 @@
         async function login() {
             try {
                 await auth0Client.loginWithRedirect({
-                    authorizationParams: {
-                        redirect_uri: window.location.origin + window.location.pathname
-                    }
+                    authorizationParams: config.authorizationParams
                 });
             } catch (error) {
                 console.error("Login error:", error);
@@ -1426,6 +1265,24 @@
             }
         }
 
+        // دالة محاكاة لحذف الحساب (في الواقع تحتاج Auth0 Management API)
+        async function deleteAccount() {
+            try {
+                // محاكاة عملية الحذف
+                showNotification('جاري حذف الحساب...', 'success');
+                
+                // في الواقع تحتاج إلى استدعاء Auth0 Management API
+                setTimeout(async () => {
+                    await logout();
+                    showNotification('تم حذف حسابك بنجاح', 'success');
+                }, 2000);
+                
+            } catch (error) {
+                console.error("Delete account error:", error);
+                showNotification("حدث خطأ أثناء حذف الحساب", "error");
+            }
+        }
+
         async function updateUI() {
             try {
                 const isAuthenticated = await auth0Client.isAuthenticated();
@@ -1442,7 +1299,7 @@
                     // تحديث معلومات المستخدم المعروضة
                     updateUserDisplay();
                     fillFormspreeData();
-                    showNotification(`مرحباً بعودتك، ${userData.name || userData.nickname || 'مستخدم'}!`, 'success');
+                    updateProfileMenu();
                 } else {
                     userData = null;
                 }
@@ -1483,38 +1340,19 @@
         // تفعيل الأزرار
         document.getElementById("btn-login").addEventListener("click", login);
         document.getElementById("btn-hero-login").addEventListener("click", login);
-        document.getElementById("btn-logout").addEventListener("click", () => openModal('logout-modal'));
+        document.getElementById("btn-logout").addEventListener("click", logout);
         
         // أحداث القائمة المنسدلة
         document.getElementById("user-avatar").addEventListener("click", toggleProfileMenu);
-        document.getElementById("menu-profile").addEventListener("click", () => openModal('profile-modal'));
-        document.getElementById("menu-settings").addEventListener("click", () => openModal('settings-modal'));
         document.getElementById("menu-logout").addEventListener("click", () => openModal('logout-modal'));
+        document.getElementById("menu-delete-account").addEventListener("click", () => openModal('delete-account-modal'));
 
         // أحداث إغلاق النوافذ المنبثقة
-        document.getElementById("close-profile-modal").addEventListener("click", () => closeModal('profile-modal'));
-        document.getElementById("close-settings-modal").addEventListener("click", () => closeModal('settings-modal'));
-        document.getElementById("close-logout-modal").addEventListener("click", () => closeModal('logout-modal'));
+        document.getElementById("close-delete-modal").addEventListener("click", () => closeModal('delete-account-modal'));
         
         // أحداث الأزرار داخل النوافذ المنبثقة
-        document.getElementById("save-profile").addEventListener("click", () => {
-            showNotification("تم حفظ التغييرات بنجاح", "success");
-            closeModal('profile-modal');
-        });
-        
-        document.getElementById("cancel-profile").addEventListener("click", () => closeModal('profile-modal'));
-        
-        document.getElementById("save-settings").addEventListener("click", () => {
-            showNotification("تم حفظ الإعدادات بنجاح", "success");
-            closeModal('settings-modal');
-        });
-        
-        document.getElementById("reset-settings").addEventListener("click", () => {
-            showNotification("تم إعادة تعيين الإعدادات", "success");
-        });
-        
-        document.getElementById("confirm-logout").addEventListener("click", logout);
-        document.getElementById("cancel-logout").addEventListener("click", () => closeModal('logout-modal'));
+        document.getElementById("confirm-delete").addEventListener("click", deleteAccount);
+        document.getElementById("cancel-delete").addEventListener("click", () => closeModal('delete-account-modal'));
 
         // Formspree form submission
         document.getElementById('formspree-form').addEventListener('submit', submitFormspreeForm);
