@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>منصتي - تسجيل الدخول</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
     <style>
         :root {
             --primary: #2563eb;
@@ -321,6 +322,10 @@
             font-size: 1.2rem;
         }
 
+        .user-details {
+            text-align: right;
+        }
+
         .dashboard-content {
             padding: 30px;
             display: grid;
@@ -519,10 +524,44 @@
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
+            width: 100%;
+            justify-content: center;
         }
 
         .logout-btn:hover {
             background: #fecaca;
+        }
+
+        /* Auth0 Login Button */
+        .auth0-login {
+            background: #eb5424;
+            color: white;
+            border: none;
+        }
+
+        .auth0-login:hover {
+            background: #d1461f;
+        }
+
+        /* Loading Spinner */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         /* Responsive */
@@ -554,6 +593,12 @@
     </style>
 </head>
 <body>
+    <!-- Loading Spinner -->
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p>جاري التحميل...</p>
+    </div>
+
     <!-- Login Form -->
     <div class="container" id="login-container">
         <div class="login-card">
@@ -562,16 +607,27 @@
                 <p>موقعك الشخصي لإدارة المشاريع والتحديات</p>
             </div>
             
+            <div class="form-group">
+                <button id="auth0-login" class="btn auth0-login">
+                    <i class="fas fa-lock"></i>
+                    تسجيل الدخول باستخدام Auth0
+                </button>
+            </div>
+            
+            <div class="divider">
+                <span>أو</span>
+            </div>
+            
             <form id="login-form">
                 <div class="form-group">
                     <label for="email">البريد الإلكتروني</label>
-                    <input type="email" id="email" class="form-control" placeholder="أدخل بريدك الإلكتروني" required>
+                    <input type="email" id="email" class="form-control" placeholder="أدخل بريدك الإلكتروني">
                 </div>
                 
                 <div class="form-group">
                     <label for="password">كلمة المرور</label>
                     <div class="password-container">
-                        <input type="password" id="password" class="form-control" placeholder="أدخل كلمة المرور" required>
+                        <input type="password" id="password" class="form-control" placeholder="أدخل كلمة المرور">
                         <button type="button" class="toggle-password" id="toggle-password">
                             <i class="far fa-eye"></i>
                         </button>
@@ -590,26 +646,11 @@
                     <i class="fas fa-sign-in-alt"></i>
                     تسجيل الدخول
                 </button>
-                
-                <div class="divider">
-                    <span>أو</span>
-                </div>
-                
-                <div class="social-login">
-                    <button type="button" class="btn btn-social">
-                        <i class="fab fa-google"></i>
-                        جوجل
-                    </button>
-                    <button type="button" class="btn btn-social">
-                        <i class="fab fa-github"></i>
-                        جيت هاب
-                    </button>
-                </div>
-                
-                <div class="register-link">
-                    ليس لديك حساب؟ <a href="#" id="register-link">إنشاء حساب جديد</a>
-                </div>
             </form>
+            
+            <div class="register-link">
+                ليس لديك حساب؟ <a href="#" id="register-link">إنشاء حساب جديد</a>
+            </div>
         </div>
         
         <div class="info-section">
@@ -665,10 +706,10 @@
         <div class="dashboard-header">
             <h1>لوحة التحكم - منصتي</h1>
             <div class="user-info">
-                <div class="user-avatar">ع</div>
-                <div>
-                    <div>عبد المؤمن روابح</div>
-                    <div style="font-size: 0.9rem; opacity: 0.8;">مطور ويب ومبرمج</div>
+                <div class="user-avatar" id="user-avatar">?</div>
+                <div class="user-details">
+                    <div id="user-name">المستخدم</div>
+                    <div id="user-email" style="font-size: 0.9rem; opacity: 0.8;">user@example.com</div>
                 </div>
             </div>
         </div>
@@ -776,52 +817,154 @@
     </div>
 
     <script>
-        // Toggle password visibility
-        document.getElementById('toggle-password').addEventListener('click', function() {
-            const passwordInput = document.getElementById('password');
-            const icon = this.querySelector('i');
-            
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            } else {
-                passwordInput.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
+        // تكوين Auth0
+        const auth0Config = {
+            domain: "dev-your-domain.auth0.com", // استبدل هذا بالنطاق الخاص بك
+            clientId: "your-client-id", // استبدل هذا بمعرف العميل الخاص بك
+            authorizationParams: {
+                redirect_uri: window.location.origin
+            },
+            cacheLocation: 'localstorage'
+        };
+
+        // إنشاء عميل Auth0
+        let auth0Client;
+
+        // تهيئة تطبيق Auth0
+        async function initializeAuth0() {
+            try {
+                auth0Client = await createAuth0Client(auth0Config);
+                
+                // التحقق مما إذا كان المستخدم مسجلاً بالفعل
+                const isAuthenticated = await auth0Client.isAuthenticated();
+                
+                if (isAuthenticated) {
+                    await handleRedirectCallback();
+                    showDashboard();
+                }
+            } catch (error) {
+                console.error('خطأ في تهيئة Auth0:', error);
+            } finally {
+                document.getElementById('loading').style.display = 'none';
             }
-        });
-        
-        // Login form submission
-        document.getElementById('login-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            
-            // Simple validation
-            if (email && password) {
-                // Hide login and show dashboard
-                document.getElementById('login-container').style.display = 'none';
-                document.getElementById('dashboard').style.display = 'block';
-            } else {
-                alert('يرجى ملء جميع الحقول');
+        }
+
+        // معالجة رد الاتصال بعد إعادة التوجيه
+        async function handleRedirectCallback() {
+            try {
+                const result = await auth0Client.handleRedirectCallback();
+                console.log('تم تسجيل الدخول بنجاح:', result);
+            } catch (error) {
+                console.error('خطأ في معالجة رد الاتصال:', error);
             }
-        });
-        
-        // Logout functionality
-        document.getElementById('logout-btn').addEventListener('click', function() {
-            document.getElementById('dashboard').style.display = 'none';
-            document.getElementById('login-container').style.display = 'grid';
+        }
+
+        // تسجيل الدخول باستخدام Auth0
+        async function loginWithAuth0() {
+            try {
+                document.getElementById('loading').style.display = 'block';
+                await auth0Client.loginWithRedirect({
+                    authorizationParams: {
+                        redirect_uri: window.location.origin
+                    }
+                });
+            } catch (error) {
+                console.error('خطأ في تسجيل الدخول:', error);
+                document.getElementById('loading').style.display = 'none';
+            }
+        }
+
+        // تسجيل الخروج
+        async function logout() {
+            try {
+                document.getElementById('loading').style.display = 'block';
+                await auth0Client.logout({
+                    logoutParams: {
+                        returnTo: window.location.origin
+                    }
+                });
+            } catch (error) {
+                console.error('خطأ في تسجيل الخروج:', error);
+                document.getElementById('loading').style.display = 'none';
+            }
+        }
+
+        // عرض لوحة التحكم
+        async function showDashboard() {
+            try {
+                const user = await auth0Client.getUser();
+                
+                if (user) {
+                    // تحديث معلومات المستخدم
+                    document.getElementById('user-name').textContent = user.name || 'المستخدم';
+                    document.getElementById('user-email').textContent = user.email || 'user@example.com';
+                    
+                    // إنشاء الصورة الرمزية من الحرف الأول من الاسم
+                    if (user.name) {
+                        document.getElementById('user-avatar').textContent = user.name.charAt(0).toUpperCase();
+                    }
+                    
+                    // إظهار لوحة التحكم وإخفاء نموذج تسجيل الدخول
+                    document.getElementById('dashboard').style.display = 'block';
+                    document.getElementById('login-container').style.display = 'none';
+                }
+            } catch (error) {
+                console.error('خطأ في جلب بيانات المستخدم:', error);
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+            }
+        }
+
+        // تهيئة التطبيق عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeAuth0();
             
-            // Reset form
-            document.getElementById('login-form').reset();
-        });
-        
-        // Register link
-        document.getElementById('register-link').addEventListener('click', function(e) {
-            e.preventDefault();
-            alert('سيتم توجيهك إلى صفحة إنشاء حساب جديد');
+            // إضافة مستمعي الأحداث
+            document.getElementById('auth0-login').addEventListener('click', loginWithAuth0);
+            document.getElementById('logout-btn').addEventListener('click', logout);
+            
+            // Toggle password visibility
+            document.getElementById('toggle-password').addEventListener('click', function() {
+                const passwordInput = document.getElementById('password');
+                const icon = this.querySelector('i');
+                
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    passwordInput.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            });
+            
+            // Login form submission (بديل محلي)
+            document.getElementById('login-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                
+                // Simple validation
+                if (email && password) {
+                    // استخدام تسجيل دخول محلي بدلاً من Auth0
+                    document.getElementById('user-name').textContent = "عبد المؤمن روابح";
+                    document.getElementById('user-email').textContent = email;
+                    document.getElementById('user-avatar').textContent = "ع";
+                    
+                    document.getElementById('login-container').style.display = 'none';
+                    document.getElementById('dashboard').style.display = 'block';
+                } else {
+                    alert('يرجى ملء جميع الحقول');
+                }
+            });
+            
+            // Register link
+            document.getElementById('register-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('لإنشاء حساب جديد، يرجى استخدام زر تسجيل الدخول عبر Auth0');
+            });
         });
     </script>
 </body>
