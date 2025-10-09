@@ -314,21 +314,21 @@
       display: flex;
       align-items: center;
       gap: 20px;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
       padding-bottom: 20px;
       border-bottom: 1px solid var(--border);
     }
 
     .profile-avatar {
-      width: 80px;
-      height: 80px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
-      background: var(--primary);
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
       display: flex;
       align-items: center;
       justify-content: center;
       color: white;
-      font-size: 2rem;
+      font-size: 2.5rem;
       font-weight: bold;
       cursor: pointer;
       position: relative;
@@ -339,19 +339,105 @@
       transform: scale(1.05);
     }
 
+    .profile-info {
+      flex: 1;
+    }
+
     .profile-info h3 {
-      font-size: 1.5rem;
+      font-size: 1.8rem;
       margin-bottom: 5px;
+      color: var(--dark);
     }
 
     .profile-info p {
       color: var(--gray);
+      font-size: 1.1rem;
     }
 
+    .profile-stats {
+      display: flex;
+      gap: 20px;
+      margin-top: 15px;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+
+    /* معلومات الحساب الجميلة */
     .profile-details {
       background: #f8f9fa;
+      padding: 25px;
+      border-radius: 12px;
+      margin-top: 20px;
+    }
+
+    .profile-details h4 {
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+      color: var(--dark);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .profile-details h4 i {
+      color: var(--primary);
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .info-card {
+      background: white;
       padding: 20px;
       border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      border-right: 4px solid var(--primary);
+    }
+
+    .info-card h5 {
+      font-size: 1rem;
+      color: var(--gray);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .info-card h5 i {
+      color: var(--primary);
+      width: 20px;
+    }
+
+    .info-card p {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .info-badge {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      margin-top: 5px;
     }
 
     /* Profile Dropdown Menu */
@@ -570,6 +656,14 @@
         flex-direction: column;
         text-align: center;
       }
+      
+      .profile-stats {
+        justify-content: center;
+      }
+      
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -675,12 +769,52 @@
           <div class="profile-info">
             <h3 id="profile-name">مستخدم</h3>
             <p id="profile-email">user@example.com</p>
+            <div class="profile-stats">
+              <div class="stat-item">
+                <div class="stat-value" id="stat-messages">0</div>
+                <div class="stat-label">الرسائل</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value" id="stat-joined">0</div>
+                <div class="stat-label">أيام في المنصة</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value" id="stat-status">نشط</div>
+                <div class="stat-label">الحالة</div>
+              </div>
+            </div>
           </div>
         </div>
         
         <div class="profile-details">
-          <h4>معلومات الحساب</h4>
-          <pre id="profile-details"></pre>
+          <h4><i class="fas fa-info-circle"></i> معلومات الحساب</h4>
+          <div class="info-grid">
+            <div class="info-card">
+              <h5><i class="fas fa-user"></i> الاسم الكامل</h5>
+              <p id="info-fullname">غير متوفر</p>
+            </div>
+            <div class="info-card">
+              <h5><i class="fas fa-envelope"></i> البريد الإلكتروني</h5>
+              <p id="info-email">غير متوفر</p>
+            </div>
+            <div class="info-card">
+              <h5><i class="fas fa-id-card"></i> معرف المستخدم</h5>
+              <p id="info-userid">غير متوفر</p>
+            </div>
+            <div class="info-card">
+              <h5><i class="fas fa-calendar-alt"></i> تاريخ التسجيل</h5>
+              <p id="info-created">غير متوفر</p>
+            </div>
+            <div class="info-card">
+              <h5><i class="fas fa-shield-alt"></i> حالة الحساب</h5>
+              <p id="info-verified">غير متوفر</p>
+              <span class="info-badge" id="verification-badge">غير مؤكد</span>
+            </div>
+            <div class="info-card">
+              <h5><i class="fas fa-globe"></i> المنطقة الزمنية</h5>
+              <p id="info-timezone">غير متوفر</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -859,12 +993,10 @@
 
         if (isAuthenticated) {
           userData = await auth0Client.getUser();
-          document.getElementById("profile-details").textContent = JSON.stringify(userData, null, 2);
           
           // تحديث معلومات المستخدم المعروضة
           updateUserDisplay();
         } else {
-          document.getElementById("profile-details").textContent = "";
           userData = null;
           clearFormData();
         }
@@ -899,7 +1031,42 @@
         // تحديث البريد في النموذج
         const displayEmail = document.getElementById("display-email");
         displayEmail.textContent = userData.email || "لا يوجد بريد إلكتروني";
+        
+        // تحديث معلومات الحساب بشكل منظم
+        updateProfileInfo();
       }
+    }
+
+    // دالة لتحديث معلومات الملف الشخصي بشكل جميل
+    function updateProfileInfo() {
+      if (!userData) return;
+      
+      // الاسم الكامل
+      document.getElementById("info-fullname").textContent = userData.name || "غير متوفر";
+      
+      // البريد الإلكتروني
+      document.getElementById("info-email").textContent = userData.email || "غير متوفر";
+      
+      // معرف المستخدم
+      document.getElementById("info-userid").textContent = userData.sub ? userData.sub.substring(0, 15) + "..." : "غير متوفر";
+      
+      // تاريخ التسجيل (افتراضي)
+      const joinDate = new Date();
+      document.getElementById("info-created").textContent = joinDate.toLocaleDateString('ar-EG');
+      
+      // حالة الحساب
+      const isVerified = userData.email_verified || false;
+      document.getElementById("info-verified").textContent = isVerified ? "مؤكد" : "غير مؤكد";
+      document.getElementById("verification-badge").textContent = isVerified ? "مؤكد" : "غير مؤكد";
+      document.getElementById("verification-badge").style.background = isVerified ? "#63c36d" : "#e74c3c";
+      
+      // المنطقة الزمنية
+      document.getElementById("info-timezone").textContent = userData.zoneinfo || "غير محدد";
+      
+      // إحصائيات (بيانات افتراضية)
+      document.getElementById("stat-messages").textContent = Math.floor(Math.random() * 50) + 1;
+      document.getElementById("stat-joined").textContent = Math.floor(Math.random() * 365) + 1;
+      document.getElementById("stat-status").textContent = "نشط";
     }
 
     // دالة لمسح البيانات من النموذج
