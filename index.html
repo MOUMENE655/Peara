@@ -423,6 +423,216 @@
             font-weight: bold;
         }
 
+        /* Projects Section */
+        .projects {
+            padding: 100px 0;
+            background: white;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .project-image {
+            height: 200px;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .project-content {
+            padding: 25px;
+        }
+
+        .project-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .project-content p {
+            color: var(--gray);
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .project-tag {
+            background: #f1f5f9;
+            color: var(--dark);
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        /* Courses Section */
+        .courses {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .course-header {
+            background: var(--gradient);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .course-header h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .course-duration {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .course-content {
+            padding: 25px;
+        }
+
+        .course-features {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .course-features li {
+            padding: 8px 0;
+            color: var(--gray);
+            position: relative;
+            padding-right: 25px;
+        }
+
+        .course-features li::before {
+            content: '✓';
+            position: absolute;
+            right: 0;
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        .course-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 100px 0;
+            background: white;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 4rem;
+            color: var(--accent);
+            opacity: 0.3;
+            font-family: serif;
+        }
+
+        .testimonial-text {
+            color: var(--gray);
+            line-height: 1.7;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .author-info h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+
+        .author-info p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
         /* Contact Section */
         .contact {
             padding: 100px 0;
@@ -609,7 +819,7 @@
                 grid-template-columns: 1fr;
             }
             
-            .services-grid {
+            .services-grid, .projects-grid, .courses-grid, .testimonials-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -628,6 +838,9 @@
                 <a href="#home">الرئيسية</a>
                 <a href="#about">عنّي</a>
                 <a href="#services">الخدمات</a>
+                <a href="#projects">مشاريعي</a>
+                <a href="#courses">دوراتي</a>
+                <a href="#testimonials">آراء العملاء</a>
                 <a href="#contact">اتصل بي</a>
             </nav>
             
@@ -697,6 +910,8 @@
                             <span class="badge">AI/ML</span>
                             <span class="badge">JavaScript</span>
                             <span class="badge">Game Dev</span>
+                            <span class="badge">Godot</span>
+                            <span class="badge">React</span>
                         </div>
                     </div>
                 </div>
@@ -780,6 +995,198 @@
                         <i class="fas fa-shopping-cart"></i>
                         اشترك الآن
                     </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects" id="projects">
+        <div class="container">
+            <div class="section-title">
+                <h2>مشاريعي</h2>
+                <p>أبرز المشاريع التي قمت بتطويرها مؤخراً</p>
+            </div>
+            
+            <div class="projects-grid">
+                <!-- Project 1 -->
+                <div class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3>مساعد ذكي للتعلم</h3>
+                        <p>نظام ذكاء اصطناعي يساعد الطلاب في فهم المواد الدراسية المعقدة ويقدم شرحاً مبسطاً لها.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">Python</span>
+                            <span class="project-tag">AI</span>
+                            <span class="project-tag">NLP</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3>لعبة المغامرات</h3>
+                        <p>لعبة مغامرات ثنائية الأبعاد تم تطويرها باستخدام محرك Godot، تتميز برسوميات جماعية وقصة شيقة.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">Godot</span>
+                            <span class="project-tag">GDScript</span>
+                            <span class="project-tag">Game Dev</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3>منصة تجارة إلكترونية</h3>
+                        <p>منصة متكاملة للتجارة الإلكترونية مع نظام دفع آمن وإدارة للمخزون وتقارير مبيعات مفصلة.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">React</span>
+                            <span class="project-tag">Node.js</span>
+                            <span class="project-tag">MongoDB</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Courses Section -->
+    <section class="courses" id="courses">
+        <div class="container">
+            <div class="section-title">
+                <h2>دوراتي التعليمية</h2>
+                <p>تعلم المهارات التقنية الأكثر طلباً في سوق العمل</p>
+            </div>
+            
+            <div class="courses-grid">
+                <!-- Course 1 -->
+                <div class="course-card">
+                    <div class="course-header">
+                        <h3>مقدمة في الذكاء الاصطناعي</h3>
+                        <div class="course-duration">
+                            <i class="far fa-clock"></i>
+                            <span>6 أسابيع</span>
+                        </div>
+                    </div>
+                    <div class="course-content">
+                        <ul class="course-features">
+                            <li>أساسيات الذكاء الاصطناعي وتطبيقاته</li>
+                            <li>تعلم الآلة والشبكات العصبية</li>
+                            <li>مشاريع عملية تطبيقية</li>
+                            <li>شهادة إتمام معتمدة</li>
+                        </ul>
+                        <div class="course-price">8,000 د.ج</div>
+                        <a href="#contact" class="btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-shopping-cart"></i>
+                            سجل الآن
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Course 2 -->
+                <div class="course-card">
+                    <div class="course-header">
+                        <h3>تطوير الألعاب للمبتدئين</h3>
+                        <div class="course-duration">
+                            <i class="far fa-clock"></i>
+                            <span>8 أسابيع</span>
+                        </div>
+                    </div>
+                    <div class="course-content">
+                        <ul class="course-features">
+                            <li>مقدمة في برمجة الألعاب</li>
+                            <li>استخدام محرك Godot</li>
+                            <li>تصميم الشخصيات والبيئات</li>
+                            <li>نشر اللعبة على منصات مختلفة</li>
+                        </ul>
+                        <div class="course-price">7,500 د.ج</div>
+                        <a href="#contact" class="btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-shopping-cart"></i>
+                            سجل الآن
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Course 3 -->
+                <div class="course-card">
+                    <div class="course-header">
+                        <h3>تطوير الويب المتقدم</h3>
+                        <div class="course-duration">
+                            <i class="far fa-clock"></i>
+                            <span>10 أسابيع</span>
+                        </div>
+                    </div>
+                    <div class="course-content">
+                        <ul class="course-features">
+                            <li>HTML5 و CSS3 متقدم</li>
+                            <li>JavaScript و ES6+</li>
+                            <li>إطار العمل React</li>
+                            <li>تطوير تطبيقات ويب ديناميكية</li>
+                        </ul>
+                        <div class="course-price">9,000 د.ج</div>
+                        <a href="#contact" class="btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-shopping-cart"></i>
+                            سجل الآن
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>آراء العملاء</h2>
+                <p>ماذا يقول طلابي عن تجربتهم مع دوراتي</p>
+            </div>
+            
+            <div class="testimonials-grid">
+                <!-- Testimonial 1 -->
+                <div class="testimonial-card">
+                    <p class="testimonial-text">دورة الذكاء الاصطناعي كانت رائعة! استطعت فهم مفاهيم معقدة بسهولة بفضل أسلوب عبد المؤمن المبسط والعملي. أنصح الجميع بالالتحاق بدوراته.</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">أ</div>
+                        <div class="author-info">
+                            <h4>أحمد بوعزة</h4>
+                            <p>طالب في دورة الذكاء الاصطناعي</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="testimonial-card">
+                    <p class="testimonial-text">تعلمت تطوير الألعاب من الصفر مع عبد المؤمن، والآن لدي لعبتي الخاصة على متجر التطبيقات. الشكر الجزيل له على دعمه المستمر حتى بعد انتهاء الدورة.</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">س</div>
+                        <div class="author-info">
+                            <h4>سارة قاسمي</h4>
+                            <p>طالبة في دورة تطوير الألعاب</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="testimonial-card">
+                    <p class="testimonial-text">كنت أعتقد أن البرمجة صعبة، لكن بعد دورة تطوير الويب مع عبد المؤمن، استطعت إنشاء موقعي الشخصي خلال أسابيع قليلة. طريقة الشرح واضحة والمشاريع عملية.</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">ي</div>
+                        <div class="author-info">
+                            <h4>ياسمين زروقي</h4>
+                            <p>طالبة في دورة تطوير الويب</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -881,6 +1288,7 @@
                         <a href="#"><i class="fab fa-twitter"></i></a>
                         <a href="#"><i class="fab fa-instagram"></i></a>
                         <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
                 
@@ -890,7 +1298,8 @@
                         <li><a href="#home">الرئيسية</a></li>
                         <li><a href="#about">عنّي</a></li>
                         <li><a href="#services">الخدمات</a></li>
-                        <li><a href="#contact">اتصل بي</a></li>
+                        <li><a href="#projects">مشاريعي</a></li>
+                        <li><a href="#courses">دوراتي</a></li>
                     </ul>
                 </div>
                 
@@ -901,6 +1310,7 @@
                         <li><a href="#services">تطوير الألعاب</a></li>
                         <li><a href="#services">تطوير الويب</a></li>
                         <li><a href="#services">استشارات تقنية</a></li>
+                        <li><a href="#services">دروس خصوصية</a></li>
                     </ul>
                 </div>
                 
@@ -911,6 +1321,7 @@
                         <li><a href="#">سياسة الخصوصية</a></li>
                         <li><a href="#">شروط الاستخدام</a></li>
                         <li><a href="#contact">الدعم الفني</a></li>
+                        <li><a href="#contact">اتصل بنا</a></li>
                     </ul>
                 </div>
             </div>
