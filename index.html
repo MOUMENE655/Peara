@@ -119,7 +119,7 @@
             align-items: center;
         }
 
-        /* أيقونة الحساب - أكبر حجمًا */
+        /* أيقونة الحساب */
         .user-avatar {
             width: 50px;
             height: 50px;
@@ -143,7 +143,7 @@
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
         }
 
-        /* Profile Menu - تصميم حديث */
+        /* Profile Menu */
         .profile-menu {
             position: absolute;
             top: 100%;
@@ -804,7 +804,7 @@
                 <button id="btn-login" class="btn">تسجيل الدخول</button>
                 <button id="btn-logout" class="btn hidden">تسجيل الخروج</button>
                 
-                <!-- صورة المستخدم مع القائمة المنسدلة - تصميم حديث -->
+                <!-- صورة المستخدم مع القائمة المنسدلة -->
                 <div id="user-avatar-container" class="hidden">
                     <div class="user-avatar" id="user-avatar">
                         U
@@ -889,6 +889,33 @@
                     نعم، احذف الحساب
                 </button>
                 <button class="btn btn-secondary" id="cancel-delete">
+                    إلغاء
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="logout-modal">
+        <div class="modal">
+            <button class="close-modal" id="close-logout-modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <i class="fas fa-sign-out-alt"></i>
+                </div>
+                <h3>تسجيل الخروج</h3>
+            </div>
+            <div class="modal-content">
+                <p>هل أنت متأكد أنك تريد تسجيل الخروج من حسابك؟</p>
+                <p>سيتم إغلاق جلسة العمل الحالية وتوجيهك إلى صفحة تسجيل الدخول.</p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="confirm-logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    نعم، تسجيل الخروج
+                </button>
+                <button class="btn btn-outline" id="cancel-logout">
                     إلغاء
                 </button>
             </div>
@@ -1092,15 +1119,15 @@
         const config = {
             domain: "dev-cpi8o3elw1o1xe1m.us.auth0.com",
             clientId: "7KovmuJ1lp4OlcLB8KnRgSto9G4Usgd9",
-            cacheLocation: 'localstorage', // لحفظ حالة الدخول
-            useRefreshTokens: true, // لتجديد التوكين تلقائياً
+            cacheLocation: 'localstorage',
+            useRefreshTokens: true,
             authorizationParams: {
                 redirect_uri: window.location.origin + window.location.pathname,
                 scope: 'openid profile email'
             }
         };
 
-        // Formspree endpoint
+        // Formspree endpoint - تم التأكد من الرابط
         const FORMSPREE_ENDPOINT = "https://formspree.io/f/xvgwbdan";
 
         let auth0Client;
@@ -1128,7 +1155,6 @@
         function openModal(modalId) {
             const modal = document.getElementById(modalId);
             modal.classList.add('active');
-            // إغلاق القائمة المنسدلة
             document.getElementById('profile-menu').classList.remove('active');
         }
 
@@ -1149,13 +1175,16 @@
         // دالة لتحديث القائمة المنسدلة
         function updateProfileMenu() {
             if (userData) {
-                document.getElementById('menu-avatar').textContent = userData.name ? userData.name.charAt(0).toUpperCase() : 'U';
+                const firstLetter = userData.name ? userData.name.charAt(0).toUpperCase() : 
+                                userData.nickname ? userData.nickname.charAt(0).toUpperCase() : 'U';
+                
+                document.getElementById('menu-avatar').textContent = firstLetter;
                 document.getElementById('menu-name').textContent = userData.name || userData.nickname || 'مستخدم';
                 document.getElementById('menu-email').textContent = userData.email || 'لا يوجد بريد';
             }
         }
 
-        // دالة لإرسال Formspree - معدلة
+        // دالة لإرسال Formspree - الإصاح النهائي
         async function submitFormspreeForm(event) {
             event.preventDefault();
             
@@ -1172,34 +1201,36 @@
             submitBtn.disabled = true;
             
             try {
-                // استخدام application/x-www-form-urlencoded بدلاً من FormData
-                const formData = new URLSearchParams();
+                // الطريقة الصحيحة لإرسال البيانات إلى Formspree
+                const formData = new FormData();
                 formData.append('name', userData.name || userData.nickname || 'مستخدم Peara');
                 formData.append('email', userData.email);
                 formData.append('subject', subject);
                 formData.append('message', message);
                 formData.append('_replyto', userData.email);
+                formData.append('_format', 'plain');
                 
                 const response = await fetch(FORMSPREE_ENDPOINT, {
                     method: 'POST',
                     body: formData,
                     headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/x-www-form-urlencoded'
+                        'Accept': 'application/json'
                     }
                 });
                 
                 if (response.ok) {
                     showNotification('تم إرسال رسالتك بنجاح! سنرد عليك قريباً.', 'success');
-                    document.getElementById('formspree-form').reset();
+                    // مسح الحقول بعد الإرسال الناجح
+                    document.getElementById('subject').value = '';
+                    document.getElementById('message').value = '';
                 } else {
-                    const errorData = await response.text();
-                    console.error('Formspree error:', errorData);
-                    throw new Error('فشل في إرسال الرسالة');
+                    const errorText = await response.text();
+                    console.error('Formspree error response:', errorText);
+                    throw new Error(`فشل في الإرسال: ${response.status}`);
                 }
             } catch (error) {
                 console.error('Error submitting form:', error);
-                showNotification('حدث خطأ في إرسال الرسالة. يرجى المحاولة مرة أخرى.', 'error');
+                showNotification('حدث خطأ في إرسال الرسالة. يرجى التحقق من الاتصال بالإنترنت والمحاولة مرة أخرى.', 'error');
             } finally {
                 submitBtn.classList.remove('loading');
                 submitBtn.disabled = false;
@@ -1225,14 +1256,19 @@
                     showNotification(`مرحباً بعودتك، ${userData.name || userData.nickname || 'مستخدم'}!`, 'success');
                 }
 
-                // لو المستخدم رجع بعد تسجيل الدخول
+                // معالجة redirect callback
                 if (window.location.search.includes("code=") && window.location.search.includes("state=")) {
-                    await auth0Client.handleRedirectCallback();
-                    window.history.replaceState({}, document.title, window.location.pathname);
-                    
-                    userData = await auth0Client.getUser();
-                    updateUI();
-                    showNotification(`تم تسجيل الدخول بنجاح! مرحباً ${userData.name || userData.nickname || 'مستخدم'}`, 'success');
+                    try {
+                        await auth0Client.handleRedirectCallback();
+                        window.history.replaceState({}, document.title, window.location.pathname);
+                        
+                        userData = await auth0Client.getUser();
+                        updateUI();
+                        showNotification(`تم تسجيل الدخول بنجاح! مرحباً ${userData.name || userData.nickname || 'مستخدم'}`, 'success');
+                    } catch (error) {
+                        console.error("Error handling redirect:", error);
+                        showNotification("حدث خطأ أثناء معالجة تسجيل الدخول", "error");
+                    }
                 }
 
             } catch (error) {
@@ -1254,6 +1290,10 @@
 
         async function logout() {
             try {
+                // مسح البيانات المحلية أولاً
+                localStorage.removeItem('auth0-cache');
+                sessionStorage.removeItem('auth0-cache');
+                
                 await auth0Client.logout({
                     logoutParams: {
                         returnTo: window.location.origin + window.location.pathname
@@ -1265,13 +1305,12 @@
             }
         }
 
-        // دالة محاكاة لحذف الحساب (في الواقع تحتاج Auth0 Management API)
+        // دالة محاكاة لحذف الحساب
         async function deleteAccount() {
             try {
-                // محاكاة عملية الحذف
                 showNotification('جاري حذف الحساب...', 'success');
                 
-                // في الواقع تحتاج إلى استدعاء Auth0 Management API
+                // محاكاة عملية الحذف
                 setTimeout(async () => {
                     await logout();
                     showNotification('تم حذف حسابك بنجاح', 'success');
@@ -1294,9 +1333,10 @@
                 document.getElementById("formspree-section").classList.toggle("hidden", !isAuthenticated);
 
                 if (isAuthenticated) {
-                    userData = await auth0Client.getUser();
+                    if (!userData) {
+                        userData = await auth0Client.getUser();
+                    }
                     
-                    // تحديث معلومات المستخدم المعروضة
                     updateUserDisplay();
                     fillFormspreeData();
                     updateProfileMenu();
@@ -1308,26 +1348,20 @@
             }
         }
 
-        // دالة لتحديث عرض معلومات المستخدم
         function updateUserDisplay() {
             if (userData) {
-                // تحديث الصورة الرمزية في الهيدر
                 const userAvatar = document.getElementById("user-avatar");
-                if (userData.name) {
-                    userAvatar.textContent = userData.name.charAt(0).toUpperCase();
-                } else if (userData.nickname) {
-                    userAvatar.textContent = userData.nickname.charAt(0).toUpperCase();
-                }
+                const firstLetter = userData.name ? userData.name.charAt(0).toUpperCase() : 
+                                  userData.nickname ? userData.nickname.charAt(0).toUpperCase() : 'U';
+                userAvatar.textContent = firstLetter;
             }
         }
 
-        // إظهار/إخفاء القائمة المنسدلة للصورة
         function toggleProfileMenu() {
             const profileMenu = document.getElementById("profile-menu");
             profileMenu.classList.toggle("active");
         }
 
-        // إغلاق القائمة المنسدلة عند النقر خارجها
         function closeProfileMenu(event) {
             const profileMenu = document.getElementById("profile-menu");
             const userAvatar = document.getElementById("user-avatar");
@@ -1340,7 +1374,7 @@
         // تفعيل الأزرار
         document.getElementById("btn-login").addEventListener("click", login);
         document.getElementById("btn-hero-login").addEventListener("click", login);
-        document.getElementById("btn-logout").addEventListener("click", logout);
+        document.getElementById("btn-logout").addEventListener("click", () => openModal('logout-modal'));
         
         // أحداث القائمة المنسدلة
         document.getElementById("user-avatar").addEventListener("click", toggleProfileMenu);
@@ -1349,10 +1383,13 @@
 
         // أحداث إغلاق النوافذ المنبثقة
         document.getElementById("close-delete-modal").addEventListener("click", () => closeModal('delete-account-modal'));
+        document.getElementById("close-logout-modal").addEventListener("click", () => closeModal('logout-modal'));
         
         // أحداث الأزرار داخل النوافذ المنبثقة
         document.getElementById("confirm-delete").addEventListener("click", deleteAccount);
         document.getElementById("cancel-delete").addEventListener("click", () => closeModal('delete-account-modal'));
+        document.getElementById("confirm-logout").addEventListener("click", logout);
+        document.getElementById("cancel-logout").addEventListener("click", () => closeModal('logout-modal'));
 
         // Formspree form submission
         document.getElementById('formspree-form').addEventListener('submit', submitFormspreeForm);
