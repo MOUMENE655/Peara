@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عبد المؤمن روابح - منصة التعلم الذكي</title>
+    <title>منصتي - تسجيل الدخول</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --olive-dark: #556B2F;
-            --olive: #6B8E23;
-            --olive-light: #8FBC8F;
-            --olive-lighter: #BCDA9E;
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #7c3aed;
+            --accent: #06d6a0;
             --dark: #1e293b;
             --darker: #0f172a;
             --light: #f8fafc;
@@ -18,7 +18,7 @@
             --border: #e2e8f0;
             --success: #10b981;
             --warning: #f59e0b;
-            --gradient: linear-gradient(135deg, var(--olive-dark), var(--olive));
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
             --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             --transition: all 0.3s ease;
         }
@@ -27,646 +27,234 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--light);
             color: var(--dark);
             line-height: 1.6;
-            scroll-behavior: smooth;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
 
         .container {
             width: 100%;
             max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header */
-        header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 15px 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
             align-items: center;
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: var(--olive-dark);
-        }
-
-        .logo img {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 30px;
-        }
-
-        .nav-links a {
-            color: var(--dark);
-            text-decoration: none;
-            font-weight: 500;
-            transition: var(--transition);
-            position: relative;
-        }
-
-        .nav-links a:hover {
-            color: var(--olive-dark);
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            right: 0;
-            width: 0;
-            height: 2px;
-            background: var(--olive-dark);
-            transition: var(--transition);
-        }
-
-        .nav-links a:hover::after {
+        .login-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--shadow);
             width: 100%;
         }
 
-        .cta-button {
-            background: var(--gradient);
-            color: white;
-            padding: 10px 24px;
-            border-radius: 8px;
-            text-decoration: none;
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .logo p {
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
             font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 1rem;
             transition: var(--transition);
         }
 
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(85, 107, 47, 0.3);
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
 
-        /* Hero Section */
-        .hero {
-            background: var(--gradient);
-            color: white;
-            padding: 180px 0 100px;
+        .password-container {
             position: relative;
-            overflow: hidden;
         }
 
-        .hero::before {
-            content: '';
+        .toggle-password {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" opacity="0.1"><path fill="%23FFFFFF" d="M0 0h1200v800H0V0zm200 200c33 0 60 27 60 60s-27 60-60 60-60-27-60-60 27-60 60-60zm800 400c33 0 60 27 60 60s-27 60-60 60-60-27-60-60 27-60 60-60zM600 500c33 0 60 27 60 60s-27 60-60 60-60-27-60-60 27-60 60-60z"/></svg>') center/cover;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
         }
 
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero h1 {
-            font-size: 3.2rem;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-
-        .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 40px;
-            opacity: 0.9;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .hero-buttons {
+        .options {
             display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .remember {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .remember input {
+            width: 18px;
+            height: 18px;
+        }
+
+        .forgot-password {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
         }
 
         .btn {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
-            padding: 14px 30px;
-            border-radius: 8px;
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
             text-decoration: none;
             font-weight: 600;
+            font-size: 1rem;
             transition: var(--transition);
             border: none;
             cursor: pointer;
-            font-size: 1rem;
         }
 
         .btn-primary {
-            background: white;
-            color: var(--olive-dark);
+            background: var(--gradient);
+            color: white;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
         }
 
-        .btn-outline {
-            background: transparent;
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .btn-outline:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: white;
-        }
-
-        /* About Section */
-        .about {
-            padding: 100px 0;
-            background: white;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .section-title h2 {
-            font-size: 2.5rem;
-            color: var(--dark);
-            margin-bottom: 15px;
-            font-weight: 700;
-        }
-
-        .section-title p {
-            color: var(--gray);
-            max-width: 600px;
-            margin: 0 auto;
-            font-size: 1.1rem;
-        }
-
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            align-items: center;
-        }
-
-        .about-text h3 {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            color: var(--dark);
-        }
-
-        .about-text p {
-            margin-bottom: 20px;
-            color: var(--gray);
-            line-height: 1.8;
-        }
-
-        .about-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .stat-item {
-            text-align: center;
-            padding: 20px;
-            background: #f8fafc;
-            border-radius: 10px;
-            border-right: 4px solid var(--olive);
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--olive-dark);
-            margin-bottom: 5px;
-        }
-
-        .stat-label {
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-
-        .about-image {
-            position: relative;
-        }
-
-        .profile-card {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: var(--shadow);
-            text-align: center;
-            border: 1px solid var(--olive-lighter);
-        }
-
-        .profile-avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: var(--gradient);
+        .divider {
             display: flex;
             align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin: 0 auto 20px;
-            border: 4px solid var(--olive-light);
-        }
-
-        .profile-card h4 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            color: var(--dark);
-        }
-
-        .profile-card p {
+            margin: 25px 0;
             color: var(--gray);
-            margin-bottom: 20px;
         }
 
-        .profile-badges {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .badge {
-            background: #f1f5f9;
-            color: var(--dark);
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            border: 1px solid var(--olive-lighter);
-        }
-
-        /* Services Section */
-        .services {
-            padding: 100px 0;
-            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-        }
-
-        .service-card {
-            background: white;
-            border-radius: 15px;
-            padding: 40px 30px;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid var(--olive-lighter);
-        }
-
-        .service-card::before {
+        .divider::before,
+        .divider::after {
             content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 100%;
-            height: 5px;
-            background: var(--gradient);
+            flex: 1;
+            height: 1px;
+            background: var(--border);
         }
 
-        .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        .divider span {
+            padding: 0 15px;
         }
 
-        .service-icon {
-            width: 80px;
-            height: 80px;
-            background: var(--gradient);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 25px;
-            color: white;
-            font-size: 2rem;
-        }
-
-        .service-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: var(--dark);
-        }
-
-        .service-card p {
-            color: var(--gray);
-            margin-bottom: 25px;
-            line-height: 1.7;
-        }
-
-        .service-price {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--olive-dark);
-            margin-bottom: 20px;
-        }
-
-        .service-features {
-            list-style: none;
-            margin-bottom: 30px;
-            text-align: right;
-        }
-
-        .service-features li {
-            padding: 8px 0;
-            color: var(--gray);
-            position: relative;
-            padding-right: 25px;
-        }
-
-        .service-features li::before {
-            content: '✓';
-            position: absolute;
-            right: 0;
-            color: var(--olive);
-            font-weight: bold;
-        }
-
-        /* Projects Section */
-        .projects {
-            padding: 100px 0;
-            background: white;
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .project-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            border: 1px solid var(--olive-lighter);
-        }
-
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-        }
-
-        .project-image {
-            height: 200px;
-            background: var(--gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 3rem;
-        }
-
-        .project-content {
-            padding: 25px;
-        }
-
-        .project-content h3 {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-            color: var(--dark);
-        }
-
-        .project-content p {
-            color: var(--gray);
-            margin-bottom: 15px;
-            line-height: 1.6;
-        }
-
-        .project-tags {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .project-tag {
-            background: #f1f5f9;
-            color: var(--dark);
-            padding: 4px 10px;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            border: 1px solid var(--olive-lighter);
-        }
-
-        /* Courses Section */
-        .courses {
-            padding: 100px 0;
-            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
-        }
-
-        .courses-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .course-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            border: 1px solid var(--olive-lighter);
-        }
-
-        .course-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-        }
-
-        .course-header {
-            background: var(--gradient);
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .course-header h3 {
-            font-size: 1.4rem;
-            margin-bottom: 10px;
-        }
-
-        .course-duration {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-
-        .course-content {
-            padding: 25px;
-        }
-
-        .course-features {
-            list-style: none;
-            margin-bottom: 20px;
-        }
-
-        .course-features li {
-            padding: 8px 0;
-            color: var(--gray);
-            position: relative;
-            padding-right: 25px;
-        }
-
-        .course-features li::before {
-            content: '✓';
-            position: absolute;
-            right: 0;
-            color: var(--olive);
-            font-weight: bold;
-        }
-
-        .course-price {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--olive-dark);
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        /* Testimonials Section */
-        .testimonials {
-            padding: 100px 0;
-            background: white;
-        }
-
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .testimonial-card {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: var(--shadow);
-            position: relative;
-            border: 1px solid var(--olive-lighter);
-        }
-
-        .testimonial-card::before {
-            content: '"';
-            position: absolute;
-            top: 20px;
-            right: 25px;
-            font-size: 4rem;
-            color: var(--olive-light);
-            opacity: 0.3;
-            font-family: serif;
-        }
-
-        .testimonial-text {
-            color: var(--gray);
-            line-height: 1.7;
-            margin-bottom: 20px;
-            font-style: italic;
-        }
-
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .author-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-        }
-
-        .author-info h4 {
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-            color: var(--dark);
-        }
-
-        .author-info p {
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-
-        /* Contact Section */
-        .contact {
-            padding: 100px 0;
-            background: white;
-        }
-
-        .contact-content {
+        .social-login {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 50px;
+            gap: 15px;
+            margin-bottom: 25px;
         }
 
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
+        .btn-social {
+            background: white;
+            color: var(--dark);
+            border: 1px solid var(--border);
         }
 
-        .contact-item {
+        .btn-social:hover {
+            background: #f8fafc;
+            border-color: var(--primary);
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--gray);
+        }
+
+        .register-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        .info-section {
+            padding: 20px;
+        }
+
+        .info-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+            line-height: 1.3;
+        }
+
+        .info-section p {
+            color: var(--gray);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .feature {
             display: flex;
             align-items: flex-start;
             gap: 15px;
         }
 
-        .contact-icon {
+        .feature-icon {
             width: 50px;
             height: 50px;
             background: var(--gradient);
@@ -679,696 +267,561 @@
             flex-shrink: 0;
         }
 
-        .contact-details h4 {
+        .feature-content h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+
+        .feature-content p {
+            font-size: 0.9rem;
+            margin-bottom: 0;
+            color: var(--gray);
+        }
+
+        /* Dashboard Styles */
+        .dashboard {
+            display: none;
+            width: 100%;
+            max-width: 1200px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .dashboard-header {
+            background: var(--gradient);
+            color: white;
+            padding: 25px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dashboard-header h1 {
+            font-size: 1.8rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
             font-size: 1.2rem;
+        }
+
+        .dashboard-content {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+
+        .sidebar {
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 25px;
+        }
+
+        .nav-links {
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-bottom: 15px;
+        }
+
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            color: var(--dark);
+            text-decoration: none;
+            border-radius: 10px;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .main-content {
+            display: grid;
+            gap: 30px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid var(--primary);
+        }
+
+        .stat-card h3 {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .project-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .project-status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-completed {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-in-progress {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .project-description {
+            color: var(--gray);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: #f1f5f9;
+            color: var(--dark);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .challenges-list {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .challenges-list h2 {
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            color: var(--dark);
+        }
+
+        .challenge-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .challenge-item:last-child {
+            border-bottom: none;
+        }
+
+        .challenge-icon {
+            width: 40px;
+            height: 40px;
+            background: #f1f5f9;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+
+        .challenge-content h3 {
+            font-size: 1rem;
             margin-bottom: 5px;
             color: var(--dark);
         }
 
-        .contact-details p {
+        .challenge-content p {
+            font-size: 0.9rem;
             color: var(--gray);
         }
 
-        .contact-form {
-            background: #f8fafc;
-            padding: 40px;
-            border-radius: 15px;
-            border: 1px solid var(--olive-lighter);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 15px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: var(--transition);
-            font-family: inherit;
-        }
-
-        .form-control:focus {
-            border-color: var(--olive);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(107, 142, 35, 0.1);
-        }
-
-        textarea.form-control {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--darker);
-            color: white;
-            padding: 70px 0 30px;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 50px;
-            margin-bottom: 50px;
-        }
-
-        .footer-column h4 {
-            font-size: 1.3rem;
-            margin-bottom: 25px;
-            position: relative;
-            padding-bottom: 12px;
-        }
-
-        .footer-column h4::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 50px;
-            height: 3px;
-            background: var(--olive);
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 12px;
-        }
-
-        .footer-links a {
-            color: #94a3b8;
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .footer-links a:hover {
-            color: white;
-            padding-right: 8px;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 25px;
-        }
-
-        .social-links a {
+        .logout-btn {
             display: flex;
             align-items: center;
-            justify-content: center;
-            width: 44px;
-            height: 44px;
-            background: rgba(255, 255, 255, 0.1);
+            gap: 10px;
+            margin-top: 30px;
+            padding: 12px 20px;
+            background: #fef2f2;
+            color: #dc2626;
+            border: none;
             border-radius: 10px;
-            color: white;
+            font-weight: 600;
+            cursor: pointer;
             transition: var(--transition);
         }
 
-        .social-links a:hover {
-            background: var(--olive);
-            transform: translateY(-3px);
-        }
-
-        .copyright {
-            text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #94a3b8;
-            font-size: 0.95rem;
+        .logout-btn:hover {
+            background: #fecaca;
         }
 
         /* Responsive */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .nav-links {
-                gap: 20px;
-            }
-            
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .hero p {
-                font-size: 1.1rem;
-            }
-            
-            .about-content {
+        @media (max-width: 992px) {
+            .container {
                 grid-template-columns: 1fr;
             }
             
-            .contact-content {
+            .info-section {
+                text-align: center;
+            }
+            
+            .features {
                 grid-template-columns: 1fr;
             }
             
-            .services-grid, .projects-grid, .courses-grid, .testimonials-grid {
+            .dashboard-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .projects-grid {
                 grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container header-content">
+    <!-- Login Form -->
+    <div class="container" id="login-container">
+        <div class="login-card">
             <div class="logo">
-                <!-- شعار افتراضي بديل إذا لم يكن logo.png موجوداً -->
-                <div style="width: 40px; height: 40px; background: var(--gradient); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">ع</div>
-                <span>عبد المؤمن روابح</span>
+                <h1>منصتي</h1>
+                <p>موقعك الشخصي لإدارة المشاريع والتحديات</p>
             </div>
             
-            <nav class="nav-links">
-                <a href="#home">الرئيسية</a>
-                <a href="#about">عنّي</a>
-                <a href="#services">الخدمات</a>
-                <a href="#projects">مشاريعي</a>
-                <a href="#courses">دوراتي</a>
-                <a href="#testimonials">آراء العملاء</a>
-                <a href="#contact">اتصل بي</a>
-            </nav>
-            
-            <a href="#contact" class="cta-button">
-                <i class="fas fa-rocket"></i>
-                ابدأ التعلم
-            </a>
-        </div>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="container hero-content">
-            <h1>منصة التعلم الذكي</h1>
-            <p>استثمر في مستقبلك مع دورات متخصصة في الذكاء الاصطناعي والبرمجة والتقنيات الحديثة</p>
-            <div class="hero-buttons">
-                <a href="#services" class="btn btn-primary">
-                    <i class="fas fa-graduation-cap"></i>
-                    اكتشف الدورات
-                </a>
-                <a href="#about" class="btn btn-outline">
-                    <i class="fas fa-user"></i>
-                    تعرف عليّ
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="about" id="about">
-        <div class="container">
-            <div class="section-title">
-                <h2>من أنا؟</h2>
-                <p>مطور شاب متخصص في الذكاء الاصطناعي والبرمجة</p>
-            </div>
-            
-            <div class="about-content">
-                <div class="about-text">
-                    <h3>عبد المؤمن روابح</h3>
-                    <p>مطور ذكاء اصطناعي وبرمجيات من الجزائر، أبلغ من العمر 13 عاماً. أتمتع بشغف كبير للتكنولوجيا والتعلم الذاتي، وأسعى دائماً لتطوير مهاراتي في أحدث التقنيات.</p>
-                    <p>تخصصت في تطوير حلول الذكاء الاصطناعي، برمجة الألعاب، وتصميم الأنظمة الذكية. أهدف إلى مشاركة معرفتي مع الآخرين من خلال دورات تعليمية مكثفة.</p>
-                    
-                    <div class="about-stats">
-                        <div class="stat-item">
-                            <div class="stat-value">13</div>
-                            <div class="stat-label">العمر</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value">25+</div>
-                            <div class="stat-label">مشروع مكتمل</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value">3</div>
-                            <div class="stat-label">سنوات خبرة</div>
-                        </div>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="email">البريد الإلكتروني</label>
+                    <input type="email" id="email" class="form-control" placeholder="أدخل بريدك الإلكتروني" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">كلمة المرور</label>
+                    <div class="password-container">
+                        <input type="password" id="password" class="form-control" placeholder="أدخل كلمة المرور" required>
+                        <button type="button" class="toggle-password" id="toggle-password">
+                            <i class="far fa-eye"></i>
+                        </button>
                     </div>
                 </div>
                 
-                <div class="about-image">
-                    <div class="profile-card">
-                        <div class="profile-avatar">ع</div>
-                        <h4>عبد المؤمن روابح</h4>
-                        <p>مطور ذكاء اصطناعي ومدرب تقني</p>
-                        
-                        <div class="profile-badges">
-                            <span class="badge">Python</span>
-                            <span class="badge">AI/ML</span>
-                            <span class="badge">JavaScript</span>
-                            <span class="badge">Game Dev</span>
-                            <span class="badge">Godot</span>
-                            <span class="badge">React</span>
-                        </div>
+                <div class="options">
+                    <div class="remember">
+                        <input type="checkbox" id="remember">
+                        <label for="remember">تذكرني</label>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Services Section -->
-    <section class="services" id="services">
-        <div class="container">
-            <div class="section-title">
-                <h2>خدماتي التعليمية</h2>
-                <p>دورات مكثفة ومتخصصة تناسب جميع المستويات</p>
-            </div>
-            
-            <div class="services-grid">
-                <!-- Service 1 -->
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <h3>الذكاء الاصطناعي</h3>
-                    <p>دورة شاملة تغطي أساسيات الذكاء الاصطناعي، التعلم الآلي، ومعالجة اللغات الطبيعية</p>
-                    
-                    <ul class="service-features">
-                        <li>أساسيات Python للذكاء الاصطناعي</li>
-                        <li>مقدمة في التعلم الآلي</li>
-                        <li>نماذج الذكاء الاصطناعي المتقدمة</li>
-                        <li>مشاريع تطبيقية عملية</li>
-                        <li>دعم مستمر لمدة 3 أشهر</li>
-                    </ul>
-                    
-                    <div class="service-price">15,000 د.ج</div>
-                    <a href="#contact" class="btn btn-primary" style="width: 100%;">
-                        <i class="fas fa-shopping-cart"></i>
-                        اشترك الآن
-                    </a>
+                    <a href="#" class="forgot-password">نسيت كلمة المرور؟</a>
                 </div>
                 
-                <!-- Service 2 -->
-                <div class="service-card">
-                    <div class="service-icon">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-sign-in-alt"></i>
+                    تسجيل الدخول
+                </button>
+                
+                <div class="divider">
+                    <span>أو</span>
+                </div>
+                
+                <div class="social-login">
+                    <button type="button" class="btn btn-social">
+                        <i class="fab fa-google"></i>
+                        جوجل
+                    </button>
+                    <button type="button" class="btn btn-social">
+                        <i class="fab fa-github"></i>
+                        جيت هاب
+                    </button>
+                </div>
+                
+                <div class="register-link">
+                    ليس لديك حساب؟ <a href="#" id="register-link">إنشاء حساب جديد</a>
+                </div>
+            </form>
+        </div>
+        
+        <div class="info-section">
+            <h2>إدارة مشاريعك وتحدياتك البرمجية في مكان واحد</h2>
+            <p>منصة متكاملة تتيح لك تتبع مشاريعك البرمجية، مشاركة التحديات، والتعاون مع المطورين الآخرين.</p>
+            
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>إدارة المشاريع</h3>
+                        <p>نظم مشاريعك البرمجية وتتبع تقدمها بسهولة</p>
+                    </div>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">
                         <i class="fas fa-code"></i>
                     </div>
-                    <h3>تطوير الألعاب</h3>
-                    <p>تعلم برمجة الألعاب باستخدام Godot و Unity، من البداية إلى الاحتراف</p>
-                    
-                    <ul class="service-features">
-                        <li>برمجة الألعاب ثنائية وثلاثية الأبعاد</li>
-                        <li>محرك Godot ومحرك Unity</li>
-                        <li>تصميم الشخصيات والبيئات</li>
-                        <li>نشر الألعاب على المنصات</li>
-                        <li>دعم لمشاريعك الشخصية</li>
-                    </ul>
-                    
-                    <div class="service-price">12,000 د.ج</div>
-                    <a href="#contact" class="btn btn-primary" style="width: 100%;">
-                        <i class="fas fa-shopping-cart"></i>
-                        اشترك الآن
-                    </a>
+                    <div class="feature-content">
+                        <h3>التحديات البرمجية</h3>
+                        <p>شارك في تحديات برمجية لتحسين مهاراتك</p>
+                    </div>
                 </div>
                 
-                <!-- Service 3 -->
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-laptop-code"></i>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
                     </div>
-                    <h3>تطوير الويب</h3>
-                    <p>احتراف تطوير المواقع الإلكترونية باستخدام أحدث التقنيات والأطر البرمجية</p>
-                    
-                    <ul class="service-features">
-                        <li>HTML, CSS, JavaScript متقدم</li>
-                        <li>إطار العمل React</li>
-                        <li>تطبيقات الويب الديناميكية</li>
-                        <li>تصميم متجاوب لجميع الشاشات</li>
-                        <li>نشر المواقع على السيرفرات</li>
-                    </ul>
-                    
-                    <div class="service-price">10,000 د.ج</div>
-                    <a href="#contact" class="btn btn-primary" style="width: 100%;">
-                        <i class="fas fa-shopping-cart"></i>
-                        اشترك الآن
-                    </a>
+                    <div class="feature-content">
+                        <h3>التعاون</h3>
+                        <p>تعاون مع مبرمجين آخرين على المشاريع المفتوحة</p>
+                    </div>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>تتبع التقدم</h3>
+                        <p>راقب تقدمك في البرمجة واحصل على إحصائيات مفصلة</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section class="projects" id="projects">
-        <div class="container">
-            <div class="section-title">
-                <h2>مشاريعي</h2>
-                <p>أبرز المشاريع التي قمت بتطويرها مؤخراً</p>
+    </div>
+    
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard">
+        <div class="dashboard-header">
+            <h1>لوحة التحكم - منصتي</h1>
+            <div class="user-info">
+                <div class="user-avatar">ع</div>
+                <div>
+                    <div>عبد المؤمن روابح</div>
+                    <div style="font-size: 0.9rem; opacity: 0.8;">مطور ويب ومبرمج</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="dashboard-content">
+            <div class="sidebar">
+                <ul class="nav-links">
+                    <li><a href="#" class="active"><i class="fas fa-home"></i> الرئيسية</a></li>
+                    <li><a href="#"><i class="fas fa-project-diagram"></i> المشاريع</a></li>
+                    <li><a href="#"><i class="fas fa-code"></i> التحديات</a></li>
+                    <li><a href="#"><i class="fas fa-tasks"></i> المهام</a></li>
+                    <li><a href="#"><i class="fas fa-chart-bar"></i> الإحصائيات</a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> الإعدادات</a></li>
+                </ul>
+                
+                <button class="logout-btn" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    تسجيل الخروج
+                </button>
             </div>
             
-            <div class="projects-grid">
-                <!-- Project 1 -->
-                <div class="project-card">
-                    <div class="project-image">
-                        <i class="fas fa-brain"></i>
+            <div class="main-content">
+                <div class="stats">
+                    <div class="stat-card">
+                        <h3>المشاريع النشطة</h3>
+                        <div class="stat-value">7</div>
                     </div>
-                    <div class="project-content">
-                        <h3>مساعد ذكي للتعلم</h3>
-                        <p>نظام ذكاء اصطناعي يساعد الطلاب في فهم المواد الدراسية المعقدة ويقدم شرحاً مبسطاً لها.</p>
+                    <div class="stat-card">
+                        <h3>التحديات المكتملة</h3>
+                        <div class="stat-value">24</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>الأيام المتتالية</h3>
+                        <div class="stat-value">42</div>
+                    </div>
+                </div>
+                
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-header">
+                            <div class="project-title">منصة التعلم الذكي</div>
+                            <div class="project-status status-completed">مكتمل</div>
+                        </div>
+                        <div class="project-description">
+                            منصة تعليمية تفاعلية تقدم دورات في البرمجة والذكاء الاصطناعي
+                        </div>
                         <div class="project-tags">
-                            <span class="project-tag">Python</span>
-                            <span class="project-tag">AI</span>
-                            <span class="project-tag">NLP</span>
+                            <span class="tag">React</span>
+                            <span class="tag">Node.js</span>
+                            <span class="tag">MongoDB</span>
                         </div>
                     </div>
-                </div>
-                
-                <!-- Project 2 -->
-                <div class="project-card">
-                    <div class="project-image">
-                        <i class="fas fa-gamepad"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3>لعبة المغامرات</h3>
-                        <p>لعبة مغامرات ثنائية الأبعاد تم تطويرها باستخدام محرك Godot، تتميز برسوميات جماعية وقصة شيقة.</p>
+                    
+                    <div class="project-card">
+                        <div class="project-header">
+                            <div class="project-title">تطبيق المهام اليومية</div>
+                            <div class="project-status status-in-progress">قيد التطوير</div>
+                        </div>
+                        <div class="project-description">
+                            تطبيق ويب لإدارة المهام اليومية مع ميزات متقدمة للتتبع والإشعارات
+                        </div>
                         <div class="project-tags">
-                            <span class="project-tag">Godot</span>
-                            <span class="project-tag">GDScript</span>
-                            <span class="project-tag">Game Dev</span>
+                            <span class="tag">Vue.js</span>
+                            <span class="tag">Firebase</span>
+                            <span class="tag">PWA</span>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Project 3 -->
-                <div class="project-card">
-                    <div class="project-image">
-                        <i class="fas fa-shopping-cart"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3>منصة تجارة إلكترونية</h3>
-                        <p>منصة متكاملة للتجارة الإلكترونية مع نظام دفع آمن وإدارة للمخزون وتقارير مبيعات مفصلة.</p>
-                        <div class="project-tags">
-                            <span class="project-tag">React</span>
-                            <span class="project-tag">Node.js</span>
-                            <span class="project-tag">MongoDB</span>
+                <div class="challenges-list">
+                    <h2>التحديات الحالية</h2>
+                    
+                    <div class="challenge-item">
+                        <div class="challenge-icon">
+                            <i class="fas fa-laptop-code"></i>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Courses Section -->
-    <section class="courses" id="courses">
-        <div class="container">
-            <div class="section-title">
-                <h2>دوراتي التعليمية</h2>
-                <p>تعلم المهارات التقنية الأكثر طلباً في سوق العمل</p>
-            </div>
-            
-            <div class="courses-grid">
-                <!-- Course 1 -->
-                <div class="course-card">
-                    <div class="course-header">
-                        <h3>مقدمة في الذكاء الاصطناعي</h3>
-                        <div class="course-duration">
-                            <i class="far fa-clock"></i>
-                            <span>6 أسابيع</span>
-                        </div>
-                    </div>
-                    <div class="course-content">
-                        <ul class="course-features">
-                            <li>أساسيات الذكاء الاصطناعي وتطبيقاته</li>
-                            <li>تعلم الآلة والشبكات العصبية</li>
-                            <li>مشاريع عملية تطبيقية</li>
-                            <li>شهادة إتمام معتمدة</li>
-                        </ul>
-                        <div class="course-price">8,000 د.ج</div>
-                        <a href="#contact" class="btn btn-primary" style="width: 100%;">
-                            <i class="fas fa-shopping-cart"></i>
-                            سجل الآن
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- Course 2 -->
-                <div class="course-card">
-                    <div class="course-header">
-                        <h3>تطوير الألعاب للمبتدئين</h3>
-                        <div class="course-duration">
-                            <i class="far fa-clock"></i>
-                            <span>8 أسابيع</span>
-                        </div>
-                    </div>
-                    <div class="course-content">
-                        <ul class="course-features">
-                            <li>مقدمة في برمجة الألعاب</li>
-                            <li>استخدام محرك Godot</li>
-                            <li>تصميم الشخصيات والبيئات</li>
-                            <li>نشر اللعبة على منصات مختلفة</li>
-                        </ul>
-                        <div class="course-price">7,500 د.ج</div>
-                        <a href="#contact" class="btn btn-primary" style="width: 100%;">
-                            <i class="fas fa-shopping-cart"></i>
-                            سجل الآن
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- Course 3 -->
-                <div class="course-card">
-                    <div class="course-header">
-                        <h3>تطوير الويب المتقدم</h3>
-                        <div class="course-duration">
-                            <i class="far fa-clock"></i>
-                            <span>10 أسابيع</span>
-                        </div>
-                    </div>
-                    <div class="course-content">
-                        <ul class="course-features">
-                            <li>HTML5 و CSS3 متقدم</li>
-                            <li>JavaScript و ES6+</li>
-                            <li>إطار العمل React</li>
-                            <li>تطوير تطبيقات ويب ديناميكية</li>
-                        </ul>
-                        <div class="course-price">9,000 د.ج</div>
-                        <a href="#contact" class="btn btn-primary" style="width: 100%;">
-                            <i class="fas fa-shopping-cart"></i>
-                            سجل الآن
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section class="testimonials" id="testimonials">
-        <div class="container">
-            <div class="section-title">
-                <h2>آراء العملاء</h2>
-                <p>ماذا يقول طلابي عن تجربتهم مع دوراتي</p>
-            </div>
-            
-            <div class="testimonials-grid">
-                <!-- Testimonial 1 -->
-                <div class="testimonial-card">
-                    <p class="testimonial-text">دورة الذكاء الاصطناعي كانت رائعة! استطعت فهم مفاهيم معقدة بسهولة بفضل أسلوب عبد المؤمن المبسط والعملي. أنصح الجميع بالالتحاق بدوراته.</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">أ</div>
-                        <div class="author-info">
-                            <h4>أحمد بوعزة</h4>
-                            <p>طالب في دورة الذكاء الاصطناعي</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Testimonial 2 -->
-                <div class="testimonial-card">
-                    <p class="testimonial-text">تعلمت تطوير الألعاب من الصفر مع عبد المؤمن، والآن لدي لعبتي الخاصة على متجر التطبيقات. الشكر الجزيل له على دعمه المستمر حتى بعد انتهاء الدورة.</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">س</div>
-                        <div class="author-info">
-                            <h4>سارة قاسمي</h4>
-                            <p>طالبة في دورة تطوير الألعاب</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Testimonial 3 -->
-                <div class="testimonial-card">
-                    <p class="testimonial-text">كنت أعتقد أن البرمجة صعبة، لكن بعد دورة تطوير الويب مع عبد المؤمن، استطعت إنشاء موقعي الشخصي خلال أسابيع قليلة. طريقة الشرح واضحة والمشاريع عملية.</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">ي</div>
-                        <div class="author-info">
-                            <h4>ياسمين زروقي</h4>
-                            <p>طالبة في دورة تطوير الويب</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="contact" id="contact">
-        <div class="container">
-            <div class="section-title">
-                <h2>اتصل بي</h2>
-                <p>جاهز لمساعدتك في بدء رحلتك التعليمية</p>
-            </div>
-            
-            <div class="contact-content">
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </div>
-                        <div class="contact-details">
-                            <h4>العنوان</h4>
-                            <p>برج بوعريريج، الجزائر</p>
+                        <div class="challenge-content">
+                            <h3>تحدي الـ 30 يومًا في البرمجة</h3>
+                            <p>اكتب كود برمجي كل يوم لمدة 30 يومًا متتالية</p>
                         </div>
                     </div>
                     
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-envelope"></i>
+                    <div class="challenge-item">
+                        <div class="challenge-icon">
+                            <i class="fas fa-mobile-alt"></i>
                         </div>
-                        <div class="contact-details">
-                            <h4>البريد الإلكتروني</h4>
-                            <p>moumen.ai.dev@gmail.com</p>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-phone"></i>
-                        </div>
-                        <div class="contact-details">
-                            <h4>الهاتف</h4>
-                            <p>+213 xxx xx xx xx</p>
+                        <div class="challenge-content">
+                            <h3>تطوير 5 تطبيقات موبايل</h3>
+                            <p>أنشئ 5 تطبيقات موبايل باستخدام React Native</p>
                         </div>
                     </div>
                     
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-clock"></i>
+                    <div class="challenge-item">
+                        <div class="challenge-icon">
+                            <i class="fas fa-robot"></i>
                         </div>
-                        <div class="contact-details">
-                            <h4>أوقات العمل</h4>
-                            <p>السبت - الخميس: 9 ص - 9 م</p>
+                        <div class="challenge-content">
+                            <h3>مشروع ذكاء اصطناعي</h3>
+                            <p>طور نموذج ذكاء اصطناعي للتعرف على الصور</p>
                         </div>
                     </div>
                 </div>
-                
-                <div class="contact-form">
-                    <form id="contact-form">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="الاسم الكامل" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <input type="email" class="form-control" placeholder="البريد الإلكتروني" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <select class="form-control" required>
-                                <option value="">اختر الخدمة</option>
-                                <option value="ai">الذكاء الاصطناعي</option>
-                                <option value="gamedev">تطوير الألعاب</option>
-                                <option value="web">تطوير الويب</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <textarea class="form-control" placeholder="رسالتك..." required></textarea>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-primary" style="width: 100%;">
-                            <i class="fas fa-paper-plane"></i>
-                            إرسال الرسالة
-                        </button>
-                    </form>
-                </div>
             </div>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h4>عبد المؤمن روابح</h4>
-                    <p>مطور ذكاء اصطناعي ومدرب تقني، أساعد الشباب على دخول عالم التكنولوجيا والبرمجة.</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-                
-                <div class="footer-column">
-                    <h4>روابط سريعة</h4>
-                    <ul class="footer-links">
-                        <li><a href="#home">الرئيسية</a></li>
-                        <li><a href="#about">عنّي</a></li>
-                        <li><a href="#services">الخدمات</a></li>
-                        <li><a href="#projects">مشاريعي</a></li>
-                        <li><a href="#courses">دوراتي</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-column">
-                    <h4>الخدمات</h4>
-                    <ul class="footer-links">
-                        <li><a href="#services">الذكاء الاصطناعي</a></li>
-                        <li><a href="#services">تطوير الألعاب</a></li>
-                        <li><a href="#services">تطوير الويب</a></li>
-                        <li><a href="#services">استشارات تقنية</a></li>
-                        <li><a href="#services">دروس خصوصية</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-column">
-                    <h4>الدعم</h4>
-                    <ul class="footer-links">
-                        <li><a href="#">الأسئلة الشائعة</a></li>
-                        <li><a href="#">سياسة الخصوصية</a></li>
-                        <li><a href="#">شروط الاستخدام</a></li>
-                        <li><a href="#contact">الدعم الفني</a></li>
-                        <li><a href="#contact">اتصل بنا</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="copyright">
-                <p>© 2024 عبد المؤمن روابح. جميع الحقوق محفوظة.</p>
-            </div>
-        </div>
-    </footer>
+    </div>
 
     <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-
-        // Form submission
-        document.getElementById('contact-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('شكراً لتواصلك! سنرد عليك في أقرب وقت ممكن.');
-            this.reset();
-        });
-
-        // Header background on scroll
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('header');
-            if (window.scrollY > 100) {
-                header.style.background = 'rgba(255, 255, 255, 0.98)';
+        // Toggle password visibility
+        document.getElementById('toggle-password').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const icon = this.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
             } else {
-                header.style.background = 'rgba(255, 255, 255, 0.95)';
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
             }
+        });
+        
+        // Login form submission
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Simple validation
+            if (email && password) {
+                // Hide login and show dashboard
+                document.getElementById('login-container').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+            } else {
+                alert('يرجى ملء جميع الحقول');
+            }
+        });
+        
+        // Logout functionality
+        document.getElementById('logout-btn').addEventListener('click', function() {
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('login-container').style.display = 'grid';
+            
+            // Reset form
+            document.getElementById('login-form').reset();
+        });
+        
+        // Register link
+        document.getElementById('register-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('سيتم توجيهك إلى صفحة إنشاء حساب جديد');
         });
     </script>
 </body>
