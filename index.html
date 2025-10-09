@@ -16,6 +16,8 @@
             --gray: #64748b;
             --border: #e2e8f0;
             --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
             --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             --transition: all 0.3s ease;
         }
@@ -216,11 +218,97 @@
             background: var(--primary-dark);
         }
 
+        .btn-secondary {
+            background: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background: #6d28d9;
+        }
+
         .hero {
             background: linear-gradient(135deg, var(--darker), var(--dark));
             color: white;
             padding: 160px 0 100px;
             position: relative;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+
+        .features {
+            padding: 100px 0;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            margin: 0 auto 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .feature-card p {
+            color: var(--gray);
         }
 
         .formspree-section {
@@ -262,8 +350,27 @@
             border-right: 4px solid var(--primary);
         }
 
+        .info-item label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+
+        .info-item p {
+            color: var(--gray);
+            margin: 0;
+        }
+
         .form-group {
             margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
         }
 
         .form-control {
@@ -273,6 +380,13 @@
             border-radius: 10px;
             font-size: 1rem;
             transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
 
         textarea.form-control {
@@ -313,6 +427,18 @@
             box-shadow: var(--shadow);
             z-index: 1100;
             max-width: 400px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
 
         .success {
@@ -321,13 +447,48 @@
         }
 
         .error {
-            background: #ef4444;
+            background: var(--error);
             color: white;
+        }
+
+        .warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .welcome-message {
+            text-align: center;
+            padding: 40px 0;
+            background: white;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .welcome-message h2 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .welcome-message p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         @media (max-width: 768px) {
             .user-info {
                 grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .nav-links {
+                display: none;
             }
         }
     </style>
@@ -377,10 +538,52 @@
     <section class="hero" id="home">
         <div class="container hero-content">
             <h1>منصة Peara للتطوير المتكامل</h1>
-            <p>نقدم حلولاً متكاملة لتطوير البرمجيات والمواقع الإلكترونية</p>
+            <p>نقدم حلولاً متكاملة لتطوير البرمجيات والمواقع الإلكترونية، مع أدوات متقدمة لتسهيل عملية التطوير ورفع كفاءة الفرق</p>
             <button id="btn-hero-login" class="btn">ابدأ الآن</button>
         </div>
     </section>
+
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>ميزات منصتنا</h2>
+                <p>اكتشف مجموعة الميزات المتقدمة التي نقدمها لتطوير برمجياتك بكفاءة وجودة عالية</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>تطوير متكامل</h3>
+                    <p>منصة شاملة توفر جميع الأدوات اللازمة لتطوير البرمجيات من البداية إلى النهاية</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>تعاون الفريق</h3>
+                    <p>أدوات متقدمة للتعاون بين أعضاء الفريق لتحسين الإنتاجية وتنظيم العمل</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>نشر سريع</h3>
+                    <p>نظام نشر آلي وسريع يتيح لك نشر تطبيقاتك بضغطة زر واحدة</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="welcome-message" class="welcome-message hidden">
+        <div class="container">
+            <h2>مرحباً بك في Peara</h2>
+            <p>نحن سعداء بانضمامك إلينا. يمكنك الآن استخدام جميع ميزات المنصة والاتصال بفريق الدعم</p>
+        </div>
+    </div>
 
     <section class="formspree-section hidden" id="formspree-section">
         <div class="container">
@@ -607,6 +810,7 @@
 
         async function login() {
             try {
+                showNotification('جاري تسجيل الدخول...', 'warning');
                 await auth0Client.loginWithRedirect({
                     authorizationParams: {
                         redirect_uri: window.location.origin + window.location.pathname
@@ -639,6 +843,7 @@
             document.getElementById('btn-logout').classList.toggle('hidden', !isAuthenticated);
             document.getElementById('user-avatar-container').classList.toggle('hidden', !isAuthenticated);
             document.getElementById('formspree-section').classList.toggle('hidden', !isAuthenticated);
+            document.getElementById('welcome-message').classList.toggle('hidden', !isAuthenticated);
 
             if (isAuthenticated) {
                 const firstLetter = userData.name ? userData.name.charAt(0).toUpperCase() : 
@@ -650,6 +855,11 @@
                 document.getElementById('menu-email').textContent = userData.email || 'لا يوجد بريد إلكتروني';
                 document.getElementById('auto-name').textContent = userData.name || userData.nickname || 'مستخدم Peara';
                 document.getElementById('auto-email').textContent = userData.email || 'لا يوجد بريد إلكتروني';
+                
+                // التمرير إلى نموذج الاتصال
+                setTimeout(() => {
+                    document.getElementById('formspree-section').scrollIntoView({ behavior: 'smooth' });
+                }, 500);
             }
         }
 
@@ -675,6 +885,21 @@
         document.getElementById('menu-logout').addEventListener('click', logout);
         document.getElementById('formspree-form').addEventListener('submit', handleFormSubmit);
         document.addEventListener('click', closeProfileMenu);
+
+        // إضافة التنقل السلس
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
 
         // البدء
         initAuth0();
