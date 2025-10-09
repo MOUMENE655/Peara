@@ -6,7 +6,6 @@
     <title>Peara - منصة التطوير المتكاملة</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* نفس الCSS السابق - محفوظ للحفاظ على التصميم */
         :root {
             --primary: #2563eb;
             --primary-dark: #1d4ed8;
@@ -51,7 +50,6 @@
             left: 0;
             right: 0;
             z-index: 1000;
-            transition: var(--transition);
         }
 
         .header-content {
@@ -91,7 +89,6 @@
             text-decoration: none;
             font-weight: 500;
             transition: var(--transition);
-            position: relative;
         }
 
         .nav-links a:hover {
@@ -117,7 +114,6 @@
             font-weight: bold;
             cursor: pointer;
             position: relative;
-            transition: var(--transition);
             border: 3px solid white;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
@@ -139,7 +135,6 @@
 
         .profile-menu.active {
             display: block;
-            animation: fadeIn 0.3s ease;
         }
 
         .profile-menu-header {
@@ -201,45 +196,6 @@
             color: var(--primary);
         }
 
-        .menu-divider {
-            height: 1px;
-            background: var(--border);
-            margin: 8px 0;
-        }
-
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            opacity: 0;
-            visibility: hidden;
-            transition: var(--transition);
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: var(--shadow);
-            transform: scale(0.9);
-            transition: var(--transition);
-            position: relative;
-        }
-
         .btn {
             display: inline-flex;
             align-items: center;
@@ -258,15 +214,6 @@
 
         .btn:hover {
             background: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-
-        .btn-danger {
-            background: #dc2626;
-        }
-
-        .btn-danger:hover {
-            background: #b91c1c;
         }
 
         .hero {
@@ -333,12 +280,10 @@
             resize: vertical;
         }
 
-        .submit-btn.loading .btn-text {
-            display: none;
-        }
-
-        .submit-btn.loading .loading {
-            display: inline-block;
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            font-size: 1.1rem;
         }
 
         .loading {
@@ -367,7 +312,6 @@
             border-radius: 10px;
             box-shadow: var(--shadow);
             z-index: 1100;
-            animation: slideIn 0.3s ease;
             max-width: 400px;
         }
 
@@ -419,7 +363,6 @@
                                     </div>
                                 </div>
                             </div>
-                            
                             <button class="profile-menu-item" id="menu-logout">
                                 <i class="fas fa-sign-out-alt"></i>
                                 <span>تسجيل الخروج</span>
@@ -430,21 +373,6 @@
             </div>
         </div>
     </header>
-
-    <div class="modal-overlay" id="logout-modal">
-        <div class="modal">
-            <div class="modal-header">
-                <h3>تسجيل الخروج</h3>
-            </div>
-            <div class="modal-content">
-                <p>هل أنت متأكد أنك تريد تسجيل الخروج؟</p>
-            </div>
-            <div class="modal-actions">
-                <button class="btn btn-danger" id="confirm-logout">نعم، تسجيل الخروج</button>
-                <button class="btn btn-secondary" id="cancel-logout">إلغاء</button>
-            </div>
-        </div>
-    </div>
 
     <section class="hero" id="home">
         <div class="container hero-content">
@@ -484,7 +412,7 @@
                         <textarea id="message" class="form-control" placeholder="اكتب رسالتك هنا..." required></textarea>
                     </div>
                     
-                    <button type="submit" class="btn submit-btn" id="submit-form" style="width: 100%;">
+                    <button type="submit" class="btn submit-btn" id="submit-form">
                         <span class="btn-text">إرسال الرسالة</span>
                         <span class="loading"></span>
                     </button>
@@ -505,15 +433,11 @@
             }
         };
 
-        // Formspree endpoint
-        const FORMSPREE_URL = "https://formspree.io/f/xvgwbdan";
-
         let auth0Client;
         let userData = null;
 
         // دالة للإشعارات
         function showNotification(message, type = 'success') {
-            // إزالة أي إشعارات سابقة
             const existingNotifications = document.querySelectorAll('.notification');
             existingNotifications.forEach(notification => notification.remove());
 
@@ -527,12 +451,13 @@
             }, 4000);
         }
 
-        // إصلاح Formspree - الطريقة الصحيحة
+        // إصلاح Formspree - الطريقة المؤكدة
         async function submitToFormspree(formData) {
             try {
-                console.log('إرسال البيانات إلى Formspree:', Object.fromEntries(formData));
+                console.log('📤 إرسال البيانات إلى Formspree...');
                 
-                const response = await fetch(FORMSPREE_URL, {
+                // الطريقة 1: استخدام FormData مباشرة (الطريقة الأساسية)
+                const response = await fetch('https://formspree.io/f/xvgwbdan', {
                     method: 'POST',
                     body: formData,
                     headers: {
@@ -540,25 +465,23 @@
                     }
                 });
 
-                console.log('استجابة Formspree:', response.status, response.statusText);
+                console.log('📨 استجابة Formspree:', response.status, response.statusText);
 
                 if (response.ok) {
-                    const result = await response.json();
-                    console.log('نجاح الإرسال:', result);
-                    return { success: true, data: result };
+                    console.log('✅ تم الإرسال بنجاح');
+                    return { success: true };
                 } else {
-                    const errorText = await response.text();
-                    console.error('خطأ في الإرسال:', errorText);
+                    console.error('❌ خطأ في الإرسال:', response.status);
                     return { 
                         success: false, 
-                        error: `فشل الإرسال: ${response.status} - ${response.statusText}` 
+                        error: `خطأ في الخادم: ${response.status}` 
                     };
                 }
             } catch (error) {
-                console.error('خطأ في الاتصال:', error);
+                console.error('❌ خطأ في الاتصال:', error);
                 return { 
                     success: false, 
-                    error: 'فشل في الاتصال بالخادم. يرجى التحقق من اتصال الإنترنت.' 
+                    error: 'فشل في الاتصال بالخادم' 
                 };
             }
         }
@@ -571,60 +494,92 @@
             const message = document.getElementById('message').value.trim();
             const submitBtn = document.getElementById('submit-form');
 
-            // التحقق من البيانات
             if (!subject || !message) {
                 showNotification('يرجى ملء جميع الحقول المطلوبة', 'error');
                 return;
             }
 
             // عرض حالة التحميل
-            submitBtn.classList.add('loading');
             submitBtn.disabled = true;
+            submitBtn.innerHTML = '<div class="loading"></div> جاري الإرسال...';
 
             try {
                 // إنشاء FormData بشكل صحيح
                 const formData = new FormData();
                 
-                // إضافة الحقول المطلوبة لـ Formspree
+                // الحقول الأساسية المطلوبة
                 formData.append('name', userData?.name || userData?.nickname || 'مستخدم Peara');
                 formData.append('email', userData?.email || '');
                 formData.append('subject', subject);
                 formData.append('message', message);
                 formData.append('_replyto', userData?.email || '');
-                formData.append('_subject', `رسالة جديدة: ${subject}`);
+                formData.append('_format', 'plain');
 
-                console.log('بيانات النموذج المرسلة:');
+                console.log('📝 بيانات النموذج:');
                 for (let [key, value] of formData.entries()) {
-                    console.log(`${key}: ${value}`);
+                    console.log(`   ${key}: ${value}`);
                 }
 
-                // إرسال البيانات
+                // محاولة الإرسال
                 const result = await submitToFormspree(formData);
 
                 if (result.success) {
-                    showNotification('تم إرسال رسالتك بنجاح! سنرد عليك قريباً.', 'success');
+                    showNotification('🎉 تم إرسال رسالتك بنجاح! سنرد عليك قريباً.', 'success');
                     // مسح النموذج
                     document.getElementById('formspree-form').reset();
                 } else {
-                    showNotification(result.error || 'حدث خطأ غير متوقع', 'error');
+                    // إذا فشلت الطريقة الأولى، جرب الطريقة البديلة
+                    console.log('🔄 تجربة الطريقة البديلة...');
+                    await tryAlternativeMethod(subject, message);
                 }
 
             } catch (error) {
-                console.error('خطأ غير متوقع:', error);
+                console.error('❌ خطأ غير متوقع:', error);
                 showNotification('حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.', 'error');
             } finally {
-                // إخفاء حالة التحميل
-                submitBtn.classList.remove('loading');
+                // إعادة تعيين الزر
                 submitBtn.disabled = false;
+                submitBtn.innerHTML = '<span class="btn-text">إرسال الرسالة</span><span class="loading"></span>';
             }
         }
 
-        // تهيئة Auth0
+        // الطريقة البديلة إذا فشلت الطريقة الأساسية
+        async function tryAlternativeMethod(subject, message) {
+            try {
+                // استخدام x-www-form-urlencoded بدلاً من FormData
+                const data = new URLSearchParams();
+                data.append('name', userData?.name || userData?.nickname || 'مستخدم Peara');
+                data.append('email', userData?.email || '');
+                data.append('subject', subject);
+                data.append('message', message);
+                data.append('_replyto', userData?.email || '');
+
+                const response = await fetch('https://formspree.io/f/xvgwbdan', {
+                    method: 'POST',
+                    body: data,
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    showNotification('🎉 تم إرسال رسالتك بنجاح!', 'success');
+                    document.getElementById('formspree-form').reset();
+                } else {
+                    throw new Error('فشل الطريقة البديلة');
+                }
+            } catch (error) {
+                console.error('❌ فشلت الطريقة البديلة:', error);
+                showNotification('⚠️ لم نتمكن من إرسال رسالتك. يرجى المحاولة لاحقاً.', 'error');
+            }
+        }
+
+        // Auth0 Functions
         async function initAuth0() {
             try {
                 auth0Client = await auth0.createAuth0Client(auth0Config);
 
-                // التحقق من حالة المصادقة الحالية
                 const isAuthenticated = await auth0Client.isAuthenticated();
                 
                 if (isAuthenticated) {
@@ -633,7 +588,6 @@
                     showNotification(`مرحباً بعودتك، ${userData.name || 'مستخدم'}!`, 'success');
                 }
 
-                // معالجة redirect callback
                 if (window.location.search.includes('code=') && window.location.search.includes('state=')) {
                     try {
                         await auth0Client.handleRedirectCallback();
@@ -644,7 +598,6 @@
                         showNotification(`تم تسجيل الدخول بنجاح! مرحباً ${userData.name || 'مستخدم'}`, 'success');
                     } catch (error) {
                         console.error('خطأ في معالجة redirect:', error);
-                        showNotification('حدث خطأ أثناء تسجيل الدخول', 'error');
                     }
                 }
             } catch (error) {
@@ -688,23 +641,15 @@
             document.getElementById('formspree-section').classList.toggle('hidden', !isAuthenticated);
 
             if (isAuthenticated) {
-                // تحديث بيانات المستخدم
-                const userAvatar = document.getElementById('user-avatar');
-                const menuAvatar = document.getElementById('menu-avatar');
-                const menuName = document.getElementById('menu-name');
-                const menuEmail = document.getElementById('menu-email');
-                const autoName = document.getElementById('auto-name');
-                const autoEmail = document.getElementById('auto-email');
-
                 const firstLetter = userData.name ? userData.name.charAt(0).toUpperCase() : 
                                   userData.nickname ? userData.nickname.charAt(0).toUpperCase() : 'U';
                 
-                userAvatar.textContent = firstLetter;
-                menuAvatar.textContent = firstLetter;
-                menuName.textContent = userData.name || userData.nickname || 'مستخدم';
-                menuEmail.textContent = userData.email || 'لا يوجد بريد إلكتروني';
-                autoName.textContent = userData.name || userData.nickname || 'مستخدم Peara';
-                autoEmail.textContent = userData.email || 'لا يوجد بريد إلكتروني';
+                document.getElementById('user-avatar').textContent = firstLetter;
+                document.getElementById('menu-avatar').textContent = firstLetter;
+                document.getElementById('menu-name').textContent = userData.name || userData.nickname || 'مستخدم';
+                document.getElementById('menu-email').textContent = userData.email || 'لا يوجد بريد إلكتروني';
+                document.getElementById('auto-name').textContent = userData.name || userData.nickname || 'مستخدم Peara';
+                document.getElementById('auto-email').textContent = userData.email || 'لا يوجد بريد إلكتروني';
             }
         }
 
@@ -722,27 +667,21 @@
             }
         }
 
-        // إعداد event listeners
+        // Event Listeners
         document.getElementById('btn-login').addEventListener('click', login);
         document.getElementById('btn-hero-login').addEventListener('click', login);
-        document.getElementById('btn-logout').addEventListener('click', () => {
-            document.getElementById('logout-modal').classList.add('active');
-        });
-        document.getElementById('confirm-logout').addEventListener('click', logout);
-        document.getElementById('cancel-logout').addEventListener('click', () => {
-            document.getElementById('logout-modal').classList.remove('active');
-        });
+        document.getElementById('btn-logout').addEventListener('click', logout);
         document.getElementById('user-avatar').addEventListener('click', toggleProfileMenu);
-        document.getElementById('menu-logout').addEventListener('click', () => {
-            document.getElementById('logout-modal').classList.add('active');
-            document.getElementById('profile-menu').classList.remove('active');
-        });
+        document.getElementById('menu-logout').addEventListener('click', logout);
         document.getElementById('formspree-form').addEventListener('submit', handleFormSubmit);
-
         document.addEventListener('click', closeProfileMenu);
 
         // البدء
         initAuth0();
+
+        // إضافة console.log للمساعدة في التصحيح
+        console.log('🚀 تم تحميل الصفحة بنجاح');
+        console.log('🔗 Formspree endpoint: https://formspree.io/f/xvgwbdan');
     </script>
 </body>
 </html>
