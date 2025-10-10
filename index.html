@@ -1723,6 +1723,81 @@
             background: var(--primary);
             color: white;
         }
+
+        /* تحسينات نموذج تعديل الملف الشخصي */
+        .editable-field {
+            position: relative;
+        }
+
+        .edit-btn {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .edit-btn:hover {
+            color: var(--primary-dark);
+        }
+
+        .editable-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            background: var(--light);
+            color: var(--dark);
+            font-family: inherit;
+        }
+
+        .editable-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(85, 107, 47, 0.2);
+        }
+
+        .save-btn {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .save-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .cancel-btn {
+            margin-top: 15px;
+            margin-right: 10px;
+            padding: 10px 20px;
+            background: var(--gray);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .cancel-btn:hover {
+            background: #475569;
+        }
+
+        .edit-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 15px;
+        }
     </style>
 </head>
 <body>
@@ -1774,13 +1849,13 @@
                                 <i class="fas fa-user"></i>
                                 <span>الملف الشخصي</span>
                             </button>
-                            <button class="user-menu-item" id="menu-settings">
-                                <i class="fas fa-cog"></i>
-                                <span>الإعدادات</span>
+                            <button class="user-menu-item" id="menu-edit-profile">
+                                <i class="fas fa-edit"></i>
+                                <span>تعديل الملف الشخصي</span>
                             </button>
-                            <button class="user-menu-item" id="menu-activity">
-                                <i class="fas fa-chart-line"></i>
-                                <span>النشاط</span>
+                            <button class="user-menu-item" id="menu-change-password">
+                                <i class="fas fa-key"></i>
+                                <span>تغيير كلمة المرور</span>
                             </button>
                             <button class="user-menu-item delete" id="menu-delete">
                                 <i class="fas fa-trash-alt"></i>
@@ -1941,148 +2016,94 @@
         </div>
     </div>
 
-    <div class="modal" id="settings-modal">
+    <!-- نافذة تعديل الملف الشخصي -->
+    <div class="modal" id="edit-profile-modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>الإعدادات</h3>
-                <button class="close-modal" id="close-settings-modal">
+                <h3>تعديل الملف الشخصي</h3>
+                <button class="close-modal" id="close-edit-profile-modal">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="modal-section">
-                    <h4>الإعدادات العامة</h4>
-                    <ul class="modal-list">
-                        <li>
-                            <i class="fas fa-globe"></i>
-                            <span>اللغة: العربية</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-palette"></i>
-                            <span>المظهر: فاتح</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-bell"></i>
-                            <span>الإشعارات: مفعلة</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-envelope"></i>
-                            <span>البريد الإلكتروني: نشط</span>
-                        </li>
-                    </ul>
-                </div>
-                <div class="modal-section">
-                    <h4>إعدادات الخصوصية</h4>
-                    <ul class="modal-list">
-                        <li>
-                            <i class="fas fa-user-lock"></i>
-                            <span>الحساب: عام</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-eye"></i>
-                            <span>إظهار النشاط: نعم</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-search"></i>
-                            <span>الظهور في البحث: نعم</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal" id="activity-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>النشاط</h3>
-                <button class="close-modal" id="close-activity-modal">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="modal-section">
-                    <h4>آخر الأنشطة</h4>
-                    <ul class="modal-list">
-                        <li>
-                            <i class="fas fa-code text-success"></i>
-                            <span>تم إكمال مشروع نظام الذكاء الاصطناعي - اليوم</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-gamepad text-warning"></i>
-                            <span>جاري العمل على لعبة بئر النسيان - منذ يومين</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-robot text-primary"></i>
-                            <span>تم تحديث نموذج Peara الصغير - منذ 4 أيام</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-users text-info"></i>
-                            <span>انضممت إلى فريق تطوير جديد - منذ أسبوع</span>
-                        </li>
-                    </ul>
-                </div>
-                <div class="modal-section">
-                    <h4>الإحصائيات الشهرية</h4>
+                    <h4>معلومات المستخدم</h4>
                     <div class="profile-info">
-                        <div class="profile-field">
-                            <label>ساعات البرمجة</label>
-                            <p>84 ساعة</p>
+                        <div class="profile-field editable-field">
+                            <label>الاسم الكامل</label>
+                            <div class="editable-content">
+                                <p id="editable-profile-name">روابح عبد المؤمن</p>
+                                <button class="edit-btn" data-field="name">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                            <input type="text" id="edit-profile-name" class="editable-input hidden" value="روابح عبد المؤمن">
+                        </div>
+                        <div class="profile-field editable-field">
+                            <label>البريد الإلكتروني</label>
+                            <div class="editable-content">
+                                <p id="editable-profile-email">moumene.roabah@example.com</p>
+                                <button class="edit-btn" data-field="email">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                            <input type="email" id="edit-profile-email" class="editable-input hidden" value="moumene.roabah@example.com">
                         </div>
                         <div class="profile-field">
-                            <label>المشاريع المحدثة</label>
-                            <p>7 مشاريع</p>
+                            <label>تاريخ الانضمام</label>
+                            <p id="editable-profile-join-date">يناير 2023</p>
                         </div>
                         <div class="profile-field">
-                            <label>الالتزامات</label>
-                            <p>95%</p>
+                            <label>الدور</label>
+                            <p id="editable-profile-role">مطور رئيسي</p>
                         </div>
                     </div>
                 </div>
+                <div class="edit-actions">
+                    <button class="cancel-btn" id="cancel-edit-profile">إلغاء</button>
+                    <button class="save-btn" id="save-profile">حفظ التغييرات</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- القائمة الجانبية للإعدادات -->
-    <div class="overlay" id="overlay"></div>
-    <div class="settings-sidebar" id="settings-sidebar">
-        <div class="settings-header">
-            <h2>الإعدادات</h2>
-            <button class="close-settings" id="close-settings">
-                <i class="fas fa-times"></i>
-            </button>
+    <!-- نافذة تغيير كلمة المرور -->
+    <div class="modal" id="change-password-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>تغيير كلمة المرور</h3>
+                <button class="close-modal" id="close-change-password-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h4>أدخل بيانات كلمة المرور</h4>
+                    <div class="form-group">
+                        <label for="current-password">كلمة المرور الحالية</label>
+                        <input type="password" id="current-password" class="form-control" placeholder="أدخل كلمة المرور الحالية">
+                        <div class="email-validation" id="current-password-validation"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-password">كلمة المرور الجديدة</label>
+                        <input type="password" id="new-password" class="form-control" placeholder="أدخل كلمة المرور الجديدة (6 أحرف على الأقل)">
+                        <div class="email-validation" id="new-password-validation"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-new-password">تأكيد كلمة المرور الجديدة</label>
+                        <input type="password" id="confirm-new-password" class="form-control" placeholder="أعد إدخال كلمة المرور الجديدة">
+                        <div class="email-validation" id="confirm-new-password-validation"></div>
+                    </div>
+                </div>
+                <div class="edit-actions">
+                    <button class="cancel-btn" id="cancel-change-password">إلغاء</button>
+                    <button class="save-btn" id="save-password">تغيير كلمة المرور</button>
+                </div>
+            </div>
         </div>
-        <ul class="settings-menu">
-            <li class="active">
-                <i class="fas fa-home"></i>
-                <span>المحتوى العام، الشخصي</span>
-            </li>
-            <li>
-                <i class="fas fa-list"></i>
-                <span>مرقماتي</span>
-            </li>
-            <li>
-                <i class="fas fa-cog"></i>
-                <span>إعدادات</span>
-            </li>
-            <li>
-                <i class="fas fa-user"></i>
-                <span>المحتوى الذي أتابعه</span>
-            </li>
-            <li>
-                <i class="fas fa-user-cog"></i>
-                <span>إعدادات الحساب</span>
-            </li>
-            <li>
-                <i class="fas fa-history"></i>
-                <span>أسماء تم تجاهلها</span>
-            </li>
-            <li>
-                <i class="fas fa-sign-out-alt"></i>
-                <span>تسجيل خروج</span>
-            </li>
-        </ul>
     </div>
+
+    <!-- تم إزالة القائمة الجانبية للإعدادات -->
 
     <section class="hero" id="home">
         <div class="container hero-content">
@@ -2840,6 +2861,8 @@
             const welcomeMessage = document.getElementById('welcome-message');
             const profileName = document.getElementById('profile-name');
             const profileEmail = document.getElementById('profile-email');
+            const editableProfileName = document.getElementById('editable-profile-name');
+            const editableProfileEmail = document.getElementById('editable-profile-email');
 
             if (isLoggedIn && currentUser) {
                 // إظهار واجهة المستخدم المسجل
@@ -2863,6 +2886,10 @@
                 // تحديث بيانات النافذة المنبثقة
                 if (profileName) profileName.textContent = userName;
                 if (profileEmail) profileEmail.textContent = userEmail;
+                if (editableProfileName) editableProfileName.textContent = userName;
+                if (editableProfileEmail) editableProfileEmail.textContent = userEmail;
+                if (document.getElementById('edit-profile-name')) document.getElementById('edit-profile-name').value = userName;
+                if (document.getElementById('edit-profile-email')) document.getElementById('edit-profile-email').value = userEmail;
             } else {
                 // إظهار واجهة الزائر
                 btnLogin.classList.remove('hidden');
@@ -2903,18 +2930,90 @@
             });
         }
 
-        // وظائف القائمة الجانبية للإعدادات
-        function openSettings() {
-            document.getElementById('settings-sidebar').classList.add('active');
-            document.getElementById('overlay').classList.add('active');
-            document.body.style.overflow = 'hidden';
-            document.getElementById('user-dropdown-menu').classList.remove('active');
+        // وظائف تعديل الملف الشخصي
+        function enableEditField(field) {
+            const contentElement = document.querySelector(`#editable-profile-${field}`).parentElement;
+            const inputElement = document.querySelector(`#edit-profile-${field}`);
+            
+            contentElement.classList.add('hidden');
+            inputElement.classList.remove('hidden');
+            inputElement.focus();
         }
 
-        function closeSettings() {
-            document.getElementById('settings-sidebar').classList.remove('active');
-            document.getElementById('overlay').classList.remove('active');
-            document.body.style.overflow = 'auto';
+        function saveProfileChanges() {
+            const name = document.getElementById('edit-profile-name').value;
+            const email = document.getElementById('edit-profile-email').value;
+            
+            // تحديث القيم في الواجهة
+            document.getElementById('editable-profile-name').textContent = name;
+            document.getElementById('editable-profile-email').textContent = email;
+            document.getElementById('profile-name').textContent = name;
+            document.getElementById('profile-email').textContent = email;
+            document.getElementById('menu-name').textContent = name;
+            document.getElementById('auto-name').textContent = name;
+            
+            // إعادة إظهار المحتوى وإخفاء حقول الإدخال
+            document.querySelectorAll('.editable-content').forEach(el => {
+                el.classList.remove('hidden');
+            });
+            document.querySelectorAll('.editable-input').forEach(el => {
+                el.classList.add('hidden');
+            });
+            
+            // حفظ التغييرات في قاعدة البيانات
+            updateUserProfile(name, email);
+        }
+
+        async function updateUserProfile(name, email) {
+            try {
+                const { data, error } = await supabase.auth.updateUser({
+                    email: email,
+                    data: { full_name: name }
+                });
+                
+                if (error) throw error;
+                
+                showNotification('تم تحديث الملف الشخصي بنجاح', 'success');
+                closeModal('edit-profile-modal');
+            } catch (error) {
+                console.error('خطأ في تحديث الملف الشخصي:', error);
+                showNotification('حدث خطأ أثناء تحديث الملف الشخصي', 'error');
+            }
+        }
+
+        async function changePassword(currentPassword, newPassword) {
+            try {
+                // التحقق من صحة كلمة المرور الجديدة
+                if (!validatePassword(newPassword)) {
+                    showValidationMessage('new-password-validation', 'كلمة المرور يجب أن تكون 6 أحرف على الأقل', false);
+                    return;
+                }
+
+                // التحقق من تطابق كلمات المرور الجديدة
+                const confirmNewPassword = document.getElementById('confirm-new-password').value;
+                if (newPassword !== confirmNewPassword) {
+                    showValidationMessage('confirm-new-password-validation', 'كلمات المرور غير متطابقة', false);
+                    return;
+                }
+
+                // تحديث كلمة المرور
+                const { data, error } = await supabase.auth.updateUser({
+                    password: newPassword
+                });
+                
+                if (error) throw error;
+                
+                showNotification('تم تغيير كلمة المرور بنجاح', 'success');
+                closeModal('change-password-modal');
+                
+                // إعادة تعيين الحقول
+                document.getElementById('current-password').value = '';
+                document.getElementById('new-password').value = '';
+                document.getElementById('confirm-new-password').value = '';
+            } catch (error) {
+                console.error('خطأ في تغيير كلمة المرور:', error);
+                showNotification('حدث خطأ أثناء تغيير كلمة المرور', 'error');
+            }
         }
 
         // Event Listeners
@@ -3095,24 +3194,24 @@
                 openModal('profile-modal');
             });
 
-            document.getElementById('menu-settings').addEventListener('click', function() {
-                openModal('settings-modal');
+            document.getElementById('menu-edit-profile').addEventListener('click', function() {
+                openModal('edit-profile-modal');
             });
 
-            document.getElementById('menu-activity').addEventListener('click', function() {
-                openModal('activity-modal');
+            document.getElementById('menu-change-password').addEventListener('click', function() {
+                openModal('change-password-modal');
             });
 
             document.getElementById('close-profile-modal').addEventListener('click', function() {
                 closeModal('profile-modal');
             });
 
-            document.getElementById('close-settings-modal').addEventListener('click', function() {
-                closeModal('settings-modal');
+            document.getElementById('close-edit-profile-modal').addEventListener('click', function() {
+                closeModal('edit-profile-modal');
             });
 
-            document.getElementById('close-activity-modal').addEventListener('click', function() {
-                closeModal('activity-modal');
+            document.getElementById('close-change-password-modal').addEventListener('click', function() {
+                closeModal('change-password-modal');
             });
 
             // إغلاق النوافذ المنبثقة بالنقر خارجها
@@ -3124,10 +3223,47 @@
                 });
             });
 
-            // القائمة الجانبية للإعدادات
-            document.getElementById('menu-settings').addEventListener('click', openSettings);
-            document.getElementById('close-settings').addEventListener('click', closeSettings);
-            document.getElementById('overlay').addEventListener('click', closeSettings);
+            // تعديل الملف الشخصي
+            document.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const field = this.getAttribute('data-field');
+                    enableEditField(field);
+                });
+            });
+
+            document.getElementById('save-profile').addEventListener('click', saveProfileChanges);
+
+            document.getElementById('cancel-edit-profile').addEventListener('click', function() {
+                // إعادة إظهار المحتوى وإخفاء حقول الإدخال
+                document.querySelectorAll('.editable-content').forEach(el => {
+                    el.classList.remove('hidden');
+                });
+                document.querySelectorAll('.editable-input').forEach(el => {
+                    el.classList.add('hidden');
+                });
+                closeModal('edit-profile-modal');
+            });
+
+            // تغيير كلمة المرور
+            document.getElementById('save-password').addEventListener('click', function() {
+                const currentPassword = document.getElementById('current-password').value;
+                const newPassword = document.getElementById('new-password').value;
+                
+                if (!currentPassword || !newPassword) {
+                    showNotification('يرجى ملء جميع الحقول', 'error');
+                    return;
+                }
+                
+                changePassword(currentPassword, newPassword);
+            });
+
+            document.getElementById('cancel-change-password').addEventListener('click', function() {
+                // إعادة تعيين الحقول
+                document.getElementById('current-password').value = '';
+                document.getElementById('new-password').value = '';
+                document.getElementById('confirm-new-password').value = '';
+                closeModal('change-password-modal');
+            });
 
             // حذف الحساب
             document.getElementById('menu-delete').addEventListener('click', async function() {
@@ -3161,18 +3297,6 @@
                             behavior: 'smooth'
                         });
                     }
-                });
-            });
-
-            // إضافة تفاعل للقائمة الجانبية
-            document.querySelectorAll('.settings-menu li').forEach(item => {
-                item.addEventListener('click', function() {
-                    document.querySelectorAll('.settings-menu li').forEach(li => {
-                        li.classList.remove('active');
-                    });
-                    this.classList.add('active');
-                    
-                    setTimeout(closeSettings, 300);
                 });
             });
 
