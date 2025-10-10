@@ -2148,7 +2148,7 @@
                 }
 
                 // استخدام رابط GitHub Pages الصحيح لإعادة التوجيه
-                const redirectUrl = 'https://oumene655.github.io/Peara/';
+                const redirectUrl = 'https://moumene655.github.io/Peara/';
                 
                 const { data, error } = await supabase.auth.signUp({
                     email: email,
@@ -2188,7 +2188,7 @@
                 }
 
                 // استخدام رابط GitHub Pages الصحيح لإعادة التوجيه
-                const redirectUrl = 'https://oumene655.github.io/Peara/';
+                const redirectUrl = 'https://moumene655.github.io/Peara/';
                 
                 const { error } = await supabase.auth.resetPasswordForEmail(email, {
                     redirectTo: redirectUrl
@@ -2546,6 +2546,7 @@
             });
 
             console.log('🚀 تم تحميل موقع Peara بنجاح مع نظام Supabase للمصادقة والتحقق من البريد الإلكتروني!');
+            console.log('📧 رابط إعادة التوجيه: https://moumene655.github.io/Peara/');
         });
     </script>
 </body>
