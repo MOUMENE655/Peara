@@ -39,9 +39,7 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* الأنماط الحالية تبقى كما هي */
-    </style>
-        /* كل الأنماط السابقة محفوظة */
+        /* كل الأنماط السابقة محفوظة مع إضافة القائمة الجانبية */
         :root {
             --primary: #556B2F;
             --primary-dark: #3D4A21;
@@ -735,6 +733,98 @@
             color: rgba(255, 255, 255, 0.7);
         }
 
+        /* القائمة الجانبية للإعدادات */
+        .settings-sidebar {
+            position: fixed;
+            top: 0;
+            right: -350px;
+            width: 350px;
+            height: 100vh;
+            background: white;
+            box-shadow: -5px 0 25px rgba(0, 0, 0, 0.1);
+            z-index: 2000;
+            transition: var(--transition);
+            overflow-y: auto;
+            padding: 20px 0;
+        }
+
+        .settings-sidebar.active {
+            right: 0;
+        }
+
+        .settings-header {
+            padding: 0 25px 20px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .settings-header h2 {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .close-settings {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+
+        .close-settings:hover {
+            color: var(--error);
+        }
+
+        .settings-menu {
+            list-style: none;
+        }
+
+        .settings-menu li {
+            padding: 16px 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--dark);
+        }
+
+        .settings-menu li:hover {
+            background: #f8fafc;
+            color: var(--primary);
+        }
+
+        .settings-menu li.active {
+            background: #eef4ff;
+            color: var(--primary);
+            border-right: 4px solid var(--primary);
+        }
+
+        .settings-menu li i {
+            font-size: 18px;
+            width: 24px;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1999;
+            display: none;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
         @media (max-width: 768px) {
             .user-info {
                 grid-template-columns: 1fr;
@@ -764,6 +854,10 @@
             
             .languages-grid {
                 grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+            
+            .settings-sidebar {
+                width: 300px;
             }
         }
     </style>
@@ -803,6 +897,18 @@
                                     </div>
                                 </div>
                             </div>
+                            <button class="profile-menu-item" id="menu-settings">
+                                <i class="fas fa-cog"></i>
+                                <span>الإعدادات</span>
+                            </button>
+                            <button class="profile-menu-item" id="menu-profile">
+                                <i class="fas fa-user"></i>
+                                <span>الملف الشخصي</span>
+                            </button>
+                            <button class="profile-menu-item" id="menu-delete">
+                                <i class="fas fa-trash-alt"></i>
+                                <span>حذف الحساب</span>
+                            </button>
                             <button class="profile-menu-item" id="menu-logout">
                                 <i class="fas fa-sign-out-alt"></i>
                                 <span>تسجيل الخروج</span>
@@ -813,6 +919,47 @@
             </div>
         </div>
     </header>
+
+    <!-- القائمة الجانبية للإعدادات -->
+    <div class="overlay" id="overlay"></div>
+    <div class="settings-sidebar" id="settings-sidebar">
+        <div class="settings-header">
+            <h2>الإعدادات</h2>
+            <button class="close-settings" id="close-settings">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <ul class="settings-menu">
+            <li class="active">
+                <i class="fas fa-home"></i>
+                <span>المحتوى العام، الشخصي</span>
+            </li>
+            <li>
+                <i class="fas fa-list"></i>
+                <span>مرقماتي</span>
+            </li>
+            <li>
+                <i class="fas fa-cog"></i>
+                <span>إعدادات</span>
+            </li>
+            <li>
+                <i class="fas fa-user"></i>
+                <span>المحتوى الذي أتابعه</span>
+            </li>
+            <li>
+                <i class="fas fa-user-cog"></i>
+                <span>إعدادات الحساب</span>
+            </li>
+            <li>
+                <i class="fas fa-history"></i>
+                <span>أسماء تم تجاهلها</span>
+            </li>
+            <li>
+                <i class="fas fa-sign-out-alt"></i>
+                <span>تسجيل خروج</span>
+            </li>
+        </ul>
+    </div>
 
     <section class="hero" id="home">
         <div class="container hero-content">
@@ -1440,13 +1587,35 @@
             }
         }
 
+        // وظائف القائمة الجانبية للإعدادات
+        function openSettings() {
+            document.getElementById('settings-sidebar').classList.add('active');
+            document.getElementById('overlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSettings() {
+            document.getElementById('settings-sidebar').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
         // Event Listeners
         document.getElementById('btn-login').addEventListener('click', login);
         document.getElementById('btn-hero-login').addEventListener('click', login);
         document.getElementById('btn-logout').addEventListener('click', logout);
         document.getElementById('user-avatar').addEventListener('click', toggleProfileMenu);
         document.getElementById('menu-logout').addEventListener('click', logout);
+        document.getElementById('menu-settings').addEventListener('click', openSettings);
+        document.getElementById('menu-delete').addEventListener('click', function() {
+            const confirmDelete = confirm('هل أنت متأكد من رغبتك في حذف الحساب؟ لا يمكن التراجع عن هذا الإجراء.');
+            if (confirmDelete) {
+                alert('سيتم حذف الحساب نهائياً');
+            }
+        });
         document.getElementById('formspree-form').addEventListener('submit', handleFormSubmit);
+        document.getElementById('close-settings').addEventListener('click', closeSettings);
+        document.getElementById('overlay').addEventListener('click', closeSettings);
         document.addEventListener('click', closeProfileMenu);
 
         // إضافة التنقل السلس
@@ -1461,6 +1630,19 @@
                         behavior: 'smooth'
                     });
                 }
+            });
+        });
+
+        // إضافة تفاعل للقائمة الجانبية
+        document.querySelectorAll('.settings-menu li').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.settings-menu li').forEach(li => {
+                    li.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // إغلاق القائمة بعد اختيار عنصر (يمكن تعديل هذا السلوك)
+                setTimeout(closeSettings, 300);
             });
         });
 
