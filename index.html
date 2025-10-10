@@ -1798,6 +1798,119 @@
             justify-content: flex-end;
             margin-top: 15px;
         }
+
+        /* تحسينات إضافية */
+        .terms-checkbox {
+            margin: 15px 0;
+            text-align: right;
+        }
+
+        .terms-checkbox label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .terms-checkbox input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+        }
+
+        .terms-link {
+            color: var(--primary);
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .terms-link:hover {
+            color: var(--primary-dark);
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .hero-btn {
+            padding: 14px 28px;
+            font-size: 1.1rem;
+            border-radius: 10px;
+        }
+
+        .hero-btn.outline {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .hero-btn.outline:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+        .stats-section {
+            background: var(--light);
+            padding: 80px 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .stat-card {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .hero-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .hero-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1816,6 +1929,7 @@
                 <a href="#skills">المهارات</a>
                 <a href="#projects">المشاريع</a>
                 <a href="#real-projects">المشاريع الحقيقية</a>
+                <a href="#stats">الإحصائيات</a>
                 <a href="#team">فريقي</a>
                 <a href="#contact">اتصل بي</a>
             </nav>
@@ -1932,8 +2046,14 @@
                     <input type="password" id="reg-confirm-password" class="form-control" placeholder="أعد إدخال كلمة المرور">
                     <div class="email-validation" id="confirm-password-validation"></div>
                 </div>
+                <div class="terms-checkbox">
+                    <label>
+                        <input type="checkbox" id="terms-agreement">
+                        <span>أوافق على <span class="terms-link" id="show-terms">الشروط والأحكام</span></span>
+                    </label>
+                </div>
                 <div class="form-actions">
-                    <button class="btn" id="submit-register">إنشاء حساب</button>
+                    <button class="btn" id="submit-register" disabled>إنشاء حساب</button>
                 </div>
             </div>
 
@@ -1956,6 +2076,54 @@
             <div class="auth-toggle" id="auth-toggle">
                 <span id="toggle-text">ليس لديك حساب؟</span>
                 <button id="toggle-auth">إنشاء حساب جديد</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة الشروط والأحكام -->
+    <div class="modal" id="terms-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>الشروط والأحكام</h3>
+                <button class="close-modal" id="close-terms-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h4>1. قبول الشروط</h4>
+                    <p>باستخدامك لموقع Peara، فإنك توافق على الالتزام بهذه الشروط والأحكام. إذا كنت لا توافق على أي جزء من هذه الشروط، فيرجى عدم استخدام موقعنا.</p>
+                </div>
+                
+                <div class="modal-section">
+                    <h4>2. حساب المستخدم</h4>
+                    <p>أنت مسؤول عن الحفاظ على سرية معلومات حسابك وكلمة المرور. توافق على قبول المسؤولية عن جميع الأنشطة التي تحدث تحت حسابك.</p>
+                </div>
+                
+                <div class="modal-section">
+                    <h4>3. الخصوصية</h4>
+                    <p>سيتم التعامل مع بياناتك الشخصية وفقًا لسياسة الخصوصية الخاصة بنا. نحن نلتزم بحماية خصوصيتك وأمان بياناتك.</p>
+                </div>
+                
+                <div class="modal-section">
+                    <h4>4. حقوق الملكية الفكرية</h4>
+                    <p>جميع المحتويات الموجودة على هذا الموقع، بما في ذلك النصوص والصور والشعارات، هي ملك لـ Peara ومحمية بموجب قوانين الملكية الفكرية.</p>
+                </div>
+                
+                <div class="modal-section">
+                    <h4>5. القيود على الاستخدام</h4>
+                    <p>أنت توافق على عدم استخدام الموقع لأي غرض غير قانوني أو محظور بموجب هذه الشروط. لا يجوز لك استخدام الموقع بأي طريقة قد تؤدي إلى إتلاف أو تعطيل أو إرهاق الموقع.</p>
+                </div>
+                
+                <div class="modal-section">
+                    <h4>6. التعديلات</h4>
+                    <p>نحتفظ بالحق في تعديل هذه الشروط في أي وقت. سيتم إخطارك بأي تغييرات من خلال نشر الشروط المعدلة على الموقع.</p>
+                </div>
+                
+                <div class="modal-section">
+                    <h4>7. إنهاء الخدمة</h4>
+                    <p>نحتفظ بالحق في إنهاء أو تعليق وصولك إلى الموقع في أي وقت دون إشعار لأي سبب، بما في ذلك انتهاك هذه الشروط.</p>
+                </div>
             </div>
         </div>
     </div>
@@ -2109,7 +2277,41 @@
         <div class="container hero-content">
             <h1>مرحباً بكم في Peara</h1>
             <p>منصة التطوير الشخصية - أقدم حلولاً مبتكرة في مجال البرمجة والذكاء الاصطناعي وتطوير الألعاب</p>
-            <button id="btn-hero-login" class="btn">ابدأ رحلتك معنا</button>
+            <div class="hero-actions">
+                <button id="btn-hero-login" class="btn hero-btn">ابدأ رحلتك معنا</button>
+                <a href="#projects" class="btn hero-btn outline">استكشف المشاريع</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-section" id="stats">
+        <div class="container">
+            <div class="section-title">
+                <h2>إحصائيات Peara</h2>
+                <p>نظرة على إنجازاتنا وأرقامنا</p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">15+</div>
+                    <div class="stat-label">مشروع مكتمل</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">5+</div>
+                    <div class="stat-label">سنوات خبرة</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">عميل راضٍ</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">معدل الرضا</div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -2649,6 +2851,10 @@
             // إخفاء الرسائل
             document.getElementById('verification-message').classList.add('hidden');
             document.getElementById('reset-message').classList.add('hidden');
+            
+            // إعادة تعيين خانة الموافقة على الشروط
+            document.getElementById('terms-agreement').checked = false;
+            document.getElementById('submit-register').disabled = true;
         }
 
         // دالة إظهار نموذج تسجيل الدخول
@@ -2748,6 +2954,12 @@
                 const confirmPassword = document.getElementById('reg-confirm-password').value;
                 if (password !== confirmPassword) {
                     showValidationMessage('confirm-password-validation', 'كلمات المرور غير متطابقة', false);
+                    return;
+                }
+
+                // التحقق من الموافقة على الشروط
+                if (!document.getElementById('terms-agreement').checked) {
+                    showNotification('يجب الموافقة على الشروط والأحكام', 'error');
                     return;
                 }
 
@@ -3105,6 +3317,11 @@
                 }
             });
 
+            // التحقق من الموافقة على الشروط
+            document.getElementById('terms-agreement').addEventListener('change', function() {
+                document.getElementById('submit-register').disabled = !this.checked;
+            });
+
             // أزرار تسجيل الدخول
             document.getElementById('btn-login').addEventListener('click', openLoginModal);
             document.getElementById('btn-hero-login').addEventListener('click', openLoginModal);
@@ -3212,6 +3429,15 @@
 
             document.getElementById('close-change-password-modal').addEventListener('click', function() {
                 closeModal('change-password-modal');
+            });
+
+            // نافذة الشروط والأحكام
+            document.getElementById('show-terms').addEventListener('click', function() {
+                openModal('terms-modal');
+            });
+
+            document.getElementById('close-terms-modal').addEventListener('click', function() {
+                closeModal('terms-modal');
             });
 
             // إغلاق النوافذ المنبثقة بالنقر خارجها
