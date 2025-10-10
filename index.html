@@ -1352,6 +1352,249 @@
         .form-control.invalid {
             border-color: var(--error);
         }
+
+        /* النوافذ المنبثقة الجديدة */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2001;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px 25px;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .close-modal:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .modal-section {
+            margin-bottom: 25px;
+        }
+
+        .modal-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .modal-section h4 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 8px;
+        }
+
+        .modal-section p {
+            color: var(--gray);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .modal-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .modal-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-list li:last-child {
+            border-bottom: none;
+        }
+
+        .modal-list li i {
+            color: var(--primary);
+            width: 20px;
+        }
+
+        .profile-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .profile-field {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 8px;
+            border-right: 3px solid var(--primary);
+        }
+
+        .profile-field label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+
+        .profile-field p {
+            margin: 0;
+            color: var(--gray);
+        }
+
+        /* تحسينات التصميم العامة */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .about-image {
+            display: flex;
+            justify-content: center;
+        }
+
+        .profile-img {
+            width: 250px;
+            height: 250px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .profile-img:hover {
+            transform: scale(1.05) rotate(3deg);
+        }
+
+        /* تحسينات الفوتر */
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .copyright {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 20px;
+        }
+
+        /* تحسينات الأزرار */
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* تحسينات الاستجابة */
+        @media (max-width: 768px) {
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .profile-img {
+                width: 200px;
+                height: 200px;
+                font-size: 4rem;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .profile-info {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1375,7 +1618,6 @@
             
             <div class="auth-buttons">
                 <button id="btn-login" class="btn">تسجيل الدخول</button>
-                <button id="btn-logout" class="btn hidden">تسجيل الخروج</button>
                 
                 <div id="user-menu-container" class="user-menu-container hidden">
                     <div class="user-avatar" id="user-avatar">
@@ -1391,13 +1633,17 @@
                                 </div>
                             </div>
                         </div>
+                        <button class="user-menu-item" id="menu-profile">
+                            <i class="fas fa-user"></i>
+                            <span>الملف الشخصي</span>
+                        </button>
                         <button class="user-menu-item" id="menu-settings">
                             <i class="fas fa-cog"></i>
                             <span>الإعدادات</span>
                         </button>
-                        <button class="user-menu-item" id="menu-profile">
-                            <i class="fas fa-user"></i>
-                            <span>الملف الشخصي</span>
+                        <button class="user-menu-item" id="menu-activity">
+                            <i class="fas fa-chart-line"></i>
+                            <span>النشاط</span>
                         </button>
                         <button class="user-menu-item delete" id="menu-delete">
                             <i class="fas fa-trash-alt"></i>
@@ -1497,6 +1743,164 @@
             <div class="auth-toggle" id="auth-toggle">
                 <span id="toggle-text">ليس لديك حساب؟</span>
                 <button id="toggle-auth">إنشاء حساب جديد</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- النوافذ المنبثقة -->
+    <div class="modal" id="profile-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>الملف الشخصي</h3>
+                <button class="close-modal" id="close-profile-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h4>معلومات المستخدم</h4>
+                    <div class="profile-info">
+                        <div class="profile-field">
+                            <label>الاسم الكامل</label>
+                            <p id="profile-name">عبد المومن روابح</p>
+                        </div>
+                        <div class="profile-field">
+                            <label>البريد الإلكتروني</label>
+                            <p id="profile-email">moumene.roabah@example.com</p>
+                        </div>
+                        <div class="profile-field">
+                            <label>تاريخ الانضمام</label>
+                            <p id="profile-join-date">يناير 2023</p>
+                        </div>
+                        <div class="profile-field">
+                            <label>الدور</label>
+                            <p id="profile-role">مطور رئيسي</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-section">
+                    <h4>الإحصائيات</h4>
+                    <div class="profile-info">
+                        <div class="profile-field">
+                            <label>المشاريع المكتملة</label>
+                            <p>12 مشروع</p>
+                        </div>
+                        <div class="profile-field">
+                            <label>المشاريع قيد التطوير</label>
+                            <p>5 مشاريع</p>
+                        </div>
+                        <div class="profile-field">
+                            <label>المشاركات</label>
+                            <p>47 مشاركة</p>
+                        </div>
+                        <div class="profile-field">
+                            <label>التقييم</label>
+                            <p>⭐ 4.8/5</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="settings-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>الإعدادات</h3>
+                <button class="close-modal" id="close-settings-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h4>الإعدادات العامة</h4>
+                    <ul class="modal-list">
+                        <li>
+                            <i class="fas fa-globe"></i>
+                            <span>اللغة: العربية</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-palette"></i>
+                            <span>المظهر: فاتح</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-bell"></i>
+                            <span>الإشعارات: مفعلة</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <span>البريد الإلكتروني: نشط</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-section">
+                    <h4>إعدادات الخصوصية</h4>
+                    <ul class="modal-list">
+                        <li>
+                            <i class="fas fa-user-lock"></i>
+                            <span>الحساب: عام</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-eye"></i>
+                            <span>إظهار النشاط: نعم</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-search"></i>
+                            <span>الظهور في البحث: نعم</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="activity-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>النشاط</h3>
+                <button class="close-modal" id="close-activity-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h4>آخر الأنشطة</h4>
+                    <ul class="modal-list">
+                        <li>
+                            <i class="fas fa-code text-success"></i>
+                            <span>تم إكمال مشروع نظام الذكاء الاصطناعي - اليوم</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-gamepad text-warning"></i>
+                            <span>جاري العمل على لعبة بئر النسيان - منذ يومين</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-robot text-primary"></i>
+                            <span>تم تحديث نموذج Peara الصغير - منذ 4 أيام</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-users text-info"></i>
+                            <span>انضممت إلى فريق تطوير جديد - منذ أسبوع</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-section">
+                    <h4>الإحصائيات الشهرية</h4>
+                    <div class="profile-info">
+                        <div class="profile-field">
+                            <label>ساعات البرمجة</label>
+                            <p>84 ساعة</p>
+                        </div>
+                        <div class="profile-field">
+                            <label>المشاريع المحدثة</label>
+                            <p>7 مشاريع</p>
+                        </div>
+                        <div class="profile-field">
+                            <label>الالتزامات</label>
+                            <p>95%</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -2246,7 +2650,6 @@
         // دالة تحديث واجهة المستخدم
         function updateUI() {
             const btnLogin = document.getElementById('btn-login');
-            const btnLogout = document.getElementById('btn-logout');
             const userMenuContainer = document.getElementById('user-menu-container');
             const userAvatar = document.getElementById('user-avatar');
             const menuAvatar = document.getElementById('menu-avatar');
@@ -2256,27 +2659,34 @@
             const autoEmail = document.getElementById('auto-email');
             const formspreeSection = document.getElementById('formspree-section');
             const welcomeMessage = document.getElementById('welcome-message');
+            const profileName = document.getElementById('profile-name');
+            const profileEmail = document.getElementById('profile-email');
 
             if (isLoggedIn && currentUser) {
                 // إظهار واجهة المستخدم المسجل
                 btnLogin.classList.add('hidden');
-                btnLogout.classList.remove('hidden');
                 userMenuContainer.classList.remove('hidden');
                 formspreeSection.classList.remove('hidden');
                 welcomeMessage.classList.remove('hidden');
 
                 // تحديث بيانات المستخدم
                 const userInitial = currentUser.email ? currentUser.email.charAt(0).toUpperCase() : 'U';
+                const userName = currentUser.user_metadata?.full_name || currentUser.email || 'مستخدم';
+                const userEmail = currentUser.email || 'user@example.com';
+                
                 userAvatar.textContent = userInitial;
                 menuAvatar.textContent = userInitial;
-                menuName.textContent = currentUser.user_metadata?.full_name || currentUser.email || 'مستخدم';
-                menuEmail.textContent = currentUser.email || 'user@example.com';
-                autoName.textContent = currentUser.user_metadata?.full_name || currentUser.email || 'مستخدم';
-                autoEmail.textContent = currentUser.email || 'user@example.com';
+                menuName.textContent = userName;
+                menuEmail.textContent = userEmail;
+                autoName.textContent = userName;
+                autoEmail.textContent = userEmail;
+                
+                // تحديث بيانات النافذة المنبثقة
+                if (profileName) profileName.textContent = userName;
+                if (profileEmail) profileEmail.textContent = userEmail;
             } else {
                 // إظهار واجهة الزائر
                 btnLogin.classList.remove('hidden');
-                btnLogout.classList.add('hidden');
                 userMenuContainer.classList.add('hidden');
                 formspreeSection.classList.add('hidden');
                 welcomeMessage.classList.add('hidden');
@@ -2296,6 +2706,22 @@
             if (!userAvatar.contains(event.target) && !dropdownMenu.contains(event.target)) {
                 dropdownMenu.classList.remove('active');
             }
+        }
+
+        // وظائف النوافذ المنبثقة
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            document.getElementById('user-dropdown-menu').classList.remove('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function closeAllModals() {
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.classList.remove('active');
+            });
         }
 
         // وظائف القائمة الجانبية للإعدادات
@@ -2386,7 +2812,6 @@
             // أزرار تسجيل الدخول
             document.getElementById('btn-login').addEventListener('click', openLoginModal);
             document.getElementById('btn-hero-login').addEventListener('click', openLoginModal);
-            document.getElementById('btn-logout').addEventListener('click', logout);
 
             // التبديل بين تسجيل الدخول والتسجيل
             document.getElementById('toggle-auth').addEventListener('click', function() {
@@ -2467,6 +2892,40 @@
             // القائمة المنسدلة للحساب
             document.getElementById('user-avatar').addEventListener('click', toggleUserDropdown);
             document.addEventListener('click', closeUserDropdown);
+
+            // النوافذ المنبثقة
+            document.getElementById('menu-profile').addEventListener('click', function() {
+                openModal('profile-modal');
+            });
+
+            document.getElementById('menu-settings').addEventListener('click', function() {
+                openModal('settings-modal');
+            });
+
+            document.getElementById('menu-activity').addEventListener('click', function() {
+                openModal('activity-modal');
+            });
+
+            document.getElementById('close-profile-modal').addEventListener('click', function() {
+                closeModal('profile-modal');
+            });
+
+            document.getElementById('close-settings-modal').addEventListener('click', function() {
+                closeModal('settings-modal');
+            });
+
+            document.getElementById('close-activity-modal').addEventListener('click', function() {
+                closeModal('activity-modal');
+            });
+
+            // إغلاق النوافذ المنبثقة بالنقر خارجها
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closeModal(this.id);
+                    }
+                });
+            });
 
             // القائمة الجانبية للإعدادات
             document.getElementById('menu-settings').addEventListener('click', openSettings);
