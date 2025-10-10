@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://moumene655.github.io/Peara/sitemap.xml
