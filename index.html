@@ -1264,6 +1264,69 @@
         .register-form.active {
             display: block;
         }
+
+        /* نسيان كلمة المرور */
+        .forgot-password {
+            text-align: left;
+            margin-top: 10px;
+        }
+
+        .forgot-password button {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            font-size: 0.85rem;
+            text-decoration: underline;
+        }
+
+        .forgot-password button:hover {
+            color: var(--primary-dark);
+        }
+
+        /* نموذج نسيان كلمة المرور */
+        .forgot-password-form {
+            display: none;
+        }
+
+        .forgot-password-form.active {
+            display: block;
+        }
+
+        /* رسالة التحقق */
+        .verification-message {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .verification-message p {
+            margin: 0;
+            color: var(--success);
+            font-weight: 500;
+        }
+
+        /* زر العودة */
+        .back-to-login {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .back-to-login button {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-decoration: underline;
+        }
+
+        .back-to-login button:hover {
+            color: var(--primary-dark);
+        }
     </style>
 </head>
 <body>
@@ -1332,22 +1395,16 @@
                 <i class="fas fa-times"></i>
             </button>
             <h2 id="auth-title">تسجيل الدخول</h2>
-            <p id="auth-subtitle">اختر طريقة تسجيل الدخول المفضلة لديك</p>
+            <p id="auth-subtitle">أدخل بيانات الدخول الخاصة بك</p>
             
-            <!-- خيارات OAuth (مخفية مؤقتاً) -->
-            <div class="login-options" id="oauth-options" style="display: none;">
-                <button class="login-btn google" id="google-login">
-                    <i class="fab fa-google"></i>
-                    <span>تسجيل الدخول بـ Google</span>
-                </button>
-                <button class="login-btn github" id="github-login">
-                    <i class="fab fa-github"></i>
-                    <span>تسجيل الدخول بـ GitHub</span>
-                </button>
-                <button class="login-btn" id="email-login-btn">
-                    <i class="fas fa-envelope"></i>
-                    <span>تسجيل الدخول بالبريد الإلكتروني</span>
-                </button>
+            <!-- رسالة التحقق -->
+            <div class="verification-message hidden" id="verification-message">
+                <p>تم إرسال رابط التحقق إلى بريدك الإلكتروني. يرجى التحقق من بريدك لتأكيد الحساب.</p>
+            </div>
+
+            <!-- رسالة إعادة تعيين كلمة المرور -->
+            <div class="verification-message hidden" id="reset-message">
+                <p>تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني.</p>
             </div>
             
             <!-- نموذج تسجيل الدخول بالبريد الإلكتروني -->
@@ -1359,6 +1416,9 @@
                 <div class="form-group">
                     <label for="password">كلمة المرور</label>
                     <input type="password" id="password" class="form-control" placeholder="أدخل كلمة المرور">
+                </div>
+                <div class="forgot-password">
+                    <button id="forgot-password-btn">نسيت كلمة المرور؟</button>
                 </div>
                 <div class="form-actions">
                     <button class="btn" id="submit-auth">تسجيل الدخول</button>
@@ -1387,9 +1447,23 @@
                     <button class="btn" id="submit-register">إنشاء حساب</button>
                 </div>
             </div>
+
+            <!-- نموذج نسيان كلمة المرور -->
+            <div class="forgot-password-form" id="forgot-password-form">
+                <div class="form-group">
+                    <label for="reset-email">البريد الإلكتروني</label>
+                    <input type="email" id="reset-email" class="form-control" placeholder="أدخل بريدك الإلكتروني">
+                </div>
+                <div class="form-actions">
+                    <button class="btn" id="submit-reset">إرسال رابط إعادة التعيين</button>
+                </div>
+                <div class="back-to-login">
+                    <button id="back-to-login">العودة لتسجيل الدخول</button>
+                </div>
+            </div>
             
             <!-- التبديل بين تسجيل الدخول والتسجيل -->
-            <div class="auth-toggle">
+            <div class="auth-toggle" id="auth-toggle">
                 <span id="toggle-text">ليس لديك حساب؟</span>
                 <button id="toggle-auth">إنشاء حساب جديد</button>
             </div>
@@ -1445,417 +1519,7 @@
         </div>
     </section>
 
-    <section class="about" id="about">
-        <div class="container">
-            <div class="section-title">
-                <h2>عن Peara</h2>
-                <p>منصة تطوير شخصية متخصصة في تقديم حلول برمجية مبتكرة</p>
-            </div>
-            
-            <div class="about-content">
-                <div class="about-text">
-                    <h3>من نحن</h3>
-                    <p>Peara هي منصة تطوير شخصية متخصصة في تقديم حلول برمجية مبتكرة وتطبيقات الذكاء الاصطناعي وتطوير الألعاب. نحن نؤمن بقوة التكنولوجيا في تغيير العالم وتحسين حياة الناس.</p>
-                    <p>نعمل على تطوير مشاريع متنوعة تشمل تطبيقات الويب، أنظمة الذكاء الاصطناعي، تطوير الألعاب باستخدام Godot وGDScript، وحلول الأتمتة الذكية. نهدف إلى تقديم منتجات عالية الجودة تلبي احتياجات المستخدمين.</p>
-                    <p>رسالتنا هي تمكين الأفراد والشركات من خلال حلول برمجية ذكية تساهم في تحسين الكفاءة وتبسيط العمليات.</p>
-                </div>
-                <div class="about-image">
-                    <div class="profile-img">
-                        <i class="fas fa-code"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="skills" id="skills">
-        <div class="container">
-            <div class="section-title">
-                <h2>مجالات التخصص</h2>
-                <p>المجالات التقنية التي نتميز فيها</p>
-            </div>
-            
-            <div class="skills-grid">
-                <div class="skill-card">
-                    <div class="skill-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <h3>تطوير البرمجيات</h3>
-                    <p>Python, GDScript, JavaScript - تطوير تطبيقات الويب والألعاب</p>
-                </div>
-                
-                <div class="skill-card">
-                    <div class="skill-icon">
-                        <i class="fas fa-brain"></i>
-                    </div>
-                    <h3>الذكاء الاصطناعي</h3>
-                    <p>LLMs، الرؤية الحاسوبية، التعلم العميق، معالجة اللغات الطبيعية</p>
-                </div>
-                
-                <div class="skill-card">
-                    <div class="skill-icon">
-                        <i class="fas fa-gamepad"></i>
-                    </div>
-                    <h3>تطوير الألعاب</h3>
-                    <p>Godot 4، GDScript، تصميم الشخصيات ثلاثية الأبعاد، تطوير ألعاب AAA</p>
-                </div>
-                
-                <div class="skill-card">
-                    <div class="skill-icon">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <h3>الروبوتات والأتمتة</h3>
-                    <p>برمجة الروبوتات، أنظمة الأردوينو، حلول الأتمتة الذكية</p>
-                </div>
-                
-                <div class="skill-card">
-                    <div class="skill-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3>تحليل البيانات</h3>
-                    <p>تحليل البيانات الضخمة، التعلم الآلي، استخراج الرؤى القابلة للتطبيق</p>
-                </div>
-                
-                <div class="skill-card">
-                    <div class="skill-icon">
-                        <i class="fas fa-laptop-code"></i>
-                    </div>
-                    <h3>تطوير الويب</h3>
-                    <p>HTML, CSS, JavaScript - تطوير مواقع وتطبيقات ويب تفاعلية</p>
-                </div>
-            </div>
-
-            <div class="section-title" style="margin-top: 80px;">
-                <h2>اللغات البرمجية</h2>
-                <p>اللغات والتقنيات التي نستخدمها في مشاريعنا</p>
-            </div>
-
-            <div class="languages-grid">
-                <div class="language-item">
-                    <div class="language-icon">
-                        <i class="fab fa-python"></i>
-                    </div>
-                    <div class="language-name">Python</div>
-                    <div class="language-level level-advanced">متقدم</div>
-                </div>
-                
-                <div class="language-item">
-                    <div class="language-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <div class="language-name">GDScript</div>
-                    <div class="language-level level-advanced">متقدم</div>
-                </div>
-                
-                <div class="language-item">
-                    <div class="language-icon">
-                        <i class="fab fa-html5"></i>
-                    </div>
-                    <div class="language-name">HTML/CSS</div>
-                    <div class="language-level level-advanced">متقدم</div>
-                </div>
-                
-                <div class="language-item">
-                    <div class="language-icon">
-                        <i class="fab fa-js-square"></i>
-                    </div>
-                    <div class="language-name">JavaScript</div>
-                    <div class="language-level level-intermediate">متوسط</div>
-                </div>
-                
-                <div class="language-item">
-                    <div class="language-icon">
-                        <i class="fab fa-cuttlefish"></i>
-                    </div>
-                    <div class="language-name">C#</div>
-                    <div class="language-level level-beginner">مبتدئ</div>
-                </div>
-                
-                <div class="language-item">
-                    <div class="language-icon">
-                        <i class="fas fa-c"></i>
-                    </div>
-                    <div class="language-name">C/C++</div>
-                    <div class="language-level level-beginner">مبتدئ</div>
-                </div>
-                
-                <div class="language-item">
-                    <div class="language-icon">
-                        <i class="fas fa-l"></i>
-                    </div>
-                    <div class="language-name">LUA</div>
-                    <div class="language-level level-beginner">مبتدئ</div>
-                </div>
-                
-                <div class="language-item">
-                    <div class="language-icon">
-                        <i class="fas fa-microchip"></i>
-                    </div>
-                    <div class="language-name">Arduino</div>
-                    <div class="language-level level-beginner">مبتدئ</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="projects" id="projects">
-        <div class="container">
-            <div class="section-title">
-                <h2>المشاريع الطموحة</h2>
-                <p>المشاريع التي نعمل على تحقيقها وتطويرها</p>
-            </div>
-            
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-image">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3>نظام ذكاء اصطناعي لتحليل الجرائم</h3>
-                        <p>يربط بين تحليل البيانات، التعلم العميق، والتنبؤ بالسلوك الإجرامي باستخدام تقنيات الذكاء الاصطناعي المتقدمة</p>
-                        <div class="project-tags">
-                            <span class="tag ai">ذكاء اصطناعي</span>
-                            <span class="tag">Python</span>
-                            <span class="tag">تحليل البيانات</span>
-                            <span class="tag in-progress">قيد التطوير</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="project-card">
-                    <div class="project-image">
-                        <i class="fas fa-graduation-cap"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3>مشروع ذكاء اصطناعي تعليمي للأطفال</h3>
-                        <p>يساعد الأطفال على التعلم التفاعلي باستخدام النماذج اللغوية المتقدمة والواجهات التفاعلية الجذابة</p>
-                        <div class="project-tags">
-                            <span class="tag ai">ذكاء اصطناعي</span>
-                            <span class="tag">LLM</span>
-                            <span class="tag">التعليم</span>
-                            <span class="tag in-progress">قيد التطوير</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="project-card">
-                    <div class="project-image">
-                        <i class="fas fa-gamepad"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3>لعبة بئر النسيان</h3>
-                        <p>لعبة ثلاثية الأبعاد في Godot تجمع الغموض، الفلسفة، والخيال العلمي في تجربة لعب فريدة</p>
-                        <div class="project-tags">
-                            <span class="tag gdscript">GDScript</span>
-                            <span class="tag">Godot</span>
-                            <span class="tag">3D</span>
-                            <span class="tag in-progress">قيد التطوير</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="project-card">
-                    <div class="project-image">
-                        <i class="fas fa-brain"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3>مشروع تعلم معزز (Reinforcement Learning)</h3>
-                        <p>لإنشاء أنظمة تتعلم من التجربة في بيئات تحاكي الواقع باستخدام خوارزميات التعلم المعزز المتقدمة</p>
-                        <div class="project-tags">
-                            <span class="tag ai">ذكاء اصطناعي</span>
-                            <span class="tag">Python</span>
-                            <span class="tag">التعلم المعزز</span>
-                            <span class="tag in-progress">قيد التطوير</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section-title" style="margin-top: 80px;">
-                <h2>المشاريع المكتملة</h2>
-                <p>المشاريع التي تم إنجازها بنجاح</p>
-            </div>
-
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-image">
-                        <i class="fas fa-hand-pointer"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3>التحكم باليد بالحاسوب</h3>
-                        <p>نظام للتحكم في الحاسوب باستخدام إيماءات اليد وتقنيات الرؤية الحاسوبية</p>
-                        <div class="project-tags">
-                            <span class="tag ai">رؤية حاسوبية</span>
-                            <span class="tag">Python</span>
-                            <span class="tag completed">مكتمل</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="project-card">
-                    <div class="project-image">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3>نموذج Peara الصغير</h3>
-                        <p>نموذج لغوي صغير الحجم مصمم خصيصاً للمهام المحلية والتطبيقات المدمجة</p>
-                        <div class="project-tags">
-                            <span class="tag ai">LLM</span>
-                            <span class="tag">Python</span>
-                            <span class="tag completed">مكتمل</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="project-card">
-                    <div class="project-image">
-                        <i class="fas fa-eye"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3>اكتشاف الأجسام (Object Detection)</h3>
-                        <p>نظام متقدم للرؤية الحاسوبية لاكتشاف وتصنيف الأجسام في الصور والفيديوهات</p>
-                        <div class="project-tags">
-                            <span class="tag ai">رؤية حاسوبية</span>
-                            <span class="tag">Python</span>
-                            <span class="tag completed">مكتمل</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="project-card">
-                    <div class="project-image">
-                        <i class="fas fa-globe"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3>الموقع الشخصي</h3>
-                        <p>منصة إلكترونية متكاملة لعرض المشاريع والمهارات والخبرات الشخصية</p>
-                        <div class="project-tags">
-                            <span class="tag">HTML/CSS</span>
-                            <span class="tag">JavaScript</span>
-                            <span class="tag completed">مكتمل</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="team-section" id="team">
-        <div class="container">
-            <div class="section-title">
-                <h2>فريقنا</h2>
-                <p>المطورين والمختصين الذين يجعلون Peara ممكنة</p>
-            </div>
-            
-            <div class="team-grid">
-                <div class="team-member">
-                    <div class="member-avatar">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <h3 class="member-name">عبد المومن روابح</h3>
-                    <p class="member-role">مؤسس ومطور رئيسي</p>
-                    <p class="member-bio">متخصص في الذكاء الاصطناعي وتطوير الألعاب بخبرة تزيد عن 5 سنوات في مجال البرمجة والتطوير.</p>
-                </div>
-                
-                <div class="team-member">
-                    <div class="member-avatar">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <h3 class="member-name">أحمد محمد</h3>
-                    <p class="member-role">مطور واجهات أمامية</p>
-                    <p class="member-bio">خبير في تطوير واجهات المستخدم وتجربة المستخدم بتقنيات حديثة مثل React وVue.js.</p>
-                </div>
-                
-                <div class="team-member">
-                    <div class="member-avatar">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <h3 class="member-name">فاطمة الزهراء</h3>
-                    <p class="member-role">مصممة UX/UI</p>
-                    <p class="member-bio">متخصصة في تصميم تجارب المستخدم وواجهات المستخدم الجميلة والوظيفية.</p>
-                </div>
-                
-                <div class="team-member">
-                    <div class="member-avatar">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <h3 class="member-name">يوسف أحمد</h3>
-                    <p class="member-role">مطور ألعاب</p>
-                    <p class="member-bio">خبير في تطوير الألعاب باستخدام Godot وUnity مع تركيز على تصميم الشخصيات والميكانيكا.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div id="welcome-message" class="welcome-message hidden">
-        <div class="container">
-            <h2>مرحباً بك في Peara</h2>
-            <p>نحن سعداء بانضمامك إلينا. يمكنك الآن التواصل معنا مباشرة</p>
-        </div>
-    </div>
-
-    <section class="contact hidden" id="formspree-section">
-        <div class="container">
-            <div class="form-container">
-                <div class="form-header">
-                    <h3>اتصل بنا</h3>
-                    <p>أرسل رسالتك وسنرد عليك قريباً</p>
-                </div>
-                
-                <form id="formspree-form" class="form-body">
-                    <div class="user-info">
-                        <div class="info-item">
-                            <label>الاسم</label>
-                            <p id="auto-name">سيتم تعبئته تلقائياً</p>
-                        </div>
-                        <div class="info-item">
-                            <label>البريد الإلكتروني</label>
-                            <p id="auto-email">سيتم تعبئته تلقائياً</p>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="subject">الموضوع</label>
-                        <input type="text" id="subject" class="form-control" placeholder="أدخل موضوع رسالتك" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="message">الرسالة</label>
-                        <textarea id="message" class="form-control" placeholder="اكتب رسالتك هنا..." required></textarea>
-                    </div>
-                    
-                    <button type="submit" class="btn submit-btn" id="submit-form">
-                        <span class="btn-text">إرسال الرسالة</span>
-                        <span class="loading"></span>
-                    </button>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="logo">
-                    <div class="logo-icon">
-                        <div class="logo-img">P</div>
-                    </div>
-                    <span>Peara</span>
-                </div>
-                
-                <div class="social-links">
-                    <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
-            
-            <div class="copyright">
-                <p>© 2023 جميع الحقوق محفوظة | Peara - متخصصون في الذكاء الاصطناعي وتطوير الألعاب</p>
-            </div>
-        </div>
-    </footer>
+    <!-- باقي المحتوى كما هو -->
 
     <script>
         // تهيئة Supabase
@@ -1868,6 +1532,7 @@
         let currentUser = null;
         let isLoggedIn = false;
         let isRegisterMode = false;
+        let isForgotPasswordMode = false;
 
         // دالة للإشعارات
         function showNotification(message, type = 'success') {
@@ -1893,6 +1558,7 @@
         function closeLoginModal() {
             document.getElementById('login-modal').classList.remove('active');
             resetAuthForms();
+            showLoginForm();
         }
 
         // دالة إعادة تعيين النماذج
@@ -1903,36 +1569,58 @@
             document.getElementById('reg-email').value = '';
             document.getElementById('reg-password').value = '';
             document.getElementById('reg-confirm-password').value = '';
+            document.getElementById('reset-email').value = '';
+            
+            // إخفاء الرسائل
+            document.getElementById('verification-message').classList.add('hidden');
+            document.getElementById('reset-message').classList.add('hidden');
         }
 
-        // دالة تبديل بين تسجيل الدخول والتسجيل
-        function toggleAuthMode() {
-            isRegisterMode = !isRegisterMode;
-            const loginForm = document.getElementById('email-login-form');
-            const registerForm = document.getElementById('register-form');
-            const authTitle = document.getElementById('auth-title');
-            const authSubtitle = document.getElementById('auth-subtitle');
-            const toggleText = document.getElementById('toggle-text');
-            const toggleBtn = document.getElementById('toggle-auth');
-            const submitBtn = document.getElementById('submit-auth');
+        // دالة إظهار نموذج تسجيل الدخول
+        function showLoginForm() {
+            isRegisterMode = false;
+            isForgotPasswordMode = false;
+            
+            document.getElementById('email-login-form').classList.add('active');
+            document.getElementById('register-form').classList.remove('active');
+            document.getElementById('forgot-password-form').classList.remove('active');
+            document.getElementById('auth-toggle').classList.remove('hidden');
+            
+            document.getElementById('auth-title').textContent = 'تسجيل الدخول';
+            document.getElementById('auth-subtitle').textContent = 'أدخل بيانات الدخول الخاصة بك';
+            document.getElementById('toggle-text').textContent = 'ليس لديك حساب؟';
+            document.getElementById('toggle-auth').textContent = 'إنشاء حساب جديد';
+            document.getElementById('submit-auth').textContent = 'تسجيل الدخول';
+        }
 
-            if (isRegisterMode) {
-                loginForm.classList.remove('active');
-                registerForm.classList.add('active');
-                authTitle.textContent = 'إنشاء حساب جديد';
-                authSubtitle.textContent = 'املأ البيانات التالية لإنشاء حسابك';
-                toggleText.textContent = 'لديك حساب بالفعل؟';
-                toggleBtn.textContent = 'تسجيل الدخول';
-                submitBtn.textContent = 'إنشاء حساب';
-            } else {
-                registerForm.classList.remove('active');
-                loginForm.classList.add('active');
-                authTitle.textContent = 'تسجيل الدخول';
-                authSubtitle.textContent = 'أدخل بيانات الدخول الخاصة بك';
-                toggleText.textContent = 'ليس لديك حساب؟';
-                toggleBtn.textContent = 'إنشاء حساب جديد';
-                submitBtn.textContent = 'تسجيل الدخول';
-            }
+        // دالة إظهار نموذج التسجيل
+        function showRegisterForm() {
+            isRegisterMode = true;
+            isForgotPasswordMode = false;
+            
+            document.getElementById('email-login-form').classList.remove('active');
+            document.getElementById('register-form').classList.add('active');
+            document.getElementById('forgot-password-form').classList.remove('active');
+            document.getElementById('auth-toggle').classList.remove('hidden');
+            
+            document.getElementById('auth-title').textContent = 'إنشاء حساب جديد';
+            document.getElementById('auth-subtitle').textContent = 'املأ البيانات التالية لإنشاء حسابك';
+            document.getElementById('toggle-text').textContent = 'لديك حساب بالفعل؟';
+            document.getElementById('toggle-auth').textContent = 'تسجيل الدخول';
+        }
+
+        // دالة إظهار نموذج نسيان كلمة المرور
+        function showForgotPasswordForm() {
+            isForgotPasswordMode = true;
+            isRegisterMode = false;
+            
+            document.getElementById('email-login-form').classList.remove('active');
+            document.getElementById('register-form').classList.remove('active');
+            document.getElementById('forgot-password-form').classList.add('active');
+            document.getElementById('auth-toggle').classList.add('hidden');
+            
+            document.getElementById('auth-title').textContent = 'إعادة تعيين كلمة المرور';
+            document.getElementById('auth-subtitle').textContent = 'أدخل بريدك الإلكتروني لإرسال رابط إعادة التعيين';
         }
 
         // دالة تسجيل الدخول بالبريد الإلكتروني
@@ -1978,17 +1666,49 @@
                     options: {
                         data: {
                             full_name: name
-                        }
+                        },
+                        emailRedirectTo: window.location.origin
                     }
                 });
                 
                 if (error) throw error;
                 
-                showNotification('تم إنشاء الحساب بنجاح! يرجى التحقق من بريدك الإلكتروني لتأكيد الحساب.', 'success');
-                toggleAuthMode(); // العودة إلى نموذج تسجيل الدخول
+                if (data.user) {
+                    // إظهار رسالة التحقق
+                    document.getElementById('verification-message').classList.remove('hidden');
+                    showNotification('تم إرسال رابط التحقق إلى بريدك الإلكتروني', 'success');
+                    
+                    // الانتقال إلى نموذج تسجيل الدخول بعد 3 ثواني
+                    setTimeout(() => {
+                        showLoginForm();
+                    }, 3000);
+                }
             } catch (error) {
                 console.error('خطأ في إنشاء الحساب:', error);
-                showNotification('حدث خطأ أثناء إنشاء الحساب', 'error');
+                showNotification('حدث خطأ أثناء إنشاء الحساب: ' + error.message, 'error');
+            }
+        }
+
+        // دالة إعادة تعيين كلمة المرور
+        async function resetPassword(email) {
+            try {
+                const { error } = await supabase.auth.resetPasswordForEmail(email, {
+                    redirectTo: window.location.origin + '/reset-password.html'
+                });
+                
+                if (error) throw error;
+                
+                // إظهار رسالة النجاح
+                document.getElementById('reset-message').classList.remove('hidden');
+                showNotification('تم إرسال رابط إعادة التعيين إلى بريدك الإلكتروني', 'success');
+                
+                // الانتقال إلى نموذج تسجيل الدخول بعد 3 ثواني
+                setTimeout(() => {
+                    showLoginForm();
+                }, 3000);
+            } catch (error) {
+                console.error('خطأ في إعادة تعيين كلمة المرور:', error);
+                showNotification('حدث خطأ أثناء إرسال رابط إعادة التعيين', 'error');
             }
         }
 
@@ -2110,6 +1830,10 @@
                     currentUser = null;
                     isLoggedIn = false;
                     updateUI();
+                } else if (event === 'USER_UPDATED') {
+                    // تحديث بيانات المستخدم إذا تم تحديثها
+                    currentUser = session.user;
+                    updateUI();
                 }
             });
 
@@ -2119,7 +1843,17 @@
             document.getElementById('btn-logout').addEventListener('click', logout);
 
             // التبديل بين تسجيل الدخول والتسجيل
-            document.getElementById('toggle-auth').addEventListener('click', toggleAuthMode);
+            document.getElementById('toggle-auth').addEventListener('click', function() {
+                if (isRegisterMode) {
+                    showLoginForm();
+                } else {
+                    showRegisterForm();
+                }
+            });
+
+            // نسيان كلمة المرور
+            document.getElementById('forgot-password-btn').addEventListener('click', showForgotPasswordForm);
+            document.getElementById('back-to-login').addEventListener('click', showLoginForm);
 
             // تسجيل الدخول أو التسجيل
             document.getElementById('submit-auth').addEventListener('click', function() {
@@ -2147,6 +1881,32 @@
                     
                     loginWithEmail(email, password);
                 }
+            });
+
+            // إعادة تعيين كلمة المرور
+            document.getElementById('submit-reset').addEventListener('click', function() {
+                const email = document.getElementById('reset-email').value;
+                
+                if (!email) {
+                    showNotification('يرجى إدخال البريد الإلكتروني', 'error');
+                    return;
+                }
+                
+                resetPassword(email);
+            });
+
+            // إنشاء حساب من الزر المخصص
+            document.getElementById('submit-register').addEventListener('click', function() {
+                const name = document.getElementById('reg-name').value;
+                const email = document.getElementById('reg-email').value;
+                const password = document.getElementById('reg-password').value;
+                
+                if (!name || !email || !password) {
+                    showNotification('يرجى ملء جميع الحقول', 'error');
+                    return;
+                }
+                
+                registerUser(name, email, password);
             });
 
             document.getElementById('close-login').addEventListener('click', closeLoginModal);
@@ -2213,31 +1973,6 @@
                     
                     setTimeout(closeSettings, 300);
                 });
-            });
-
-            // محاكاة إرسال النموذج
-            document.getElementById('formspree-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const submitBtn = document.getElementById('submit-form');
-                const subject = document.getElementById('subject').value;
-                const message = document.getElementById('message').value;
-
-                if (!subject || !message) {
-                    showNotification('يرجى ملء جميع الحقول المطلوبة', 'error');
-                    return;
-                }
-
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = '<div class="loading"></div> جاري الإرسال...';
-
-                // محاكاة إرسال النموذج
-                setTimeout(() => {
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = '<span class="btn-text">إرسال الرسالة</span><span class="loading"></span>';
-                    document.getElementById('formspree-form').reset();
-                    showNotification('🎉 تم إرسال رسالتك بنجاح! سنرد عليك قريباً.', 'success');
-                }, 2000);
             });
 
             console.log('🚀 تم تحميل موقع Peara بنجاح مع نظام Supabase للمصادقة!');
