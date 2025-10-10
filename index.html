@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PearaTech</title>
+    <title>Peara - فريق تطوير البرمجيات | الذكاء الاصطناعي وتطوير الألعاب</title>
     
     <!-- الوسوم المحدثة للفريق -->
     <meta name="description" content="فريق Peara للتطوير - فريق متخصص في الذكاء الاصطناعي، تطوير الألعاب بـ Godot وGDScript، Python، وتطوير الويب. استعرض مشاريعنا البرمجية وخبراتنا التقنية.">
@@ -1327,6 +1327,31 @@
         .back-to-login button:hover {
             color: var(--primary-dark);
         }
+
+        /* تحسينات التحقق من البريد الإلكتروني */
+        .email-validation {
+            font-size: 0.8rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .email-validation.valid {
+            color: var(--success);
+            display: block;
+        }
+
+        .email-validation.invalid {
+            color: var(--error);
+            display: block;
+        }
+
+        .form-control.valid {
+            border-color: var(--success);
+        }
+
+        .form-control.invalid {
+            border-color: var(--error);
+        }
     </style>
 </head>
 <body>
@@ -1412,10 +1437,12 @@
                 <div class="form-group">
                     <label for="email">البريد الإلكتروني</label>
                     <input type="email" id="email" class="form-control" placeholder="أدخل بريدك الإلكتروني">
+                    <div class="email-validation" id="email-validation"></div>
                 </div>
                 <div class="form-group">
                     <label for="password">كلمة المرور</label>
                     <input type="password" id="password" class="form-control" placeholder="أدخل كلمة المرور">
+                    <div class="email-validation" id="password-validation"></div>
                 </div>
                 <div class="forgot-password">
                     <button id="forgot-password-btn">نسيت كلمة المرور؟</button>
@@ -1434,14 +1461,17 @@
                 <div class="form-group">
                     <label for="reg-email">البريد الإلكتروني</label>
                     <input type="email" id="reg-email" class="form-control" placeholder="أدخل بريدك الإلكتروني">
+                    <div class="email-validation" id="reg-email-validation"></div>
                 </div>
                 <div class="form-group">
                     <label for="reg-password">كلمة المرور</label>
                     <input type="password" id="reg-password" class="form-control" placeholder="أدخل كلمة المرور (6 أحرف على الأقل)">
+                    <div class="email-validation" id="reg-password-validation"></div>
                 </div>
                 <div class="form-group">
                     <label for="reg-confirm-password">تأكيد كلمة المرور</label>
                     <input type="password" id="reg-confirm-password" class="form-control" placeholder="أعد إدخال كلمة المرور">
+                    <div class="email-validation" id="confirm-password-validation"></div>
                 </div>
                 <div class="form-actions">
                     <button class="btn" id="submit-register">إنشاء حساب</button>
@@ -1453,6 +1483,7 @@
                 <div class="form-group">
                     <label for="reset-email">البريد الإلكتروني</label>
                     <input type="email" id="reset-email" class="form-control" placeholder="أدخل بريدك الإلكتروني">
+                    <div class="email-validation" id="reset-email-validation"></div>
                 </div>
                 <div class="form-actions">
                     <button class="btn" id="submit-reset">إرسال رابط إعادة التعيين</button>
@@ -1944,6 +1975,30 @@
         let isRegisterMode = false;
         let isForgotPasswordMode = false;
 
+        // دالة للتحقق من صحة البريد الإلكتروني
+        function validateEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        // دالة للتحقق من قوة كلمة المرور
+        function validatePassword(password) {
+            return password.length >= 6;
+        }
+
+        // دالة لعرض رسائل التحقق
+        function showValidationMessage(elementId, message, isValid) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `email-validation ${isValid ? 'valid' : 'invalid'}`;
+            
+            const inputElement = element.previousElementSibling;
+            if (inputElement && inputElement.classList.contains('form-control')) {
+                inputElement.classList.remove('valid', 'invalid');
+                inputElement.classList.add(isValid ? 'valid' : 'invalid');
+            }
+        }
+
         // دالة للإشعارات
         function showNotification(message, type = 'success') {
             const existingNotifications = document.querySelectorAll('.notification');
@@ -1980,6 +2035,12 @@
             document.getElementById('reg-password').value = '';
             document.getElementById('reg-confirm-password').value = '';
             document.getElementById('reset-email').value = '';
+            
+            // إخفاء رسائل التحقق
+            document.querySelectorAll('.email-validation').forEach(el => {
+                el.classList.remove('valid', 'invalid');
+                el.style.display = 'none';
+            });
             
             // إخفاء الرسائل
             document.getElementById('verification-message').classList.add('hidden');
@@ -2036,6 +2097,12 @@
         // دالة تسجيل الدخول بالبريد الإلكتروني
         async function loginWithEmail(email, password) {
             try {
+                // التحقق من صحة البريد الإلكتروني
+                if (!validateEmail(email)) {
+                    showValidationMessage('email-validation', 'البريد الإلكتروني غير صالح', false);
+                    return;
+                }
+
                 const { data, error } = await supabase.auth.signInWithPassword({
                     email: email,
                     password: password
@@ -2057,20 +2124,32 @@
         // دالة إنشاء حساب جديد
         async function registerUser(name, email, password) {
             try {
+                // التحقق من صحة البيانات
+                if (!name || !email || !password) {
+                    showNotification('يرجى ملء جميع الحقول', 'error');
+                    return;
+                }
+
+                if (!validateEmail(email)) {
+                    showValidationMessage('reg-email-validation', 'البريد الإلكتروني غير صالح', false);
+                    return;
+                }
+
+                if (!validatePassword(password)) {
+                    showValidationMessage('reg-password-validation', 'كلمة المرور يجب أن تكون 6 أحرف على الأقل', false);
+                    return;
+                }
+
                 // التحقق من تطابق كلمات المرور
                 const confirmPassword = document.getElementById('reg-confirm-password').value;
                 if (password !== confirmPassword) {
-                    showNotification('كلمات المرور غير متطابقة', 'error');
+                    showValidationMessage('confirm-password-validation', 'كلمات المرور غير متطابقة', false);
                     return;
                 }
 
-                // التحقق من طول كلمة المرور
-                if (password.length < 6) {
-                    showNotification('كلمة المرور يجب أن تكون 6 أحرف على الأقل', 'error');
-                    return;
-                }
-
-                // استخدام رابط GitHub Pages لإعادة التوجيه
+                // استخدام رابط GitHub Pages الصحيح لإعادة التوجيه
+                const redirectUrl = 'https://oumene655.github.io/Peara/';
+                
                 const { data, error } = await supabase.auth.signUp({
                     email: email,
                     password: password,
@@ -2078,7 +2157,7 @@
                         data: {
                             full_name: name
                         },
-                        emailRedirectTo: 'https://moumene655.github.io/Peara/'
+                        emailRedirectTo: redirectUrl
                     }
                 });
                 
@@ -2103,8 +2182,16 @@
         // دالة إعادة تعيين كلمة المرور
         async function resetPassword(email) {
             try {
+                if (!validateEmail(email)) {
+                    showValidationMessage('reset-email-validation', 'البريد الإلكتروني غير صالح', false);
+                    return;
+                }
+
+                // استخدام رابط GitHub Pages الصحيح لإعادة التوجيه
+                const redirectUrl = 'https://oumene655.github.io/Peara/';
+                
                 const { error } = await supabase.auth.resetPasswordForEmail(email, {
-                    redirectTo: 'https://moumene655.github.io/Peara/'
+                    redirectTo: redirectUrl
                 });
                 
                 if (error) throw error;
@@ -2245,6 +2332,54 @@
                     // تحديث بيانات المستخدم إذا تم تحديثها
                     currentUser = session.user;
                     updateUI();
+                } else if (event === 'EMAIL_VERIFIED') {
+                    showNotification('تم التحقق من البريد الإلكتروني بنجاح!', 'success');
+                }
+            });
+
+            // إضافة التحقق من البريد الإلكتروني أثناء الكتابة
+            document.getElementById('email').addEventListener('input', function(e) {
+                const email = e.target.value;
+                if (email && !validateEmail(email)) {
+                    showValidationMessage('email-validation', 'البريد الإلكتروني غير صالح', false);
+                } else if (email) {
+                    showValidationMessage('email-validation', 'البريد الإلكتروني صالح', true);
+                } else {
+                    document.getElementById('email-validation').style.display = 'none';
+                }
+            });
+
+            document.getElementById('reg-email').addEventListener('input', function(e) {
+                const email = e.target.value;
+                if (email && !validateEmail(email)) {
+                    showValidationMessage('reg-email-validation', 'البريد الإلكتروني غير صالح', false);
+                } else if (email) {
+                    showValidationMessage('reg-email-validation', 'البريد الإلكتروني صالح', true);
+                } else {
+                    document.getElementById('reg-email-validation').style.display = 'none';
+                }
+            });
+
+            document.getElementById('reg-password').addEventListener('input', function(e) {
+                const password = e.target.value;
+                if (password && !validatePassword(password)) {
+                    showValidationMessage('reg-password-validation', 'كلمة المرور يجب أن تكون 6 أحرف على الأقل', false);
+                } else if (password) {
+                    showValidationMessage('reg-password-validation', 'كلمة المرور صالحة', true);
+                } else {
+                    document.getElementById('reg-password-validation').style.display = 'none';
+                }
+            });
+
+            document.getElementById('reg-confirm-password').addEventListener('input', function(e) {
+                const confirmPassword = e.target.value;
+                const password = document.getElementById('reg-password').value;
+                if (confirmPassword && password !== confirmPassword) {
+                    showValidationMessage('confirm-password-validation', 'كلمات المرور غير متطابقة', false);
+                } else if (confirmPassword) {
+                    showValidationMessage('confirm-password-validation', 'كلمات المرور متطابقة', true);
+                } else {
+                    document.getElementById('confirm-password-validation').style.display = 'none';
                 }
             });
 
@@ -2343,7 +2478,6 @@
                 const confirmDelete = confirm('هل أنت متأكد من رغبتك في حذف الحساب؟ لا يمكن التراجع عن هذا الإجراء.');
                 if (confirmDelete) {
                     try {
-                        // في Supabase، يمكن للمستخدم حذف حسابه بنفسه
                         const { error } = await supabase.auth.signOut();
                         if (error) throw error;
                         
@@ -2411,7 +2545,7 @@
                 }, 2000);
             });
 
-            console.log('🚀 تم تحميل موقع Peara بنجاح مع نظام Supabase للمصادقة!');
+            console.log('🚀 تم تحميل موقع Peara بنجاح مع نظام Supabase للمصادقة والتحقق من البريد الإلكتروني!');
         });
     </script>
 </body>
