@@ -20,6 +20,8 @@
     <meta property="og:locale" content="ar_SA">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- إضافة مكتبة Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
             --primary: #556B2F;
@@ -1191,6 +1193,49 @@
             color: var(--gray);
             line-height: 1.6;
         }
+
+        /* نموذج تسجيل الدخول بالبريد الإلكتروني */
+        .email-login-form {
+            display: none;
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        .email-login-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 15px;
+        }
+
+        .btn-secondary {
+            background: var(--gray);
+        }
+
+        .btn-secondary:hover {
+            background: #475569;
+        }
     </style>
 </head>
 <body>
@@ -1269,10 +1314,26 @@
                     <i class="fab fa-github"></i>
                     <span>تسجيل الدخول بـ GitHub</span>
                 </button>
-                <button class="login-btn" id="email-login">
+                <button class="login-btn" id="email-login-btn">
                     <i class="fas fa-envelope"></i>
                     <span>تسجيل الدخول بالبريد الإلكتروني</span>
                 </button>
+            </div>
+            
+            <!-- نموذج تسجيل الدخول بالبريد الإلكتروني -->
+            <div class="email-login-form" id="email-login-form">
+                <div class="form-group">
+                    <label for="email">البريد الإلكتروني</label>
+                    <input type="email" id="email" class="form-control" placeholder="أدخل بريدك الإلكتروني">
+                </div>
+                <div class="form-group">
+                    <label for="password">كلمة المرور</label>
+                    <input type="password" id="password" class="form-control" placeholder="أدخل كلمة المرور">
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-secondary" id="cancel-email-login">إلغاء</button>
+                    <button class="btn" id="submit-email-login">تسجيل الدخول</button>
+                </div>
             </div>
         </div>
     </div>
@@ -1739,6 +1800,12 @@
     </footer>
 
     <script>
+        // تهيئة Supabase
+        const SUPABASE_URL = 'https://hjvukaaqoguzmgnibsxy.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhqdnVrYWFxb2d1em1nbmlic3h5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAwNTM1OTksImV4cCI6MjA3NTYyOTU5OX0.RBxDtaxNtNA0VhsFOD3GOGAr5twLhYGSK3wmd7vzkpQ';
+
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
         // نظام تسجيل الدخول المحسن
         let currentUser = null;
         let isLoggedIn = false;
@@ -1766,33 +1833,79 @@
         // دالة إغلاق نموذج تسجيل الدخول
         function closeLoginModal() {
             document.getElementById('login-modal').classList.remove('active');
+            document.getElementById('email-login-form').classList.remove('active');
         }
 
-        // دالة تسجيل الدخول المحاكاة
-        function login(provider) {
-            showNotification(`جاري تسجيل الدخول بـ ${provider}...`, 'warning');
-            
-            // محاكاة عملية تسجيل الدخول
-            setTimeout(() => {
-                currentUser = {
-                    name: "عبد المومن روابح",
-                    email: "moumene@peara.com",
-                    avatar: "ع"
-                };
-                isLoggedIn = true;
+        // دالة تسجيل الدخول بـ OAuth
+        async function loginWithOAuth(provider) {
+            try {
+                const { data, error } = await supabase.auth.signInWithOAuth({
+                    provider: provider,
+                    options: {
+                        redirectTo: window.location.origin
+                    }
+                });
                 
+                if (error) throw error;
+                showNotification(`جاري تسجيل الدخول بـ ${provider}...`, 'warning');
+            } catch (error) {
+                console.error('خطأ في تسجيل الدخول:', error);
+                showNotification('حدث خطأ أثناء تسجيل الدخول', 'error');
+            }
+        }
+
+        // دالة تسجيل الدخول بالبريد الإلكتروني
+        async function loginWithEmail(email, password) {
+            try {
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+                
+                if (error) throw error;
+                
+                currentUser = data.user;
+                isLoggedIn = true;
                 updateUI();
                 closeLoginModal();
-                showNotification(`تم تسجيل الدخول بنجاح! مرحباً ${currentUser.name}`, 'success');
-            }, 1500);
+                showNotification(`تم تسجيل الدخول بنجاح! مرحباً ${currentUser.email}`, 'success');
+            } catch (error) {
+                console.error('خطأ في تسجيل الدخول:', error);
+                showNotification('البريد الإلكتروني أو كلمة المرور غير صحيحة', 'error');
+            }
         }
 
         // دالة تسجيل الخروج
-        function logout() {
-            currentUser = null;
-            isLoggedIn = false;
-            updateUI();
-            showNotification('تم تسجيل الخروج بنجاح', 'success');
+        async function logout() {
+            try {
+                const { error } = await supabase.auth.signOut();
+                if (error) throw error;
+                
+                currentUser = null;
+                isLoggedIn = false;
+                updateUI();
+                showNotification('تم تسجيل الخروج بنجاح', 'success');
+            } catch (error) {
+                console.error('خطأ في تسجيل الخروج:', error);
+                showNotification('حدث خطأ أثناء تسجيل الخروج', 'error');
+            }
+        }
+
+        // دالة التحقق من حالة المستخدم
+        async function checkAuthState() {
+            try {
+                const { data: { session }, error } = await supabase.auth.getSession();
+                
+                if (error) throw error;
+                
+                if (session) {
+                    currentUser = session.user;
+                    isLoggedIn = true;
+                    updateUI();
+                }
+            } catch (error) {
+                console.error('خطأ في التحقق من حالة المصادقة:', error);
+            }
         }
 
         // دالة تحديث واجهة المستخدم
@@ -1818,12 +1931,13 @@
                 welcomeMessage.classList.remove('hidden');
 
                 // تحديث بيانات المستخدم
-                userAvatar.textContent = currentUser.avatar;
-                menuAvatar.textContent = currentUser.avatar;
-                menuName.textContent = currentUser.name;
-                menuEmail.textContent = currentUser.email;
-                autoName.textContent = currentUser.name;
-                autoEmail.textContent = currentUser.email;
+                const userInitial = currentUser.email ? currentUser.email.charAt(0).toUpperCase() : 'U';
+                userAvatar.textContent = userInitial;
+                menuAvatar.textContent = userInitial;
+                menuName.textContent = currentUser.user_metadata?.full_name || currentUser.email || 'مستخدم';
+                menuEmail.textContent = currentUser.email || 'user@example.com';
+                autoName.textContent = currentUser.user_metadata?.full_name || currentUser.email || 'مستخدم';
+                autoEmail.textContent = currentUser.email || 'user@example.com';
             } else {
                 // إظهار واجهة الزائر
                 btnLogin.classList.remove('hidden');
@@ -1865,8 +1979,22 @@
 
         // Event Listeners
         document.addEventListener('DOMContentLoaded', function() {
-            // تحديث الواجهة أول مرة
-            updateUI();
+            // التحقق من حالة المصادقة عند تحميل الصفحة
+            checkAuthState();
+
+            // الاستماع لتغييرات حالة المصادقة
+            supabase.auth.onAuthStateChange((event, session) => {
+                if (event === 'SIGNED_IN' && session) {
+                    currentUser = session.user;
+                    isLoggedIn = true;
+                    updateUI();
+                    showNotification(`تم تسجيل الدخول بنجاح! مرحباً ${currentUser.email}`, 'success');
+                } else if (event === 'SIGNED_OUT') {
+                    currentUser = null;
+                    isLoggedIn = false;
+                    updateUI();
+                }
+            });
 
             // أزرار تسجيل الدخول
             document.getElementById('btn-login').addEventListener('click', openLoginModal);
@@ -1874,9 +2002,32 @@
             document.getElementById('btn-logout').addEventListener('click', logout);
 
             // نموذج تسجيل الدخول
-            document.getElementById('google-login').addEventListener('click', () => login('Google'));
-            document.getElementById('github-login').addEventListener('click', () => login('GitHub'));
-            document.getElementById('email-login').addEventListener('click', () => login('البريد الإلكتروني'));
+            document.getElementById('google-login').addEventListener('click', () => loginWithOAuth('google'));
+            document.getElementById('github-login').addEventListener('click', () => loginWithOAuth('github'));
+            
+            // إظهار نموذج تسجيل الدخول بالبريد الإلكتروني
+            document.getElementById('email-login-btn').addEventListener('click', function() {
+                document.getElementById('email-login-form').classList.add('active');
+            });
+
+            // إلغاء تسجيل الدخول بالبريد الإلكتروني
+            document.getElementById('cancel-email-login').addEventListener('click', function() {
+                document.getElementById('email-login-form').classList.remove('active');
+            });
+
+            // تسجيل الدخول بالبريد الإلكتروني
+            document.getElementById('submit-email-login').addEventListener('click', function() {
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                
+                if (!email || !password) {
+                    showNotification('يرجى ملء جميع الحقول', 'error');
+                    return;
+                }
+                
+                loginWithEmail(email, password);
+            });
+
             document.getElementById('close-login').addEventListener('click', closeLoginModal);
 
             // إغلاق نموذج تسجيل الدخول بالنقر خارجيه
@@ -1896,11 +2047,19 @@
             document.getElementById('overlay').addEventListener('click', closeSettings);
 
             // حذف الحساب
-            document.getElementById('menu-delete').addEventListener('click', function() {
+            document.getElementById('menu-delete').addEventListener('click', async function() {
                 const confirmDelete = confirm('هل أنت متأكد من رغبتك في حذف الحساب؟ لا يمكن التراجع عن هذا الإجراء.');
                 if (confirmDelete) {
-                    logout();
-                    showNotification('تم حذف الحساب بنجاح', 'success');
+                    try {
+                        const { error } = await supabase.auth.admin.deleteUser(currentUser.id);
+                        if (error) throw error;
+                        
+                        logout();
+                        showNotification('تم حذف الحساب بنجاح', 'success');
+                    } catch (error) {
+                        console.error('خطأ في حذف الحساب:', error);
+                        showNotification('حدث خطأ أثناء حذف الحساب', 'error');
+                    }
                 }
             });
 
@@ -1959,7 +2118,7 @@
                 }, 2000);
             });
 
-            console.log('🚀 تم تحميل موقع Peara بنجاح!');
+            console.log('🚀 تم تحميل موقع Peara بنجاح مع نظام Supabase للمصادقة!');
         });
     </script>
 </body>
