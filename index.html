@@ -359,6 +359,44 @@
             color: var(--gray);
         }
 
+        .languages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .language-item {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .language-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .language-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .language-name {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .language-level {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
         .projects {
             padding: 100px 0;
             background: white;
@@ -421,6 +459,16 @@
             padding: 5px 12px;
             border-radius: 20px;
             font-size: 0.8rem;
+        }
+
+        .tag.gdscript {
+            background: #478CBF;
+            color: white;
+        }
+
+        .tag.mobile {
+            background: #34C759;
+            color: white;
         }
 
         .contact {
@@ -655,6 +703,10 @@
                 flex-direction: column;
                 gap: 20px;
             }
+            
+            .languages-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
         }
     </style>
 </head>
@@ -707,7 +759,7 @@
     <section class="hero" id="home">
         <div class="container hero-content">
             <h1>مرحباً بكم في Peara</h1>
-            <p>منصة التطوير الشخصية المتكاملة - نقدم حلولاً مبتكرة في مجال البرمجة والذكاء الاصطناعي</p>
+            <p>منصة التطوير الشخصية المتكاملة - نقدم حلولاً مبتكرة في مجال البرمجة والذكاء الاصطناعي وتطوير الألعاب وتطبيقات الجوال</p>
             <button id="btn-hero-login" class="btn">استكشف المشاريع</button>
         </div>
     </section>
@@ -722,8 +774,8 @@
             <div class="about-content">
                 <div class="about-text">
                     <h3>من نحن</h3>
-                    <p>Peara هي منصة تطوير شخصية متخصصة في تقديم حلول برمجية مبتكرة وتطبيقات الذكاء الاصطناعي. نحن نؤمن بقوة التكنولوجيا في تغيير العالم وتحسين حياة الناس.</p>
-                    <p>نعمل على تطوير مشاريع متنوعة تشمل تطبيقات الويب، أنظمة الذكاء الاصطناعي، تطوير الألعاب، وحلول الأتمتة الذكية. نهدف إلى تقديم منتجات عالية الجودة تلبي احتياجات المستخدمين.</p>
+                    <p>Peara هي منصة تطوير شخصية متخصصة في تقديم حلول برمجية مبتكرة وتطبيقات الذكاء الاصطناعي وتطوير الألعاب وتطبيقات الجوال. نحن نؤمن بقوة التكنولوجيا في تغيير العالم وتحسين حياة الناس.</p>
+                    <p>نعمل على تطوير مشاريع متنوعة تشمل تطبيقات الويب والجوال، أنظمة الذكاء الاصطناعي، تطوير الألعاب باستخدام Godot وGDScript، وحلول الأتمتة الذكية. نهدف إلى تقديم منتجات عالية الجودة تلبي احتياجات المستخدمين.</p>
                     <p>رسالتنا هي تمكين الأفراد والشركات من خلال حلول برمجية ذكية تساهم في تحسين الكفاءة وتبسيط العمليات.</p>
                 </div>
                 <div class="about-image">
@@ -748,7 +800,7 @@
                         <i class="fas fa-code"></i>
                     </div>
                     <h3>تطوير البرمجيات</h3>
-                    <p>Python, JavaScript, C#, HTML, CSS, GdScript, تطوير تطبيقات الويب والجوال</p>
+                    <p>Python, JavaScript, C#, HTML, CSS, GDScript - تطوير تطبيقات الويب والجوال</p>
                 </div>
                 
                 <div class="skill-card">
@@ -764,7 +816,15 @@
                         <i class="fas fa-gamepad"></i>
                     </div>
                     <h3>تطوير الألعاب</h3>
-                    <p>Godot 4، Unity، تصميم الشخصيات ثلاثية الأبعاد، تطوير ألعاب جيدة</p>
+                    <p>Godot 4، GDScript، Unity، تصميم الشخصيات ثلاثية الأبعاد، تطوير ألعاب AAA</p>
+                </div>
+                
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>تطبيقات الجوال</h3>
+                    <p>تطوير تطبيقات iOS وAndroid، React Native، Flutter، تطبيقات هجينة</p>
                 </div>
                 
                 <div class="skill-card">
@@ -777,18 +837,65 @@
                 
                 <div class="skill-card">
                     <div class="skill-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>الأمن السيبراني</h3>
-                    <p>الهاكر الأخلاقي، أمن المعلومات، حماية الأنظمة والشبكات</p>
-                </div>
-                
-                <div class="skill-card">
-                    <div class="skill-icon">
                         <i class="fas fa-chart-line"></i>
                     </div>
                     <h3>تحليل البيانات</h3>
                     <p>تحليل البيانات الضخمة، التعلم الآلي، استخراج الرؤى القابلة للتطبيق</p>
+                </div>
+            </div>
+
+            <div class="section-title" style="margin-top: 80px;">
+                <h2>اللغات البرمجية</h2>
+                <p>اللغات والتقنيات التي نستخدمها في مشاريعنا</p>
+            </div>
+
+            <div class="languages-grid">
+                <div class="language-item">
+                    <div class="language-icon">
+                        <i class="fab fa-python"></i>
+                    </div>
+                    <div class="language-name">Python</div>
+                    <div class="language-level">متقدم</div>
+                </div>
+                
+                <div class="language-item">
+                    <div class="language-icon">
+                        <i class="fab fa-js-square"></i>
+                    </div>
+                    <div class="language-name">JavaScript</div>
+                    <div class="language-level">متقدم</div>
+                </div>
+                
+                <div class="language-item">
+                    <div class="language-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="language-name">GDScript</div>
+                    <div class="language-level">متقدم</div>
+                </div>
+                
+                <div class="language-item">
+                    <div class="language-icon">
+                        <i class="fab fa-html5"></i>
+                    </div>
+                    <div class="language-name">HTML/CSS</div>
+                    <div class="language-level">متقدم</div>
+                </div>
+                
+                <div class="language-item">
+                    <div class="language-icon">
+                        <i class="fab fa-react"></i>
+                    </div>
+                    <div class="language-name">React Native</div>
+                    <div class="language-level">متوسط</div>
+                </div>
+                
+                <div class="language-item">
+                    <div class="language-icon">
+                        <i class="fas fa-mobile"></i>
+                    </div>
+                    <div class="language-name">Flutter</div>
+                    <div class="language-level">متوسط</div>
                 </div>
             </div>
         </div>
@@ -797,11 +904,42 @@
     <section class="projects" id="projects">
         <div class="container">
             <div class="section-title">
-                <h2>مخطط المشاريع</h2>
-                <p>أبرز المشاريع التي مخطط انشاءها في المستقبل</p>
+                <h2>مشاريعنا</h2>
+                <p>أبرز المشاريع التي قمنا بتطويرها باستخدام GDScript وتقنيات أخرى</p>
             </div>
             
             <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3>لعبة 3D - بئر النسيان</h3>
+                        <p>لعبة ثلاثية الأبعاد مطورة باستخدام Godot 4 وGDScript، تقدم تجربة لعب غامرة ومبتكرة مع نظام قصة متقدم</p>
+                        <div class="project-tags">
+                            <span class="tag gdscript">GDScript</span>
+                            <span class="tag">Godot</span>
+                            <span class="tag">3D</span>
+                            <span class="tag">ألعاب</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3>تطبيق إدارة المهام</h3>
+                        <p>تطبيق جوال متكامل لإدارة المهام اليومية مع مزامنة سحابية وإشعارات ذكية وتقارير أداء</p>
+                        <div class="project-tags">
+                            <span class="tag mobile">تطبيقات جوال</span>
+                            <span class="tag">React Native</span>
+                            <span class="tag">JavaScript</span>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="project-card">
                     <div class="project-image">
                         <i class="fas fa-robot"></i>
@@ -834,60 +972,30 @@
                 
                 <div class="project-card">
                     <div class="project-image">
-                        <i class="fas fa-gamepad"></i>
+                        <i class="fas fa-tools"></i>
                     </div>
                     <div class="project-content">
-                        <h3>لعبة 3D - بئر النسيان</h3>
-                        <p>لعبة ثلاثية الأبعاد مطورة باستخدام Godot 4، تقدم تجربة لعب غامرة ومبتكرة</p>
+                        <h3>محرر GDScript المتقدم</h3>
+                        <p>أداة تطوير متكاملة لمبرمجي Godot تقدم ميزات متقدمة لكتابة وتصحيح كود GDScript بكفاءة</p>
                         <div class="project-tags">
-                            <span class="tag">Godot</span>
-                            <span class="tag">GDScript</span>
-                            <span class="tag">3D</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="project-card">
-                    <div class="project-image">
-                        <i class="fas fa-mosque"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3>منصة المحتوى الديني</h3>
-                        <p>منصة إلكترونية متكاملة تقدم محتوى ديني وتعليمي بطريقة مبتكرة وسهلة الوصول</p>
-                        <div class="project-tags">
-                            <span class="tag">HTML</span>
-                            <span class="tag">CSS</span>
-                            <span class="tag">JavaScript</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="project-card">
-                    <div class="project-image">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3>نظام تحليل المشاعر</h3>
-                        <p>نظام متقدم لتحليل المشاعر من النصوص باستخدام تقنيات الذكاء الاصطناعي ومعالجة اللغات الطبيعية</p>
-                        <div class="project-tags">
+                            <span class="tag gdscript">GDScript</span>
                             <span class="tag">Python</span>
-                            <span class="tag">NLP</span>
-                            <span class="tag">تحليل المشاعر</span>
+                            <span class="tag">أدوات المطور</span>
                         </div>
                     </div>
                 </div>
                 
                 <div class="project-card">
                     <div class="project-image">
-                        <i class="fas fa-eye"></i>
+                        <i class="fas fa-shopping-cart"></i>
                     </div>
                     <div class="project-content">
-                        <h3>نظام الرؤية الحاسوبية</h3>
-                        <p>نظام للرؤية الحاسوبية لاكتشاف الأجسام وتصنيف الصور باستخدام الشبكات العصبية العميقة</p>
+                        <h3>تطبيق تجارة إلكترونية</h3>
+                        <p>تطبيق جوال متكامل للتجارة الإلكترونية مع نظام دفع آمن وتتبع الطلبات وتجربة مستخدم محسنة</p>
                         <div class="project-tags">
-                            <span class="tag">Python</span>
-                            <span class="tag">Computer Vision</span>
-                            <span class="tag">Deep Learning</span>
+                            <span class="tag mobile">تطبيقات جوال</span>
+                            <span class="tag">Flutter</span>
+                            <span class="tag">Dart</span>
                         </div>
                     </div>
                 </div>
@@ -960,7 +1068,7 @@
             </div>
             
             <div class="copyright">
-                <p>© 2023 جميع الحقوق محفوظة | Peara</p>
+                <p>© 2023 جميع الحقوق محفوظة | Peara - متخصصون في GDScript وتطوير الألعاب وتطبيقات الجوال</p>
             </div>
         </div>
     </footer>
