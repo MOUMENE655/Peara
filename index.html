@@ -1078,7 +1078,7 @@
             padding: 40px;
             border-radius: 15px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 400px;
+            max-width: 450px;
             width: 90%;
             text-align: center;
         }
@@ -1236,6 +1236,34 @@
         .btn-secondary:hover {
             background: #475569;
         }
+
+        /* التبديل بين تسجيل الدخول والتسجيل */
+        .auth-toggle {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .auth-toggle button {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            text-decoration: underline;
+            font-size: 0.9rem;
+        }
+
+        .auth-toggle button:hover {
+            color: var(--primary-dark);
+        }
+
+        /* نموذج التسجيل */
+        .register-form {
+            display: none;
+        }
+
+        .register-form.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -1303,9 +1331,11 @@
             <button class="close-login" id="close-login">
                 <i class="fas fa-times"></i>
             </button>
-            <h2>تسجيل الدخول</h2>
-            <p>اختر طريقة تسجيل الدخول المفضلة لديك</p>
-            <div class="login-options">
+            <h2 id="auth-title">تسجيل الدخول</h2>
+            <p id="auth-subtitle">اختر طريقة تسجيل الدخول المفضلة لديك</p>
+            
+            <!-- خيارات OAuth (مخفية مؤقتاً) -->
+            <div class="login-options" id="oauth-options" style="display: none;">
                 <button class="login-btn google" id="google-login">
                     <i class="fab fa-google"></i>
                     <span>تسجيل الدخول بـ Google</span>
@@ -1321,7 +1351,7 @@
             </div>
             
             <!-- نموذج تسجيل الدخول بالبريد الإلكتروني -->
-            <div class="email-login-form" id="email-login-form">
+            <div class="email-login-form active" id="email-login-form">
                 <div class="form-group">
                     <label for="email">البريد الإلكتروني</label>
                     <input type="email" id="email" class="form-control" placeholder="أدخل بريدك الإلكتروني">
@@ -1331,9 +1361,37 @@
                     <input type="password" id="password" class="form-control" placeholder="أدخل كلمة المرور">
                 </div>
                 <div class="form-actions">
-                    <button class="btn btn-secondary" id="cancel-email-login">إلغاء</button>
-                    <button class="btn" id="submit-email-login">تسجيل الدخول</button>
+                    <button class="btn" id="submit-auth">تسجيل الدخول</button>
                 </div>
+            </div>
+            
+            <!-- نموذج التسجيل -->
+            <div class="register-form" id="register-form">
+                <div class="form-group">
+                    <label for="reg-name">الاسم الكامل</label>
+                    <input type="text" id="reg-name" class="form-control" placeholder="أدخل اسمك الكامل">
+                </div>
+                <div class="form-group">
+                    <label for="reg-email">البريد الإلكتروني</label>
+                    <input type="email" id="reg-email" class="form-control" placeholder="أدخل بريدك الإلكتروني">
+                </div>
+                <div class="form-group">
+                    <label for="reg-password">كلمة المرور</label>
+                    <input type="password" id="reg-password" class="form-control" placeholder="أدخل كلمة المرور (6 أحرف على الأقل)">
+                </div>
+                <div class="form-group">
+                    <label for="reg-confirm-password">تأكيد كلمة المرور</label>
+                    <input type="password" id="reg-confirm-password" class="form-control" placeholder="أعد إدخال كلمة المرور">
+                </div>
+                <div class="form-actions">
+                    <button class="btn" id="submit-register">إنشاء حساب</button>
+                </div>
+            </div>
+            
+            <!-- التبديل بين تسجيل الدخول والتسجيل -->
+            <div class="auth-toggle">
+                <span id="toggle-text">ليس لديك حساب؟</span>
+                <button id="toggle-auth">إنشاء حساب جديد</button>
             </div>
         </div>
     </div>
@@ -1809,6 +1867,7 @@
         // نظام تسجيل الدخول المحسن
         let currentUser = null;
         let isLoggedIn = false;
+        let isRegisterMode = false;
 
         // دالة للإشعارات
         function showNotification(message, type = 'success') {
@@ -1833,24 +1892,46 @@
         // دالة إغلاق نموذج تسجيل الدخول
         function closeLoginModal() {
             document.getElementById('login-modal').classList.remove('active');
-            document.getElementById('email-login-form').classList.remove('active');
+            resetAuthForms();
         }
 
-        // دالة تسجيل الدخول بـ OAuth
-        async function loginWithOAuth(provider) {
-            try {
-                const { data, error } = await supabase.auth.signInWithOAuth({
-                    provider: provider,
-                    options: {
-                        redirectTo: window.location.origin
-                    }
-                });
-                
-                if (error) throw error;
-                showNotification(`جاري تسجيل الدخول بـ ${provider}...`, 'warning');
-            } catch (error) {
-                console.error('خطأ في تسجيل الدخول:', error);
-                showNotification('حدث خطأ أثناء تسجيل الدخول', 'error');
+        // دالة إعادة تعيين النماذج
+        function resetAuthForms() {
+            document.getElementById('email').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('reg-name').value = '';
+            document.getElementById('reg-email').value = '';
+            document.getElementById('reg-password').value = '';
+            document.getElementById('reg-confirm-password').value = '';
+        }
+
+        // دالة تبديل بين تسجيل الدخول والتسجيل
+        function toggleAuthMode() {
+            isRegisterMode = !isRegisterMode;
+            const loginForm = document.getElementById('email-login-form');
+            const registerForm = document.getElementById('register-form');
+            const authTitle = document.getElementById('auth-title');
+            const authSubtitle = document.getElementById('auth-subtitle');
+            const toggleText = document.getElementById('toggle-text');
+            const toggleBtn = document.getElementById('toggle-auth');
+            const submitBtn = document.getElementById('submit-auth');
+
+            if (isRegisterMode) {
+                loginForm.classList.remove('active');
+                registerForm.classList.add('active');
+                authTitle.textContent = 'إنشاء حساب جديد';
+                authSubtitle.textContent = 'املأ البيانات التالية لإنشاء حسابك';
+                toggleText.textContent = 'لديك حساب بالفعل؟';
+                toggleBtn.textContent = 'تسجيل الدخول';
+                submitBtn.textContent = 'إنشاء حساب';
+            } else {
+                registerForm.classList.remove('active');
+                loginForm.classList.add('active');
+                authTitle.textContent = 'تسجيل الدخول';
+                authSubtitle.textContent = 'أدخل بيانات الدخول الخاصة بك';
+                toggleText.textContent = 'ليس لديك حساب؟';
+                toggleBtn.textContent = 'إنشاء حساب جديد';
+                submitBtn.textContent = 'تسجيل الدخول';
             }
         }
 
@@ -1872,6 +1953,42 @@
             } catch (error) {
                 console.error('خطأ في تسجيل الدخول:', error);
                 showNotification('البريد الإلكتروني أو كلمة المرور غير صحيحة', 'error');
+            }
+        }
+
+        // دالة إنشاء حساب جديد
+        async function registerUser(name, email, password) {
+            try {
+                // التحقق من تطابق كلمات المرور
+                const confirmPassword = document.getElementById('reg-confirm-password').value;
+                if (password !== confirmPassword) {
+                    showNotification('كلمات المرور غير متطابقة', 'error');
+                    return;
+                }
+
+                // التحقق من طول كلمة المرور
+                if (password.length < 6) {
+                    showNotification('كلمة المرور يجب أن تكون 6 أحرف على الأقل', 'error');
+                    return;
+                }
+
+                const { data, error } = await supabase.auth.signUp({
+                    email: email,
+                    password: password,
+                    options: {
+                        data: {
+                            full_name: name
+                        }
+                    }
+                });
+                
+                if (error) throw error;
+                
+                showNotification('تم إنشاء الحساب بنجاح! يرجى التحقق من بريدك الإلكتروني لتأكيد الحساب.', 'success');
+                toggleAuthMode(); // العودة إلى نموذج تسجيل الدخول
+            } catch (error) {
+                console.error('خطأ في إنشاء الحساب:', error);
+                showNotification('حدث خطأ أثناء إنشاء الحساب', 'error');
             }
         }
 
@@ -2001,31 +2118,35 @@
             document.getElementById('btn-hero-login').addEventListener('click', openLoginModal);
             document.getElementById('btn-logout').addEventListener('click', logout);
 
-            // نموذج تسجيل الدخول
-            document.getElementById('google-login').addEventListener('click', () => loginWithOAuth('google'));
-            document.getElementById('github-login').addEventListener('click', () => loginWithOAuth('github'));
-            
-            // إظهار نموذج تسجيل الدخول بالبريد الإلكتروني
-            document.getElementById('email-login-btn').addEventListener('click', function() {
-                document.getElementById('email-login-form').classList.add('active');
-            });
+            // التبديل بين تسجيل الدخول والتسجيل
+            document.getElementById('toggle-auth').addEventListener('click', toggleAuthMode);
 
-            // إلغاء تسجيل الدخول بالبريد الإلكتروني
-            document.getElementById('cancel-email-login').addEventListener('click', function() {
-                document.getElementById('email-login-form').classList.remove('active');
-            });
-
-            // تسجيل الدخول بالبريد الإلكتروني
-            document.getElementById('submit-email-login').addEventListener('click', function() {
-                const email = document.getElementById('email').value;
-                const password = document.getElementById('password').value;
-                
-                if (!email || !password) {
-                    showNotification('يرجى ملء جميع الحقول', 'error');
-                    return;
+            // تسجيل الدخول أو التسجيل
+            document.getElementById('submit-auth').addEventListener('click', function() {
+                if (isRegisterMode) {
+                    // التسجيل
+                    const name = document.getElementById('reg-name').value;
+                    const email = document.getElementById('reg-email').value;
+                    const password = document.getElementById('reg-password').value;
+                    
+                    if (!name || !email || !password) {
+                        showNotification('يرجى ملء جميع الحقول', 'error');
+                        return;
+                    }
+                    
+                    registerUser(name, email, password);
+                } else {
+                    // تسجيل الدخول
+                    const email = document.getElementById('email').value;
+                    const password = document.getElementById('password').value;
+                    
+                    if (!email || !password) {
+                        showNotification('يرجى ملء جميع الحقول', 'error');
+                        return;
+                    }
+                    
+                    loginWithEmail(email, password);
                 }
-                
-                loginWithEmail(email, password);
             });
 
             document.getElementById('close-login').addEventListener('click', closeLoginModal);
@@ -2051,7 +2172,8 @@
                 const confirmDelete = confirm('هل أنت متأكد من رغبتك في حذف الحساب؟ لا يمكن التراجع عن هذا الإجراء.');
                 if (confirmDelete) {
                     try {
-                        const { error } = await supabase.auth.admin.deleteUser(currentUser.id);
+                        // في Supabase، يمكن للمستخدم حذف حسابه بنفسه
+                        const { error } = await supabase.auth.signOut();
                         if (error) throw error;
                         
                         logout();
