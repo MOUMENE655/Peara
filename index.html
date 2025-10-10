@@ -478,8 +478,18 @@
             color: white;
         }
 
-        .tag.mobile {
-            background: #34C759;
+        .tag.ai {
+            background: #8B5CF6;
+            color: white;
+        }
+
+        .tag.completed {
+            background: var(--success);
+            color: white;
+        }
+
+        .tag.in-progress {
+            background: var(--warning);
             color: white;
         }
 
@@ -771,7 +781,7 @@
     <section class="hero" id="home">
         <div class="container hero-content">
             <h1>مرحباً بكم في Peara</h1>
-            <p>منصة التطوير الشخصية المتكاملة - نقدم حلولاً مبتكرة في مجال البرمجة والذكاء الاصطناعي وتطوير الألعاب وتطبيقات الجوال</p>
+            <p>منصة التطوير الشخصية المتكاملة - نقدم حلولاً مبتكرة في مجال البرمجة والذكاء الاصطناعي وتطوير الألعاب</p>
             <button id="btn-hero-login" class="btn">استكشف المشاريع</button>
         </div>
     </section>
@@ -786,8 +796,8 @@
             <div class="about-content">
                 <div class="about-text">
                     <h3>من نحن</h3>
-                    <p>Peara هي منصة تطوير شخصية متخصصة في تقديم حلول برمجية مبتكرة وتطبيقات الذكاء الاصطناعي وتطوير الألعاب وتطبيقات الجوال. نحن نؤمن بقوة التكنولوجيا في تغيير العالم وتحسين حياة الناس.</p>
-                    <p>نعمل على تطوير مشاريع متنوعة تشمل تطبيقات الويب والجوال، أنظمة الذكاء الاصطناعي، تطوير الألعاب باستخدام Godot وGDScript، وحلول الأتمتة الذكية. نهدف إلى تقديم منتجات عالية الجودة تلبي احتياجات المستخدمين.</p>
+                    <p>Peara هي منصة تطوير شخصية متخصصة في تقديم حلول برمجية مبتكرة وتطبيقات الذكاء الاصطناعي وتطوير الألعاب. نحن نؤمن بقوة التكنولوجيا في تغيير العالم وتحسين حياة الناس.</p>
+                    <p>نعمل على تطوير مشاريع متنوعة تشمل تطبيقات الويب، أنظمة الذكاء الاصطناعي، تطوير الألعاب باستخدام Godot وGDScript، وحلول الأتمتة الذكية. نهدف إلى تقديم منتجات عالية الجودة تلبي احتياجات المستخدمين.</p>
                     <p>رسالتنا هي تمكين الأفراد والشركات من خلال حلول برمجية ذكية تساهم في تحسين الكفاءة وتبسيط العمليات.</p>
                 </div>
                 <div class="about-image">
@@ -948,53 +958,23 @@
     <section class="projects" id="projects">
         <div class="container">
             <div class="section-title">
-                <h2>مشاريعنا</h2>
-                <p>أبرز المشاريع التي قمنا بتطويرها باستخدام GDScript وتقنيات أخرى</p>
+                <h2>المشاريع الطموحة</h2>
+                <p>المشاريع التي نعمل على تحقيقها وتطويرها</p>
             </div>
             
             <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-image">
-                        <i class="fas fa-gamepad"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3>لعبة 3D - بئر النسيان</h3>
-                        <p>لعبة ثلاثية الأبعاد مطورة باستخدام Godot 4 وGDScript، تقدم تجربة لعب غامرة ومبتكرة مع نظام قصة متقدم</p>
-                        <div class="project-tags">
-                            <span class="tag gdscript">GDScript</span>
-                            <span class="tag">Godot</span>
-                            <span class="tag">3D</span>
-                            <span class="tag">ألعاب</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="project-card">
-                    <div class="project-image">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3>تطبيق إدارة المهام</h3>
-                        <p>تطبيق جوال متكامل لإدارة المهام اليومية مع مزامنة سحابية وإشعارات ذكية وتقارير أداء</p>
-                        <div class="project-tags">
-                            <span class="tag mobile">تطبيقات جوال</span>
-                            <span class="tag">React Native</span>
-                            <span class="tag">JavaScript</span>
-                        </div>
-                    </div>
-                </div>
-                
                 <div class="project-card">
                     <div class="project-image">
                         <i class="fas fa-robot"></i>
                     </div>
                     <div class="project-content">
                         <h3>نظام ذكاء اصطناعي لتحليل الجرائم</h3>
-                        <p>نظام متقدم يستخدم الذكاء الاصطناعي لتحليل البيانات الجنائية والمساعدة في التحقيقات الأمنية</p>
+                        <p>يربط بين تحليل البيانات، التعلم العميق، والتنبؤ بالسلوك الإجرامي باستخدام تقنيات الذكاء الاصطناعي المتقدمة</p>
                         <div class="project-tags">
+                            <span class="tag ai">ذكاء اصطناعي</span>
                             <span class="tag">Python</span>
-                            <span class="tag">AI</span>
                             <span class="tag">تحليل البيانات</span>
+                            <span class="tag in-progress">قيد التطوير</span>
                         </div>
                     </div>
                 </div>
@@ -1004,42 +984,112 @@
                         <i class="fas fa-graduation-cap"></i>
                     </div>
                     <div class="project-content">
-                        <h3>منصة تعليمية تفاعلية</h3>
-                        <p>منصة تعليمية تستخدم الذكاء الاصطناعي لتقديم محتوى تعليمي مخصص ومتكيف مع احتياجات المتعلمين</p>
+                        <h3>مشروع ذكاء اصطناعي تعليمي للأطفال</h3>
+                        <p>يساعد الأطفال على التعلم التفاعلي باستخدام النماذج اللغوية المتقدمة والواجهات التفاعلية الجذابة</p>
                         <div class="project-tags">
-                            <span class="tag">Python</span>
+                            <span class="tag ai">ذكاء اصطناعي</span>
                             <span class="tag">LLM</span>
                             <span class="tag">التعليم</span>
+                            <span class="tag in-progress">قيد التطوير</span>
                         </div>
                     </div>
                 </div>
                 
                 <div class="project-card">
                     <div class="project-image">
-                        <i class="fas fa-tools"></i>
+                        <i class="fas fa-gamepad"></i>
                     </div>
                     <div class="project-content">
-                        <h3>محرر GDScript المتقدم</h3>
-                        <p>أداة تطوير متكاملة لمبرمجي Godot تقدم ميزات متقدمة لكتابة وتصحيح كود GDScript بكفاءة</p>
+                        <h3>لعبة بئر النسيان</h3>
+                        <p>لعبة ثلاثية الأبعاد في Godot تجمع الغموض، الفلسفة، والخيال العلمي في تجربة لعب فريدة</p>
                         <div class="project-tags">
                             <span class="tag gdscript">GDScript</span>
-                            <span class="tag">Python</span>
-                            <span class="tag">أدوات المطور</span>
+                            <span class="tag">Godot</span>
+                            <span class="tag">3D</span>
+                            <span class="tag in-progress">قيد التطوير</span>
                         </div>
                     </div>
                 </div>
                 
                 <div class="project-card">
                     <div class="project-image">
-                        <i class="fas fa-shopping-cart"></i>
+                        <i class="fas fa-brain"></i>
                     </div>
                     <div class="project-content">
-                        <h3>تطبيق تجارة إلكترونية</h3>
-                        <p>تطبيق جوال متكامل للتجارة الإلكترونية مع نظام دفع آمن وتتبع الطلبات وتجربة مستخدم محسنة</p>
+                        <h3>مشروع تعلم معزز (Reinforcement Learning)</h3>
+                        <p>لإنشاء أنظمة تتعلم من التجربة في بيئات تحاكي الواقع باستخدام خوارزميات التعلم المعزز المتقدمة</p>
                         <div class="project-tags">
-                            <span class="tag mobile">تطبيقات جوال</span>
-                            <span class="tag">Flutter</span>
-                            <span class="tag">Dart</span>
+                            <span class="tag ai">ذكاء اصطناعي</span>
+                            <span class="tag">Python</span>
+                            <span class="tag">التعلم المعزز</span>
+                            <span class="tag in-progress">قيد التطوير</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title" style="margin-top: 80px;">
+                <h2>المشاريع المكتملة</h2>
+                <p>المشاريع التي تم إنجازها بنجاح</p>
+            </div>
+
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-hand-pointer"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3>التحكم باليد بالحاسوب</h3>
+                        <p>نظام للتحكم في الحاسوب باستخدام إيماءات اليد وتقنيات الرؤية الحاسوبية</p>
+                        <div class="project-tags">
+                            <span class="tag ai">رؤية حاسوبية</span>
+                            <span class="tag">Python</span>
+                            <span class="tag completed">مكتمل</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3>نموذج Peara الصغير</h3>
+                        <p>نموذج لغوي صغير الحجم مصمم خصيصاً للمهام المحلية والتطبيقات المدمجة</p>
+                        <div class="project-tags">
+                            <span class="tag ai">LLM</span>
+                            <span class="tag">Python</span>
+                            <span class="tag completed">مكتمل</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3>اكتشاف الأجسام (Object Detection)</h3>
+                        <p>نظام متقدم للرؤية الحاسوبية لاكتشاف وتصنيف الأجسام في الصور والفيديوهات</p>
+                        <div class="project-tags">
+                            <span class="tag ai">رؤية حاسوبية</span>
+                            <span class="tag">Python</span>
+                            <span class="tag completed">مكتمل</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3>الموقع الشخصي</h3>
+                        <p>منصة إلكترونية متكاملة لعرض المشاريع والمهارات والخبرات الشخصية</p>
+                        <div class="project-tags">
+                            <span class="tag">HTML/CSS</span>
+                            <span class="tag">JavaScript</span>
+                            <span class="tag completed">مكتمل</span>
                         </div>
                     </div>
                 </div>
@@ -1112,7 +1162,7 @@
             </div>
             
             <div class="copyright">
-                <p>© 2023 جميع الحقوق محفوظة | Peara - متخصصون في GDScript وتطوير الألعاب وتطبيقات الجوال</p>
+                <p>© 2023 جميع الحقوق محفوظة | Peara - متخصصون في الذكاء الاصطناعي وتطوير الألعاب</p>
             </div>
         </div>
     </footer>
