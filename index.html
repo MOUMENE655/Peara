@@ -460,8 +460,28 @@
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         }
 
+        /* تحسين خاص للمشاريع - 4 عناصر في الصف */
         .projects-grid {
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 1200px) {
+            .projects-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* تحسين خاص للغات البرمجة - 4 عناصر في الصف */
@@ -1016,10 +1036,6 @@
             }
             
             .skills-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .projects-grid {
                 grid-template-columns: 1fr;
             }
             
@@ -1911,6 +1927,121 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* فلتر الخدمات */
+        .service-filter {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            background: var(--border);
+            color: var(--dark);
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .filter-btn:hover:not(.active) {
+            background: var(--gray);
+            color: white;
+        }
+
+        /* اقتراح حفظ كلمة المرور */
+        .password-save-suggestion {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid var(--warning);
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+        }
+
+        .password-save-suggestion i {
+            color: var(--warning);
+        }
+
+        /* تحسينات التحقق من البريد الإلكتروني */
+        .email-check {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 5px;
+            font-size: 0.85rem;
+        }
+
+        .email-check.available {
+            color: var(--success);
+        }
+
+        .email-check.unavailable {
+            color: var(--error);
+        }
+
+        /* تحسينات التحقق من كلمة المرور */
+        .password-strength {
+            margin-top: 8px;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .password-strength-bar {
+            height: 100%;
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .password-strength.weak .password-strength-bar {
+            width: 33%;
+            background: var(--error);
+        }
+
+        .password-strength.medium .password-strength-bar {
+            width: 66%;
+            background: var(--warning);
+        }
+
+        .password-strength.strong .password-strength-bar {
+            width: 100%;
+            background: var(--success);
+        }
+
+        .password-requirements {
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        .requirement {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 3px;
+        }
+
+        .requirement.met {
+            color: var(--success);
+        }
+
+        .requirement.unmet {
+            color: var(--error);
+        }
     </style>
 </head>
 <body>
@@ -1927,11 +2058,11 @@
                 <a href="#home">الرئيسية</a>
                 <a href="#about">عن Peara</a>
                 <a href="#skills">المهارات</a>
-                <a href="#projects">المشاريع</a>
+                <a href="#projects">المشاريع الطموحة</a>
                 <a href="#real-projects">المشاريع الحقيقية</a>
                 <a href="#stats">الإحصائيات</a>
                 <a href="#team">فريقي</a>
-                <a href="#contact">اتصل بي</a>
+                <a href="#contact" class="hidden" id="contact-link">اتصل بي</a>
             </nav>
             
             <div class="controls">
@@ -1970,6 +2101,10 @@
                             <button class="user-menu-item" id="menu-change-password">
                                 <i class="fas fa-key"></i>
                                 <span>تغيير كلمة المرور</span>
+                            </button>
+                            <button class="user-menu-item" id="menu-settings">
+                                <i class="fas fa-cog"></i>
+                                <span>الإعدادات</span>
                             </button>
                             <button class="user-menu-item delete" id="menu-delete">
                                 <i class="fas fa-trash-alt"></i>
@@ -2020,6 +2155,11 @@
                 <div class="forgot-password">
                     <button id="forgot-password-btn">نسيت كلمة المرور؟</button>
                 </div>
+                <!-- اقتراح حفظ كلمة المرور -->
+                <div class="password-save-suggestion hidden" id="password-save-suggestion">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>هل تريد حفظ كلمة المرور؟</span>
+                </div>
                 <div class="form-actions">
                     <button class="btn" id="submit-auth">تسجيل الدخول</button>
                 </div>
@@ -2034,11 +2174,33 @@
                 <div class="form-group">
                     <label for="reg-email">البريد الإلكتروني</label>
                     <input type="email" id="reg-email" class="form-control" placeholder="أدخل بريدك الإلكتروني">
+                    <div class="email-check" id="email-check"></div>
                     <div class="email-validation" id="reg-email-validation"></div>
                 </div>
                 <div class="form-group">
                     <label for="reg-password">كلمة المرور</label>
-                    <input type="password" id="reg-password" class="form-control" placeholder="أدخل كلمة المرور (6 أحرف على الأقل)">
+                    <input type="password" id="reg-password" class="form-control" placeholder="أدخل كلمة المرور (8 أحرف على الأقل)">
+                    <div class="password-strength" id="password-strength">
+                        <div class="password-strength-bar"></div>
+                    </div>
+                    <div class="password-requirements">
+                        <div class="requirement" id="req-length">
+                            <i class="fas fa-times"></i>
+                            <span>8 أحرف على الأقل</span>
+                        </div>
+                        <div class="requirement" id="req-uppercase">
+                            <i class="fas fa-times"></i>
+                            <span>حرف كبير واحد على الأقل</span>
+                        </div>
+                        <div class="requirement" id="req-lowercase">
+                            <i class="fas fa-times"></i>
+                            <span>حرف صغير واحد على الأقل</span>
+                        </div>
+                        <div class="requirement" id="req-number">
+                            <i class="fas fa-times"></i>
+                            <span>رقم واحد على الأقل</span>
+                        </div>
+                    </div>
                     <div class="email-validation" id="reg-password-validation"></div>
                 </div>
                 <div class="form-group">
@@ -2159,27 +2321,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-section">
-                    <h4>الإحصائيات</h4>
-                    <div class="profile-info">
-                        <div class="profile-field">
-                            <label>المشاريع المكتملة</label>
-                            <p>12 مشروع</p>
-                        </div>
-                        <div class="profile-field">
-                            <label>المشاريع قيد التطوير</label>
-                            <p>5 مشاريع</p>
-                        </div>
-                        <div class="profile-field">
-                            <label>المشاركات</label>
-                            <p>47 مشاركة</p>
-                        </div>
-                        <div class="profile-field">
-                            <label>التقييم</label>
-                            <p>⭐ 4.8/5</p>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -2254,7 +2395,28 @@
                     </div>
                     <div class="form-group">
                         <label for="new-password">كلمة المرور الجديدة</label>
-                        <input type="password" id="new-password" class="form-control" placeholder="أدخل كلمة المرور الجديدة (6 أحرف على الأقل)">
+                        <input type="password" id="new-password" class="form-control" placeholder="أدخل كلمة المرور الجديدة (8 أحرف على الأقل)">
+                        <div class="password-strength" id="new-password-strength">
+                            <div class="password-strength-bar"></div>
+                        </div>
+                        <div class="password-requirements">
+                            <div class="requirement" id="new-req-length">
+                                <i class="fas fa-times"></i>
+                                <span>8 أحرف على الأقل</span>
+                            </div>
+                            <div class="requirement" id="new-req-uppercase">
+                                <i class="fas fa-times"></i>
+                                <span>حرف كبير واحد على الأقل</span>
+                            </div>
+                            <div class="requirement" id="new-req-lowercase">
+                                <i class="fas fa-times"></i>
+                                <span>حرف صغير واحد على الأقل</span>
+                            </div>
+                            <div class="requirement" id="new-req-number">
+                                <i class="fas fa-times"></i>
+                                <span>رقم واحد على الأقل</span>
+                            </div>
+                        </div>
                         <div class="email-validation" id="new-password-validation"></div>
                     </div>
                     <div class="form-group">
@@ -2266,6 +2428,53 @@
                 <div class="edit-actions">
                     <button class="cancel-btn" id="cancel-change-password">إلغاء</button>
                     <button class="save-btn" id="save-password">تغيير كلمة المرور</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة الإعدادات -->
+    <div class="modal" id="settings-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>الإعدادات</h3>
+                <button class="close-modal" id="close-settings-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h4>المظهر</h4>
+                    <div class="setting-option">
+                        <label>الوضع الداكن</label>
+                        <label class="switch">
+                            <input type="checkbox" id="dark-mode-toggle">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-section">
+                    <h4>اللغة</h4>
+                    <div class="setting-option">
+                        <label>اللغة: </label>
+                        <select id="language-select">
+                            <option value="ar">العربية</option>
+                            <option value="en">English</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-section">
+                    <h4>الإشعارات</h4>
+                    <div class="setting-option">
+                        <label>تفعيل الإشعارات</label>
+                        <label class="switch">
+                            <input type="checkbox" id="notifications-toggle" checked>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="edit-actions">
+                    <button class="save-btn" id="save-settings">حفظ الإعدادات</button>
                 </div>
             </div>
         </div>
@@ -2693,7 +2902,7 @@
                     <p>أرسل رسالتك وسأرد عليك قريباً</p>
                 </div>
                 
-                <form id="formspree-form" class="form-body">
+                <form id="formspree-form" class="form-body" action="https://formspree.io/f/xvgwbdan" method="POST">
                     <div class="user-info">
                         <div class="info-item">
                             <label>الاسم</label>
@@ -2706,13 +2915,26 @@
                     </div>
                     
                     <div class="form-group">
+                        <label for="service">الخدمة المطلوبة</label>
+                        <select id="service" name="service" class="form-control" required>
+                            <option value="">اختر الخدمة المطلوبة</option>
+                            <option value="مساعدة">مساعدة</option>
+                            <option value="سؤال">سؤال</option>
+                            <option value="تحدي">تحدي</option>
+                            <option value="إعلان">إعلان</option>
+                            <option value="دعم">دعم</option>
+                            <option value="آخرى">آخرى</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
                         <label for="subject">الموضوع</label>
-                        <input type="text" id="subject" class="form-control" placeholder="أدخل موضوع رسالتك" required>
+                        <input type="text" id="subject" name="subject" class="form-control" placeholder="أدخل موضوع رسالتك" required>
                     </div>
                     
                     <div class="form-group">
                         <label for="message">الرسالة</label>
-                        <textarea id="message" class="form-control" placeholder="اكتب رسالتك هنا..." required></textarea>
+                        <textarea id="message" name="message" class="form-control" placeholder="اكتب رسالتك هنا..." required></textarea>
                     </div>
                     
                     <button type="submit" class="btn submit-btn" id="submit-form">
@@ -2771,7 +2993,20 @@
 
         // دالة للتحقق من قوة كلمة المرور
         function validatePassword(password) {
-            return password.length >= 6;
+            const requirements = {
+                length: password.length >= 8,
+                uppercase: /[A-Z]/.test(password),
+                lowercase: /[a-z]/.test(password),
+                number: /[0-9]/.test(password)
+            };
+            
+            const strength = Object.values(requirements).filter(Boolean).length;
+            
+            return {
+                isValid: requirements.length && requirements.uppercase && requirements.lowercase && requirements.number,
+                strength: strength,
+                requirements: requirements
+            };
         }
 
         // دالة لعرض رسائل التحقق
@@ -2924,7 +3159,7 @@
                 isLoggedIn = true;
                 updateUI();
                 closeLoginModal();
-                showNotification(`تم تسجيل الدخول بنجاح! مرحباً ${currentUser.email}`, 'success');
+                showNotification(`مرحباً ${currentUser.user_metadata?.full_name || currentUser.email}`, 'success');
             } catch (error) {
                 console.error('خطأ في تسجيل الدخول:', error);
                 showNotification('البريد الإلكتروني أو كلمة المرور غير صحيحة', 'error');
@@ -2945,8 +3180,9 @@
                     return;
                 }
 
-                if (!validatePassword(password)) {
-                    showValidationMessage('reg-password-validation', 'كلمة المرور يجب أن تكون 6 أحرف على الأقل', false);
+                const passwordValidation = validatePassword(password);
+                if (!passwordValidation.isValid) {
+                    showValidationMessage('reg-password-validation', 'كلمة المرور غير قوية بما يكفي', false);
                     return;
                 }
 
@@ -2977,7 +3213,14 @@
                     }
                 });
                 
-                if (error) throw error;
+                if (error) {
+                    if (error.message.includes('user_already_exists')) {
+                        showNotification('البريد الإلكتروني مستخدم بالفعل', 'error');
+                    } else {
+                        throw error;
+                    }
+                    return;
+                }
                 
                 if (data.user) {
                     // إظهار رسالة التحقق
@@ -3075,6 +3318,7 @@
             const profileEmail = document.getElementById('profile-email');
             const editableProfileName = document.getElementById('editable-profile-name');
             const editableProfileEmail = document.getElementById('editable-profile-email');
+            const contactLink = document.getElementById('contact-link');
 
             if (isLoggedIn && currentUser) {
                 // إظهار واجهة المستخدم المسجل
@@ -3082,6 +3326,7 @@
                 userMenuContainer.classList.remove('hidden');
                 formspreeSection.classList.remove('hidden');
                 welcomeMessage.classList.remove('hidden');
+                contactLink.classList.remove('hidden');
 
                 // تحديث بيانات المستخدم
                 const userInitial = currentUser.email ? currentUser.email.charAt(0).toUpperCase() : 'ر';
@@ -3108,6 +3353,7 @@
                 userMenuContainer.classList.add('hidden');
                 formspreeSection.classList.add('hidden');
                 welcomeMessage.classList.add('hidden');
+                contactLink.classList.add('hidden');
             }
         }
 
@@ -3196,8 +3442,9 @@
         async function changePassword(currentPassword, newPassword) {
             try {
                 // التحقق من صحة كلمة المرور الجديدة
-                if (!validatePassword(newPassword)) {
-                    showValidationMessage('new-password-validation', 'كلمة المرور يجب أن تكون 6 أحرف على الأقل', false);
+                const passwordValidation = validatePassword(newPassword);
+                if (!passwordValidation.isValid) {
+                    showValidationMessage('new-password-validation', 'كلمة المرور غير قوية بما يكفي', false);
                     return;
                 }
 
@@ -3228,6 +3475,57 @@
             }
         }
 
+        // دالة تحديث قوة كلمة المرور
+        function updatePasswordStrength(password, prefix = '') {
+            const validation = validatePassword(password);
+            const strengthElement = document.getElementById(`${prefix}password-strength`);
+            const requirements = [
+                { id: `${prefix}req-length`, condition: validation.requirements.length },
+                { id: `${prefix}req-uppercase`, condition: validation.requirements.uppercase },
+                { id: `${prefix}req-lowercase`, condition: validation.requirements.lowercase },
+                { id: `${prefix}req-number`, condition: validation.requirements.number }
+            ];
+            
+            // تحديث شريط القوة
+            strengthElement.className = 'password-strength';
+            if (password.length > 0) {
+                if (validation.strength <= 1) {
+                    strengthElement.classList.add('weak');
+                } else if (validation.strength <= 3) {
+                    strengthElement.classList.add('medium');
+                } else {
+                    strengthElement.classList.add('strong');
+                }
+            }
+            
+            // تحديث المتطلبات
+            requirements.forEach(req => {
+                const element = document.getElementById(req.id);
+                if (element) {
+                    element.className = `requirement ${req.condition ? 'met' : 'unmet'}`;
+                    element.innerHTML = `<i class="fas fa-${req.condition ? 'check' : 'times'}"></i><span>${element.textContent}</span>`;
+                }
+            });
+        }
+
+        // دالة التحقق من توفر البريد الإلكتروني
+        async function checkEmailAvailability(email) {
+            if (!validateEmail(email)) {
+                document.getElementById('email-check').textContent = '';
+                document.getElementById('email-check').className = 'email-check';
+                return;
+            }
+            
+            // محاكاة التحقق من البريد الإلكتروني
+            // في بيئة حقيقية، يمكنك استخدام Supabase للتحقق من البريد الإلكتروني
+            setTimeout(() => {
+                const isAvailable = Math.random() > 0.5; // محاكاة عشوائية
+                const emailCheck = document.getElementById('email-check');
+                emailCheck.textContent = isAvailable ? 'البريد الإلكتروني متاح' : 'البريد الإلكتروني مستخدم بالفعل';
+                emailCheck.className = `email-check ${isAvailable ? 'available' : 'unavailable'}`;
+            }, 500);
+        }
+
         // Event Listeners
         document.addEventListener('DOMContentLoaded', function() {
             // تحميل الإعدادات المحفوظة
@@ -3241,6 +3539,8 @@
             document.body.setAttribute('dir', currentLanguage === 'ar' ? 'rtl' : 'ltr');
             document.documentElement.setAttribute('lang', currentLanguage);
             document.getElementById('theme-toggle').innerHTML = currentTheme === 'light' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+            document.getElementById('dark-mode-toggle').checked = currentTheme === 'dark';
+            document.getElementById('language-select').value = currentLanguage;
 
             // التحقق من حالة المصادقة عند تحميل الصفحة
             checkAuthState();
@@ -3251,7 +3551,7 @@
                     currentUser = session.user;
                     isLoggedIn = true;
                     updateUI();
-                    showNotification(`تم تسجيل الدخول بنجاح! مرحباً ${currentUser.email}`, 'success');
+                    showNotification(`مرحباً ${currentUser.user_metadata?.full_name || currentUser.email}`, 'success');
                 } else if (event === 'SIGNED_OUT') {
                     currentUser = null;
                     isLoggedIn = false;
@@ -3289,17 +3589,22 @@
                     showValidationMessage('reg-email-validation', 'البريد الإلكتروني غير صالح', false);
                 } else if (email) {
                     showValidationMessage('reg-email-validation', 'البريد الإلكتروني صالح', true);
+                    checkEmailAvailability(email);
                 } else {
                     document.getElementById('reg-email-validation').style.display = 'none';
+                    document.getElementById('email-check').textContent = '';
+                    document.getElementById('email-check').className = 'email-check';
                 }
             });
 
             document.getElementById('reg-password').addEventListener('input', function(e) {
                 const password = e.target.value;
-                if (password && !validatePassword(password)) {
-                    showValidationMessage('reg-password-validation', 'كلمة المرور يجب أن تكون 6 أحرف على الأقل', false);
+                updatePasswordStrength(password);
+                
+                if (password && !validatePassword(password).isValid) {
+                    showValidationMessage('reg-password-validation', 'كلمة المرور غير قوية بما يكفي', false);
                 } else if (password) {
-                    showValidationMessage('reg-password-validation', 'كلمة المرور صالحة', true);
+                    showValidationMessage('reg-password-validation', 'كلمة المرور قوية', true);
                 } else {
                     document.getElementById('reg-password-validation').style.display = 'none';
                 }
@@ -3314,6 +3619,41 @@
                     showValidationMessage('confirm-password-validation', 'كلمات المرور متطابقة', true);
                 } else {
                     document.getElementById('confirm-password-validation').style.display = 'none';
+                }
+            });
+
+            // التحقق من كلمة المرور الجديدة
+            document.getElementById('new-password').addEventListener('input', function(e) {
+                const password = e.target.value;
+                updatePasswordStrength(password, 'new-');
+                
+                if (password && !validatePassword(password).isValid) {
+                    showValidationMessage('new-password-validation', 'كلمة المرور غير قوية بما يكفي', false);
+                } else if (password) {
+                    showValidationMessage('new-password-validation', 'كلمة المرور قوية', true);
+                } else {
+                    document.getElementById('new-password-validation').style.display = 'none';
+                }
+            });
+
+            document.getElementById('confirm-new-password').addEventListener('input', function(e) {
+                const confirmPassword = e.target.value;
+                const password = document.getElementById('new-password').value;
+                if (confirmPassword && password !== confirmPassword) {
+                    showValidationMessage('confirm-new-password-validation', 'كلمات المرور غير متطابقة', false);
+                } else if (confirmPassword) {
+                    showValidationMessage('confirm-new-password-validation', 'كلمات المرور متطابقة', true);
+                } else {
+                    document.getElementById('confirm-new-password-validation').style.display = 'none';
+                }
+            });
+
+            // اقتراح حفظ كلمة المرور
+            document.getElementById('password').addEventListener('input', function() {
+                if (this.value.length > 0) {
+                    document.getElementById('password-save-suggestion').classList.remove('hidden');
+                } else {
+                    document.getElementById('password-save-suggestion').classList.add('hidden');
                 }
             });
 
@@ -3419,6 +3759,10 @@
                 openModal('change-password-modal');
             });
 
+            document.getElementById('menu-settings').addEventListener('click', function() {
+                openModal('settings-modal');
+            });
+
             document.getElementById('close-profile-modal').addEventListener('click', function() {
                 closeModal('profile-modal');
             });
@@ -3429,6 +3773,10 @@
 
             document.getElementById('close-change-password-modal').addEventListener('click', function() {
                 closeModal('change-password-modal');
+            });
+
+            document.getElementById('close-settings-modal').addEventListener('click', function() {
+                closeModal('settings-modal');
             });
 
             // نافذة الشروط والأحكام
@@ -3491,6 +3839,28 @@
                 closeModal('change-password-modal');
             });
 
+            // حفظ الإعدادات
+            document.getElementById('save-settings').addEventListener('click', function() {
+                // تطبيق الوضع الداكن
+                const darkModeToggle = document.getElementById('dark-mode-toggle').checked;
+                if (darkModeToggle && currentTheme !== 'dark') {
+                    toggleTheme();
+                } else if (!darkModeToggle && currentTheme === 'dark') {
+                    toggleTheme();
+                }
+                
+                // تطبيق اللغة
+                const selectedLanguage = document.getElementById('language-select').value;
+                if (selectedLanguage !== currentLanguage) {
+                    currentLanguage = selectedLanguage;
+                    localStorage.setItem('language', currentLanguage);
+                    location.reload();
+                }
+                
+                showNotification('تم حفظ الإعدادات بنجاح', 'success');
+                closeModal('settings-modal');
+            });
+
             // حذف الحساب
             document.getElementById('menu-delete').addEventListener('click', async function() {
                 const confirmDelete = confirm('هل أنت متأكد من رغبتك في حذف الحساب؟ لا يمكن التراجع عن هذا الإجراء.');
@@ -3531,10 +3901,11 @@
                 e.preventDefault();
                 
                 const submitBtn = document.getElementById('submit-form');
+                const service = document.getElementById('service').value;
                 const subject = document.getElementById('subject').value;
                 const message = document.getElementById('message').value;
 
-                if (!subject || !message) {
+                if (!service || !subject || !message) {
                     showNotification('يرجى ملء جميع الحقول المطلوبة', 'error');
                     return;
                 }
